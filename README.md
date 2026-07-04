@@ -13,11 +13,10 @@
 
 MANYA is not simply an npm workspace, a collection of JavaScript libraries, or an AI framework. It is the **technological foundation** of the MANYA Intelligence Operating System — a sovereign platform capable of supporting an entire family of Supreme Intelligences that collaborate through shared identity, memory, governance, communication, reasoning, and execution.
 
-The ecosystem is layered:
+This project's internal layering:
 
 ```
 Foundation     →  Manya Hael Foundation (steward)
-Ecosystem      →  MANYA (umbrella for all projects)
 Platform       →  MANYA Intelligence OS (this repository)
 Packages       →  @manya/* (reusable building blocks)
 Applications   →  Ara, Sire, Atlas, Nova, Sentinel, …
