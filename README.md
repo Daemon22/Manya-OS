@@ -1,5 +1,5 @@
-# <img src="https://raw.githubusercontent.com/Daemon22/Manya/main/site/manya/public/opengraph.jpg" width="100" align="right" />
-# 🤝 MANYA Intelligence OS
+# <img src="https://raw.githubusercontent.com/Daemon22/Manya/main/assets/logo.png" width="40" /> MANYA Intelligence OS
+# MANYA Intelligence OS
 
 > A sovereign, modular, local-first Intelligence Operating System.
 >
