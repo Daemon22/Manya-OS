@@ -19,12 +19,13 @@
     "test": "jest --config jest.config.js",
     "test:fast": "NODE_OPTIONS='--max-old-space-size=4096' jest --config jest.config.js --maxWorkers=75%",
     "test:coverage": "jest --coverage --config jest.config.js",
-    "lint": "echo 'anya] lint placeholder — wire eslint in production'",
+    "lint": "eslint . --max-warnings=-1",
     "typecheck": "tsc -b --noEmit",
     "typecheck:parallel": "node scripts/typecheck-all.js",
     "bench": "node scripts/run-benchmarks.js"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.0",
     "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-json": "^6.0.0",
     "@rollup/plugin-node-resolve": "^15.2.0",
@@ -32,12 +33,14 @@
     "@types/jest": "^29.5.0",
     "@types/node": "^20.11.0",
     "esbuild": "^0.28.0",
+    "eslint": "^9.9.0",
     "jest": "^29.7.0",
     "rollup": "^4.62.0",
     "rollup-plugin-dts": "^6.1.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "typescript-eslint": "^8.5.0"
   },
   "engines": {
     "node": ">=18.0.0"
