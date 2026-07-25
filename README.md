@@ -1,4 +1,3 @@
-# <img src="https://raw.githubusercontent.com/Daemon22/Manya/main/assets/logo.png" width="40" /> MANYA Intelligence OS
 # MANYA Intelligence OS
 
 > A sovereign, modular, local-first Intelligence Operating System.
@@ -13,10 +12,11 @@
 
 MANYA is not simply an npm workspace, a collection of JavaScript libraries, or an AI framework. It is the **technological foundation** of the MANYA Intelligence Operating System — a sovereign platform capable of supporting an entire family of Supreme Intelligences that collaborate through shared identity, memory, governance, communication, reasoning, and execution.
 
-This project's internal layering:
+The ecosystem is layered:
 
 ```
 Foundation     →  Manya Hael Foundation (steward)
+Ecosystem      →  MANYA (umbrella for all projects)
 Platform       →  MANYA Intelligence OS (this repository)
 Packages       →  @manya/* (reusable building blocks)
 Applications   →  Ara, Sire, Atlas, Nova, Sentinel, …
@@ -39,6 +39,15 @@ Agents         →  individual intelligences that run within those applications
 | [`@manya/constitution`](packages/constitution) | Governance — ethical rules, operational policies, permission models, decision hierarchies, emergency procedures, runtime enforcement. |
 | [`@manya/council`](packages/council) | Multi-agent consensus — specialist routing, independent analyses, weighted confidence, structured debate, minority opinions, synthesis. |
 | [`@manya/nervous-system`](packages/nervous-system) | Universal event infrastructure — pub/sub, filtering, routing, recording; filesystem, OS, USB, Bluetooth, network, sensor, app producers. |
+
+## Ecosystem
+
+MANYA Intelligence OS is one repository within the HAEL Foundation ecosystem — independently maintained, with no code-level dependency on the others:
+
+- **[Manya](https://github.com/Daemon22/Manya)** — the public face and connective hub: tools, packages, and Lycon Browser. Six of this repository's packages (`constitution`, `contracts`, `council`, `customs-shield`, `nervous-system`, `weave`) are also mirrored there under their original Apache-2.0 terms; see that repo's [NOTICE](https://github.com/Daemon22/Manya/blob/master/NOTICE) file.
+- **[Gqobonco](https://github.com/Daemon22/Gqobonco)** — the Supreme Prince of Research, Intelligence & Information: research initiatives, the Xhosa NLP Database, and ancestral-knowledge preservation.
+
+This repository stays independently buildable and testable, as do the others; none depend on another at the code level today.
 
 ## Principles
 
