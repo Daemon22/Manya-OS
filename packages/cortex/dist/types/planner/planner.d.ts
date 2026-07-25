@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — the planner.
+ * @manya-os/cortex — the planner.
  *
  * Topologically sorts decomposed tasks and produces an executable Plan.
  *

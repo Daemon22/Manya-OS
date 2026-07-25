@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — event router.
+ * @manya-os/nervous-system — event router.
  *
  * The router holds a list of prioritised routes (filter + destination) and
  * returns the list of destinations for any given event. Routes are ordered

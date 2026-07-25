@@ -1,5 +1,5 @@
 /**
- * @manya/memory — retrieval ranking.
+ * @manya-os/memory — retrieval ranking.
  *
  * Combines TF-IDF score, importance, recency, and link-based boost.
  *

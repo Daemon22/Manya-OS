@@ -1,5 +1,5 @@
 /**
- * @manya/weave — interactive exploration primitives.
+ * @manya-os/weave — interactive exploration primitives.
  *
  * `SelectionModel` tracks the currently selected nodes/edges.
  * `Viewport` captures pan/zoom state and `applyViewport` transforms a point

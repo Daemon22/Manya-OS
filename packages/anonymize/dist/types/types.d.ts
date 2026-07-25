@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — shared type definitions.
+ * @manya-os/anonymize — shared type definitions.
  *
  * Public API surface. Stable across minor versions.
  *

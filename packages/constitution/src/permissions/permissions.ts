@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — permission models (RBAC with inheritance).
+ * @manya-os/constitution — permission models (RBAC with inheritance).
  *
  * A `PermissionModel` is a set of `Role`s plus `RoleAssignment`s binding
  * subjects to roles. Roles may inherit from other roles transitively, so

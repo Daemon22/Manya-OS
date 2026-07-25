@@ -1,5 +1,5 @@
 /**
- * @manya/council — final decision synthesis.
+ * @manya-os/council — final decision synthesis.
  *
  * The {@link synthesize} function takes the {@link Consensus} (if any), the
  * underlying analyses, the detected conflicts, and (optionally) the recorded

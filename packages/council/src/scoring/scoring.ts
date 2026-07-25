@@ -1,5 +1,5 @@
 /**
- * @manya/council — weighted confidence scoring.
+ * @manya-os/council — weighted confidence scoring.
  *
  * Provides three free functions:
  *

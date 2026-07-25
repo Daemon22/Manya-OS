@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — schema definition language.
+ * @manya-os/contracts — schema definition language.
  *
  * Provides a JSON-ish schema definition language centered on the
  * `InterfaceSchema` type. `compileSchema` normalizes a definition (either an

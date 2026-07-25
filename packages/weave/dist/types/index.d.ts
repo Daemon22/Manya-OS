@@ -1,7 +1,7 @@
 /**
- * @manya/weave — interactive visualization substrate for the MANYA Intelligence OS.
+ * @manya-os/weave — interactive visualization substrate for the MANYA Intelligence OS.
  *
- * Public API surface for @manya/weave. Everything exported here is part of the
+ * Public API surface for @manya-os/weave. Everything exported here is part of the
  * stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

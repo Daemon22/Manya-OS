@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — confidence estimation.
+ * @manya-os/cortex — confidence estimation.
  *
  * Combines multiple signals (plan confidence, tool reliability, past success
  * rate, evidence count) into a single confidence estimate.

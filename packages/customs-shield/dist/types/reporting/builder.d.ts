@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — regulatory reporting.
+ * @manya-os/customs-shield — regulatory reporting.
  *
  * Generates structured reports suitable for submission to customs
  * authorities. Reports are data-only — no PII beyond what's strictly

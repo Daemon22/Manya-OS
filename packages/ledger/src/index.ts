@@ -1,7 +1,7 @@
 /**
- * @manya/ledger — immutable audit ledger.
+ * @manya-os/ledger — immutable audit ledger.
  *
- * Public API surface for @manya/ledger. Everything exported here is part
+ * Public API surface for @manya-os/ledger. Everything exported here is part
  * of the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

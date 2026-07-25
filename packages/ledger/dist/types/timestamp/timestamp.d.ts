@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — tamper-evident timestamping (commit-then-reveal).
+ * @manya-os/ledger — tamper-evident timestamping (commit-then-reveal).
  *
  * Implements a self-contained, RFC 3161-inspired commit-then-reveal pattern:
  *

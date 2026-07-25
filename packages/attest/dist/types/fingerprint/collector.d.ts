@@ -1,5 +1,5 @@
 /**
- * @manya/attest — device signal collection.
+ * @manya-os/attest — device signal collection.
  *
  * Collects hardware/OS signals for device fingerprinting. This module MUST
  * NOT collect personally-identifying information (PII): no OS username, no

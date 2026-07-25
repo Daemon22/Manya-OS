@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — ring-buffer event recorder.
+ * @manya-os/nervous-system — ring-buffer event recorder.
  *
  * The recorder stores events in a fixed-capacity ring buffer. When the
  * buffer is full, the oldest event is overwritten. Export helpers support

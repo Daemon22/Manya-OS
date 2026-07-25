@@ -1,9 +1,9 @@
 /**
- * @manya/weave — SVG renderer with full configuration.
+ * @manya-os/weave — SVG renderer with full configuration.
  *
  * `renderToSVG` produces a complete SVG document with configurable colors,
  * node radius, font size, and optional label rendering. It is the
- * feature-complete counterpart to the minimal `toSVG` in `@manya/weave/export`.
+ * feature-complete counterpart to the minimal `toSVG` in `@manya-os/weave/export`.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

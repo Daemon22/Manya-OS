@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — event sources barrel.
+ * @manya-os/nervous-system — event sources barrel.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon),

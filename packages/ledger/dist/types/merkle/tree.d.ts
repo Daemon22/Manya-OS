@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — Merkle tree.
+ * @manya-os/ledger — Merkle tree.
  *
  * A binary Merkle tree built from leaf hashes using SHA-256, with RFC 6962
  * domain separation:

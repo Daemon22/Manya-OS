@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — shared type definitions.
+ * @manya-os/ledger — shared type definitions.
  *
  * These types are part of the public API surface and must remain stable across
  * minor versions. Internal-only types live alongside their owning modules.

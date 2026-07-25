@@ -1,8 +1,8 @@
 /**
- * @manya/attest — key generation, import/export, fingerprints.
+ * @manya-os/attest — key generation, import/export, fingerprints.
  *
- * Self-contained: implements locally the subset of @manya/keyring's key
- * utilities needed by @manya/attest (RSA-PSS 3072, ECDSA P-256).
+ * Self-contained: implements locally the subset of @manya-os/keyring's key
+ * utilities needed by @manya-os/attest (RSA-PSS 3072, ECDSA P-256).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

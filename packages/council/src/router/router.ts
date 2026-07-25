@@ -1,5 +1,5 @@
 /**
- * @manya/council — specialist routing.
+ * @manya-os/council — specialist routing.
  *
  * The router matches a {@link Problem} against a pool of {@link Specialist}s
  * by computing a Jaccard-style token-overlap score between the problem's

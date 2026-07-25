@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — network statistics source.
+ * @manya-os/nervous-system — network statistics source.
  *
  * Periodically samples network interface counters. On Linux, parses
  * `/proc/net/dev` for per-interface byte counters; on other platforms,

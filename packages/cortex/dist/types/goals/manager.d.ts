@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — goal management.
+ * @manya-os/cortex — goal management.
  *
  * Maintains a goal registry with status transitions, hierarchy, and
  * deadline tracking.

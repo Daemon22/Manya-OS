@@ -1,5 +1,5 @@
 /**
- * @manya/weave — live system topology tracking.
+ * @manya-os/weave — live system topology tracking.
  *
  * A `TopologyTracker` maintains a rolling history of `TopologySnapshot`s and
  * can compute the structural `TopologyDiff` between any two snapshots (most

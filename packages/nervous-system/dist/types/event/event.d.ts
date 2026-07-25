@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — event model.
+ * @manya-os/nervous-system — event model.
  *
  * Defines the universal `NervousEvent` shape plus a factory, JSON serializer,
  * and deserializer. Events are the smallest unit of work in the fabric.

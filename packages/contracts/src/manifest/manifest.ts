@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — manifest validation.
+ * @manya-os/contracts — manifest validation.
  *
  * Validates a `Manifest` describing a package's name, version, dependencies,
  * exports, imports, and capabilities. Each failure mode carries a stable code

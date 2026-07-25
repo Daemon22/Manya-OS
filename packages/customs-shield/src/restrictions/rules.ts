@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — trade restrictions module.
+ * @manya-os/customs-shield — trade restrictions module.
  *
  * Encodes country-level and product-level restrictions, including dual-use
  * goods controls (Wassenaar), drug precursor controls, and cultural-property

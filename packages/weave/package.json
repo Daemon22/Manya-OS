@@ -1,5 +1,5 @@
 {
-  "name": "@manya/weave",
+  "name": "@manya-os/weave",
   "version": "1.0.0",
   "description": "Interactive visualization substrate for the MANYA Intelligence OS — dependency graphs, knowledge graphs, event flows, layouts, filtering, search, export, live topology tracking, and pan/zoom exploration.",
   "main": "dist/cjs/index.js",

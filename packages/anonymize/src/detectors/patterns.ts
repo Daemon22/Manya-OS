@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — pattern-based detectors (regex-backed).
+ * @manya-os/anonymize — pattern-based detectors (regex-backed).
  *
  * Each detector is intentionally narrow and conservative. False positives
  * are minimized by requiring word boundaries and contextual cues.

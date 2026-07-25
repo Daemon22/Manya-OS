@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — decision hierarchies.
+ * @manya-os/constitution — decision hierarchies.
  *
  * A `DecisionHierarchy` is a forest of `DecisionNode`s. Each node carries a
  * `role` and an `authority` level (higher = more authority). This module

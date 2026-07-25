@@ -1,5 +1,5 @@
 {
-  "name": "@manya/anonymize",
+  "name": "@manya-os/anonymize",
   "version": "1.0.0",
   "description": "Research-grade anonymization for PII, PHI, sensitive metadata, OCR text, image identifiers, and document metadata — with validation reports and reproducible dataset publication for the MANYA Intelligence OS.",
   "main": "dist/cjs/index.js",

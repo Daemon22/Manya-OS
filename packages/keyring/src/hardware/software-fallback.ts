@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — software key provider (default fallback).
+ * @manya-os/keyring — software key provider (default fallback).
  *
  * Stores private keys in process memory. Suitable for development, tests,
  * and trusted environments where hardware-backed storage is unavailable.

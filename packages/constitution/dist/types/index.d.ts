@@ -1,7 +1,7 @@
 /**
- * @manya/constitution — governance substrate for the MANYA Intelligence OS.
+ * @manya-os/constitution — governance substrate for the MANYA Intelligence OS.
  *
- * Public API surface for @manya/constitution. Everything exported here is
+ * Public API surface for @manya-os/constitution. Everything exported here is
  * part of the stable, semver-bound public API.
  *
  * Capabilities:

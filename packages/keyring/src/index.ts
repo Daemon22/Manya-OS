@@ -1,7 +1,7 @@
 /**
- * @manya/keyring — sovereign identity and credential wallet.
+ * @manya-os/keyring — sovereign identity and credential wallet.
  *
- * Public API surface for @manya/keyring. Everything exported here is part of
+ * Public API surface for @manya-os/keyring. Everything exported here is part of
  * the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

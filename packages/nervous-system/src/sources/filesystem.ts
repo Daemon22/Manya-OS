@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — filesystem event source.
+ * @manya-os/nervous-system — filesystem event source.
  *
  * Watches a directory using `fs.watch` and emits `fs.change` events with
  * `{ path, event }` payloads.

@@ -1,5 +1,5 @@
 /**
- * @manya/memory — backup and restore.
+ * @manya-os/memory — backup and restore.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

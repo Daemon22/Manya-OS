@@ -1,8 +1,8 @@
 /**
- * @manya/attest — digital signatures (RSA-PSS, ECDSA P-256).
+ * @manya-os/attest — digital signatures (RSA-PSS, ECDSA P-256).
  *
  * Self-contained: implements locally the signature primitives needed by
- * @manya/attest. The verification path uses `crypto.timingSafeEqual` as a
+ * @manya-os/attest. The verification path uses `crypto.timingSafeEqual` as a
  * defense-in-depth constant-time guard.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

@@ -1,14 +1,14 @@
 /**
- * @manya/constitution — typed error hierarchy.
+ * @manya-os/constitution — typed error hierarchy.
  *
- * Every public @manya/constitution API throws a subclass of
+ * Every public @manya-os/constitution API throws a subclass of
  * `ConstitutionError`. Errors carry a stable `code` string for programmatic
  * discrimination.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
  */
-/** Base class for all @manya/constitution errors. */
+/** Base class for all @manya-os/constitution errors. */
 export declare class ConstitutionError extends Error {
     readonly code: string;
     readonly cause?: unknown;

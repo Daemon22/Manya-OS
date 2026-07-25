@@ -1,5 +1,5 @@
 /**
- * @manya/attest — device fingerprint.
+ * @manya-os/attest — device fingerprint.
  *
  * A `DeviceFingerprint` is a stable SHA-256 hash over a canonical
  * representation of {@link DeviceSignals}. Two fingerprints can be compared

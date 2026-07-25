@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — operating-system metrics source.
+ * @manya-os/nervous-system — operating-system metrics source.
  *
  * Periodically samples `os.cpus()`, `os.loadavg()`, `os.totalmem()`,
  * `os.freemem()`, and `os.uptime()` and emits `os.metrics` events.

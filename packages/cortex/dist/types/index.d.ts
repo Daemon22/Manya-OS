@@ -1,7 +1,7 @@
 /**
- * @manya/cortex — reasoning orchestration engine.
+ * @manya-os/cortex — reasoning orchestration engine.
  *
- * Public API surface for @manya/cortex. Everything exported here is part
+ * Public API surface for @manya-os/cortex. Everything exported here is part
  * of the stable, semver-bound public API.
  *
  * IMPORTANT: This package is NOT an AI model. It coordinates reasoning by

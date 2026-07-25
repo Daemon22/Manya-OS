@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — safety rules barrel.
+ * @manya-os/constitution — safety rules barrel.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

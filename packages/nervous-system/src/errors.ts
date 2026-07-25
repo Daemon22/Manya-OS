@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — typed error hierarchy.
+ * @manya-os/nervous-system — typed error hierarchy.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon),

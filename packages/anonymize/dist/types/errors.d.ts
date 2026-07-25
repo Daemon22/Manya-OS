@@ -1,10 +1,10 @@
 /**
- * @manya/anonymize — typed error hierarchy.
+ * @manya-os/anonymize — typed error hierarchy.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
  */
-/** Base class for every error thrown by @manya/anonymize. */
+/** Base class for every error thrown by @manya-os/anonymize. */
 export declare class AnonymizeError extends Error {
     readonly code: string;
     readonly cause?: unknown;

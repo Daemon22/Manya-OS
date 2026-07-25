@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — reproducible dataset publication.
+ * @manya-os/anonymize — reproducible dataset publication.
  *
  * Produces a manifest containing per-record hashes, dataset hash, and
  * pipeline config hash, so the published dataset is verifiable and

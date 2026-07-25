@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — canonical serialization for hashing.
+ * @manya-os/ledger — canonical serialization for hashing.
  *
  * Produces a deterministic JSON encoding with sorted keys and no whitespace.
  * Used to compute the SHA-256 hash of a ledger event — the result MUST be

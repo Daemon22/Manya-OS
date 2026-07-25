@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — API contract validation.
+ * @manya-os/contracts — API contract validation.
  *
  * Validates HTTP requests and responses against a named `ApiContract`. Each
  * endpoint is matched by `method` + `path`; the corresponding request and

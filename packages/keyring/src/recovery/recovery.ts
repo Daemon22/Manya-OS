@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — Shamir Secret Sharing over GF(2^8).
+ * @manya-os/keyring — Shamir Secret Sharing over GF(2^8).
  *
  * Implements real (k-of-n) secret sharing using the irreducible polynomial
  * 0x11b (AES field polynomial). Each byte of the secret is shared

@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — document metadata handling.
+ * @manya-os/anonymize — document metadata handling.
  *
  * Supports PDF (Info dictionary), DOCX (core.xml), and a generic
  * key-value form. Strips author, dates, IDs, revision history.

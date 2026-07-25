@@ -1,5 +1,5 @@
 /**
- * @manya/council — independent analysis collection.
+ * @manya-os/council — independent analysis collection.
  *
  * The {@link AnalysisCollector} is a stateful store for {@link Analysis}
  * objects. Analysts submit analyses; the collector validates, stores, and

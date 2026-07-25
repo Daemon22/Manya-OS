@@ -1,9 +1,9 @@
 /**
- * @manya/ledger — key generation, import/export, fingerprints.
+ * @manya-os/ledger — key generation, import/export, fingerprints.
  *
  * Self-contained: implements locally the subset of key utilities needed by
- * @manya/ledger (ECDSA P-256 default, RSA-PSS optional). Does NOT import
- * from `@manya/keyring` or any other sibling workspace.
+ * @manya-os/ledger (ECDSA P-256 default, RSA-PSS optional). Does NOT import
+ * from `@manya-os/keyring` or any other sibling workspace.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon), founder
@@ -82,7 +82,7 @@ export declare function exportKeyPem(key: crypto.KeyObject, type: 'public' | 'pr
  *
  * The key id is `sha256(spki-derepr)` — the SHA-256 of the public key's
  * SubjectPublicKeyInfo DER encoding. This is the same scheme used by
- * `@manya/attest`'s `getKeyFingerprint`, so cross-package references are
+ * `@manya-os/attest`'s `getKeyFingerprint`, so cross-package references are
  * stable.
  *
  * Accepts either a KeyObject or a PEM string for convenience.

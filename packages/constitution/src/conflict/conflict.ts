@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — conflict resolution.
+ * @manya-os/constitution — conflict resolution.
  *
  * `ConflictResolver.resolveConflict(conflict, strategy)` returns a
  * `ConflictResolution`. The resolver is intentionally simple and

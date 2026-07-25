@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — shared type definitions.
+ * @manya-os/nervous-system — shared type definitions.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon),

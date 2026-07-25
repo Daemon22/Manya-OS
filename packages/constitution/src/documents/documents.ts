@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — versioned governance documents.
+ * @manya-os/constitution — versioned governance documents.
  *
  * A `GovernanceDocument` is a versioned collection of `DocumentSection`s with
  * a lifecycle (`draft` → `proposed` → `ratified` → `superseded`). This module

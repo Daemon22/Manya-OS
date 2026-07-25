@@ -1,7 +1,7 @@
 /**
- * @manya/weave — core graph data model.
+ * @manya-os/weave — core graph data model.
  *
- * The `Graph` class is the central abstraction of @manya/weave. It supports
+ * The `Graph` class is the central abstraction of @manya-os/weave. It supports
  * both directed and undirected graphs, exposes adjacency queries, cycle
  * detection, topological sort, and connected-component detection. All graph
  * mutations are O(1) amortized; queries are O(degree).

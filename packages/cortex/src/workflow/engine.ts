@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — workflow engine.
+ * @manya-os/cortex — workflow engine.
  *
  * Executes a multi-step workflow with conditional branching.
  *

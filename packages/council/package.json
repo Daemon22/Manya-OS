@@ -1,5 +1,5 @@
 {
-  "name": "@manya/council",
+  "name": "@manya-os/council",
   "version": "1.0.0",
   "description": "Multi-agent consensus engine for the MANYA Intelligence OS — specialist routing, independent analyses, weighted confidence scoring, conflict detection, structured debate, minority opinions, consensus building, review reports, and final decision synthesis.",
   "main": "dist/cjs/index.js",

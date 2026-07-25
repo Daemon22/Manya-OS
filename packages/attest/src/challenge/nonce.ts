@@ -1,5 +1,5 @@
 /**
- * @manya/attest — cryptographic nonce store with TTL.
+ * @manya-os/attest — cryptographic nonce store with TTL.
  *
  * Single-use nonces prevent replay attacks: a verifier issues a nonce, the
  * prover must echo it back signed, and the verifier consumes (invalidates)

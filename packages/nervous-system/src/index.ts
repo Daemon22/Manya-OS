@@ -1,7 +1,7 @@
 /**
- * @manya/nervous-system — universal event infrastructure.
+ * @manya-os/nervous-system — universal event infrastructure.
  *
- * Public API surface for `@manya/nervous-system`. Everything exported here
+ * Public API surface for `@manya-os/nervous-system`. Everything exported here
  * is part of the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

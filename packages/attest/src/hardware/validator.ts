@@ -1,5 +1,5 @@
 /**
- * @manya/attest — hardware validator (TPM / Secure Enclave / TEE probes).
+ * @manya-os/attest — hardware validator (TPM / Secure Enclave / TEE probes).
  *
  * Probes the local host for the presence of hardware attestation roots.
  * All probes are wrapped in try/catch — `probe()` MUST NOT throw.

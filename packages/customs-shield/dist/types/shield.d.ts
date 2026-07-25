@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — main orchestrator.
+ * @manya-os/customs-shield — main orchestrator.
  *
  * Wires together HS-code validation, sanctions screening, compliance
  * rules, trade restrictions, risk scoring, and regulatory reporting.

@@ -1,5 +1,5 @@
 /**
- * @manya/council — shared type definitions.
+ * @manya-os/council — shared type definitions.
  *
  * All cross-module type definitions live here so that modules can import the
  * shape they need without circular dependencies. Per-module "value" interfaces

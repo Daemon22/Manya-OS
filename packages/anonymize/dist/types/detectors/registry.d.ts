@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — detector registry and base interfaces.
+ * @manya-os/anonymize — detector registry and base interfaces.
  *
  * A detector scans an input string and returns zero or more {@link Finding}
  * objects. Detectors are pure functions of (input, config) — no I/O, no

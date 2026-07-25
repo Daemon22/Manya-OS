@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — shared type definitions.
+ * @manya-os/contracts — shared type definitions.
  *
  * Defines every public type used across the contracts package: schema
  * primitives, manifests, semver versions, API contracts, schema diffs,

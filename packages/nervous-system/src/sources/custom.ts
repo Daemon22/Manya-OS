@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — custom producer source.
+ * @manya-os/nervous-system — custom producer source.
  *
  * Accepts a user-supplied producer function `(emit) => void` and calls it
  * on `start()`. Useful for one-off integrations and tests.

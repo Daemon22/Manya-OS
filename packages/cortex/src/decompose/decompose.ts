@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — task decomposition.
+ * @manya-os/cortex — task decomposition.
  *
  * Breaks a high-level goal description into actionable sub-tasks using
  * heuristics (conjunctions, action verbs, sequencing cues).

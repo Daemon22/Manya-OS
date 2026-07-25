@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — event filters and combinators.
+ * @manya-os/nervous-system — event filters and combinators.
  *
  * A filter is a declarative spec; `compileFilter` turns it into a fast
  * predicate function. Combinators `and`, `or`, `not` produce new specs

@@ -1,7 +1,7 @@
 /**
- * @manya/contracts — universal contract and schema validation.
+ * @manya-os/contracts — universal contract and schema validation.
  *
- * Public API surface for @manya/contracts. Everything exported here is part
+ * Public API surface for @manya-os/contracts. Everything exported here is part
  * of the stable, semver-bound public API.
  *
  * Capabilities:

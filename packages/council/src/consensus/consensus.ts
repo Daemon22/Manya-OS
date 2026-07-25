@@ -1,5 +1,5 @@
 /**
- * @manya/council — consensus building.
+ * @manya-os/council — consensus building.
  *
  * The {@link ConsensusBuilder} aggregates a set of analyses (each carrying a
  * polarity inferred from its `content` text and a `confidence` in `[0, 1]`)

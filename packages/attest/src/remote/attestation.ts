@@ -1,5 +1,5 @@
 /**
- * @manya/attest — remote attestation: produce + verify signed attestation reports.
+ * @manya-os/attest — remote attestation: produce + verify signed attestation reports.
  *
  * A prover produces an {@link AttestationQuote} signed over its device
  * fingerprint, measurements, timestamp, and nonce. The verifier checks:

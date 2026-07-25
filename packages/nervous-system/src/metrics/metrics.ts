@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — performance metrics.
+ * @manya-os/nervous-system — performance metrics.
  *
  * `MetricsCollector` tracks publish/deliver/drop counts plus a latency
  * ring buffer used to compute average, p50, and p99 latencies.

@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — the reasoning orchestration engine facade.
+ * @manya-os/cortex — the reasoning orchestration engine facade.
  *
  * Wires together decomposition, planning, tools, routing, scheduling,
  * confidence, goals, resources, workflows, retries, and coordination.

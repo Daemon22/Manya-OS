@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — timestamp authority interface + local implementation.
+ * @manya-os/ledger — timestamp authority interface + local implementation.
  *
  * A {@link TimestampAuthority} signs {@link TimestampToken}s over arbitrary
  * commitments. {@link LocalTimestampAuthority} uses a locally-generated

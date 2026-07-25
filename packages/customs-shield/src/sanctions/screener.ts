@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — sanctions screening.
+ * @manya-os/customs-shield — sanctions screening.
  *
  * Implements name-based fuzzy matching against a sanctions list. The list
  * is configurable via `setSanctionsList`. A small built-in list of

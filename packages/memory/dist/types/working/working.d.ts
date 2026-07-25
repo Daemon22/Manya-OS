@@ -1,5 +1,5 @@
 /**
- * @manya/memory — working memory (short-TTL scratchpad).
+ * @manya-os/memory — working memory (short-TTL scratchpad).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

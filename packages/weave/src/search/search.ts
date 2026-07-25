@@ -1,5 +1,5 @@
 /**
- * @manya/weave — graph search and path finding.
+ * @manya-os/weave — graph search and path finding.
  *
  * Provides:
  *   - `search` — exact text search across node labels and properties.

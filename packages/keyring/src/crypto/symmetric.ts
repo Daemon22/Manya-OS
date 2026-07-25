@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — symmetric encryption (AES-256-GCM).
+ * @manya-os/keyring — symmetric encryption (AES-256-GCM).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

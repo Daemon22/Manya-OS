@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — hashing primitives.
+ * @manya-os/keyring — hashing primitives.
  *
  * Thin wrappers around Node `crypto` that surface typed errors.
  *

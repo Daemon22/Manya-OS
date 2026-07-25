@@ -1,5 +1,5 @@
 /**
- * @manya/attest — trust evaluator.
+ * @manya-os/attest — trust evaluator.
  *
  * Combines multiple signals — fingerprint stability, hardware presence,
  * attestation validity, session age, prior interactions — into a single

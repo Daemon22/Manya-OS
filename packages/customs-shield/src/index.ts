@@ -1,7 +1,7 @@
 /**
- * @manya/customs-shield — compliance and supply-chain intelligence.
+ * @manya-os/customs-shield — compliance and supply-chain intelligence.
  *
- * Public API surface for @manya/customs-shield. Everything exported here is
+ * Public API surface for @manya-os/customs-shield. Everything exported here is
  * part of the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

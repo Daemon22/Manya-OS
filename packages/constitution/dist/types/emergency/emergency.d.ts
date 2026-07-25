@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — emergency procedures.
+ * @manya-os/constitution — emergency procedures.
  *
  * The `EmergencyController` class tracks the current `EmergencyState` and the
  * active `EmergencyProcedure`. State transitions are constrained to escalate

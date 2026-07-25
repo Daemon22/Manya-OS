@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — notification source.
+ * @manya-os/nervous-system — notification source.
  *
  * A simple in-process notification source. Exposes a `notify(topic, payload)`
  * method that publishes events into the attached sink. Useful for

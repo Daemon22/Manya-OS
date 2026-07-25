@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — hashing primitives.
+ * @manya-os/ledger — hashing primitives.
  *
  * Self-contained crypto wrappers around Node `crypto`. This package must NOT
  * import from a sibling workspace; all primitives are implemented locally.

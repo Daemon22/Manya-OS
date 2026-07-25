@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — Merkle proof type and verifier.
+ * @manya-os/ledger — Merkle proof type and verifier.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon), founder

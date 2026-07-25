@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — redaction strategies.
+ * @manya-os/anonymize — redaction strategies.
  *
  * A redactor transforms a finding into a replacement string. Strategies
  * differ in reversibility, determinism, and readability.

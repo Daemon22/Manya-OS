@@ -1,5 +1,5 @@
 {
-  "name": "@manya/memory",
+  "name": "@manya-os/memory",
   "version": "1.0.0",
   "description": "Unified memory system — working, episodic, semantic, procedural, long-term storage, indexing, linking, aging, compression, retrieval ranking, access permissions, synchronization, backup, and import/export for the MANYA Intelligence OS.",
   "main": "dist/cjs/index.js",

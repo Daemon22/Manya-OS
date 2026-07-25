@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — process list source.
+ * @manya-os/nervous-system — process list source.
  *
  * Polls the host's process list using `child_process.exec` to run `ps`
  * (POSIX) or `tasklist` (Windows). Emits `process.spawn` events for newly

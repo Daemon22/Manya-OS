@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — operational policies.
+ * @manya-os/constitution — operational policies.
  *
  * A `Policy` pairs a `condition` expression with an `action` and a `priority`.
  * The condition language is a small, safe subset of boolean logic with

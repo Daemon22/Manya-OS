@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — key generation, derivation, import/export, fingerprints.
+ * @manya-os/keyring — key generation, derivation, import/export, fingerprints.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

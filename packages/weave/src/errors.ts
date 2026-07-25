@@ -1,5 +1,5 @@
 /**
- * @manya/weave — typed error hierarchy.
+ * @manya-os/weave — typed error hierarchy.
  *
  * Every public Weave API throws a subclass of `WeaveError`. Errors carry a
  * stable `code` string for programmatic discrimination.
@@ -8,7 +8,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 
-/** Base class for all @manya/weave errors. */
+/** Base class for all @manya-os/weave errors. */
 export class WeaveError extends Error {
   public readonly code: string;
   public override readonly cause?: unknown;

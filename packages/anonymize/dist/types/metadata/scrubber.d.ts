@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — sensitive metadata stripping for objects/JSON.
+ * @manya-os/anonymize — sensitive metadata stripping for objects/JSON.
  *
  * Walks a JSON-like object and removes or scrubs keys that are commonly
  * sensitive (author, GPS coordinates, device IDs, etc.). Useful for

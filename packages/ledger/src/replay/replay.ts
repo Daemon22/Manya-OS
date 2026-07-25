@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — event replayer + projections.
+ * @manya-os/ledger — event replayer + projections.
  *
  * Replays a sequence of ledger events through a filter, optionally folding
  * them through a reducer to build a projection.

@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — validation reports.
+ * @manya-os/contracts — validation reports.
  *
  * Aggregates per-section validation results into a single `ValidationReport`,
  * serializes reports to JSON, and produces one-line summaries for log lines

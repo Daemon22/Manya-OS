@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — OCR text handling.
+ * @manya-os/anonymize — OCR text handling.
  *
  * OCR output often contains misspelled PII that defeats exact-match
  * detectors. This module normalizes OCR output (common substitutions,

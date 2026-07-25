@@ -1,7 +1,7 @@
 /**
- * @manya/council — multi-agent consensus engine for the MANYA Intelligence OS.
+ * @manya-os/council — multi-agent consensus engine for the MANYA Intelligence OS.
  *
- * Public API surface for @manya/council. Everything exported here is part of
+ * Public API surface for @manya-os/council. Everything exported here is part of
  * the stable, semver-bound public API.
  *
  * Capabilities:

@@ -1,5 +1,5 @@
 /**
- * @manya/council — conflict detection.
+ * @manya-os/council — conflict detection.
  *
  * The {@link ConflictDetector} scans a set of {@link Analysis} objects (grouped
  * by `problemId`) and detects three kinds of pairwise conflict:

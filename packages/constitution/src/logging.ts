@@ -1,11 +1,11 @@
 /**
- * @manya/constitution — structured logging (mirrors @manya/keyring pattern).
+ * @manya-os/constitution — structured logging (mirrors @manya-os/keyring pattern).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
  */
 
-/** Logger interface used throughout @manya/constitution. */
+/** Logger interface used throughout @manya-os/constitution. */
 export interface Logger {
   debug(msg: string, meta?: Record<string, unknown>): void;
   info(msg: string, meta?: Record<string, unknown>): void;

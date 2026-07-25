@@ -1,5 +1,5 @@
 /**
- * @manya/memory — shared type definitions.
+ * @manya-os/memory — shared type definitions.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

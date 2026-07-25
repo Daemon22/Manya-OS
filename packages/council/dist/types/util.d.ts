@@ -1,5 +1,5 @@
 /**
- * @manya/council — shared text utilities.
+ * @manya-os/council — shared text utilities.
  *
  * Small, dependency-free helpers used by the router, conflict, and consensus
  * modules to tokenize and compare short pieces of natural-language text. These

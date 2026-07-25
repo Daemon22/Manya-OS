@@ -1,5 +1,5 @@
 /**
- * @manya/council — structured debate.
+ * @manya-os/council — structured debate.
  *
  * The {@link DebateFacilitator} opens a debate over a set of conflicts, accepts
  * debate rounds (each a claim + evidence, optionally rebutting a prior round),

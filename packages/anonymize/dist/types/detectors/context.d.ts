@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — context-based detectors for person names, addresses,
+ * @manya-os/anonymize — context-based detectors for person names, addresses,
  * health conditions, medications.
  *
  * These detectors use contextual cues (honorifics, labels, medical terms)

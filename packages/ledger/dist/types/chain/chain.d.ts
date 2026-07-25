@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — in-memory ledger chain.
+ * @manya-os/ledger — in-memory ledger chain.
  *
  * A {@link LedgerChain} holds events in memory in append order and computes
  * the cryptographic linkage between consecutive events (`prevHash` chains each

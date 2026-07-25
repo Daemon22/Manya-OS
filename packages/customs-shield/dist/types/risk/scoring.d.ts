@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — risk scoring, cargo risk, vulnerability analysis.
+ * @manya-os/customs-shield — risk scoring, cargo risk, vulnerability analysis.
  *
  * Computes a risk score in [0,100] for a shipment based on weighted
  * indicators. Indicators include sanctions hits, embargo violations,

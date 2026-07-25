@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — ledger events.
+ * @manya-os/ledger — ledger events.
  *
  * A {@link LedgerEvent} is the atomic unit of the audit ledger. Each event's
  * `hash` is the SHA-256 of the canonical serialization of its signing fields

@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — file-backed ledger store (append-only).
+ * @manya-os/ledger — file-backed ledger store (append-only).
  *
  * Persists events to a single append-only file as JSON-per-line (JSONL).
  * Provides:

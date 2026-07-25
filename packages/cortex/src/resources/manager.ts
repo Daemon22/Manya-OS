@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — resource optimization.
+ * @manya-os/cortex — resource optimization.
  *
  * Tracks a ResourceBudget and decides whether a new task can be admitted
  * given current utilization.

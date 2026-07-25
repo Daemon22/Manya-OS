@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — application source.
+ * @manya-os/nervous-system — application source.
  *
  * Wraps an application surface (HTTP request handler, RPC server, etc.)
  * and emits `app.request` events. The default implementation uses an

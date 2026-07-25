@@ -1,5 +1,5 @@
 /**
- * @manya/attest — trusted session establishment, verification, revocation.
+ * @manya-os/attest — trusted session establishment, verification, revocation.
  *
  * A `SessionManager` issues opaque session tokens bound to:
  *   - a device fingerprint (string),

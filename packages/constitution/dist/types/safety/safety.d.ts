@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — safety rules.
+ * @manya-os/constitution — safety rules.
  *
  * A `SafetyRule` carries an `invariant` (a human-readable predicate), an
  * `enforcementPoint` (pre / post / both), and a `severity`. The

@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — request router.
+ * @manya-os/cortex — request router.
  *
  * Classifies an input string into an Intent and routes it to the
  * appropriate cortex component.

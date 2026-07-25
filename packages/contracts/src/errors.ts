@@ -1,7 +1,7 @@
 /**
- * @manya/contracts — typed error hierarchy.
+ * @manya-os/contracts — typed error hierarchy.
  *
- * Every public @manya/contracts API throws a subclass of `ContractsError`.
+ * Every public @manya-os/contracts API throws a subclass of `ContractsError`.
  * Errors carry a stable `code` string for programmatic discrimination; for
  * `ManifestError`, the constructor accepts an explicit `code` so that each
  * failure mode (invalid name, invalid version, invalid dependency, ...) has
@@ -11,7 +11,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 
-/** Base class for all @manya/contracts errors. */
+/** Base class for all @manya-os/contracts errors. */
 export class ContractsError extends Error {
   public readonly code: string;
   public override readonly cause?: unknown;

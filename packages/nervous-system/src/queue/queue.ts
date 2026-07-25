@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — asynchronous event queue.
+ * @manya-os/nervous-system — asynchronous event queue.
  *
  * A bounded/unbounded FIFO queue of events with promise-based blocking
  * dequeue, drain semantics, and configurable backpressure via the

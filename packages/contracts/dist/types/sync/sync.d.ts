@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — schema synchronization.
+ * @manya-os/contracts — schema synchronization.
  *
  * Diffs two `InterfaceSchema`s (`diffSchemas`) and merges two schemas with
  * conflict detection (`mergeSchemas`). Conflicting fields carry a

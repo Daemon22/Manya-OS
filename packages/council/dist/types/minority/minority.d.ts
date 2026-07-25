@@ -1,5 +1,5 @@
 /**
- * @manya/council — minority opinion tracking.
+ * @manya-os/council — minority opinion tracking.
  *
  * The {@link MinorityOpinionTracker} is a stateful store for
  * {@link MinorityOpinion} records. Analysts who disagree with the consensus

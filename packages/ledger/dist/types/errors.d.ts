@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — typed error hierarchy.
+ * @manya-os/ledger — typed error hierarchy.
  *
  * Every public function throws a subclass of {@link LedgerError}. Callers
  * can catch broadly on {@link LedgerError} or narrowly on a specific class.
@@ -11,7 +11,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 /**
- * Base class for every error thrown by @manya/ledger.
+ * Base class for every error thrown by @manya-os/ledger.
  *
  * Carries an optional `cause` (per ES2022) and a stable `code` string that
  * callers can switch on without parsing messages.

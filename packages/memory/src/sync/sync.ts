@@ -1,5 +1,5 @@
 /**
- * @manya/memory — synchronization between memory instances.
+ * @manya-os/memory — synchronization between memory instances.
  *
  * Compares two snapshots and produces an apply-able delta.
  *

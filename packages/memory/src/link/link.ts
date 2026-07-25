@@ -1,5 +1,5 @@
 /**
- * @manya/memory — memory links (knowledge graph edges).
+ * @manya-os/memory — memory links (knowledge graph edges).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

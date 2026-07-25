@@ -1,5 +1,5 @@
 /**
- * @manya/weave — shared type definitions.
+ * @manya-os/weave — shared type definitions.
  *
  * All public visualization types live here. The model is intentionally
  * permissive (everything optional except ids) so the same engine can power

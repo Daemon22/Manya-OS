@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — HS (Harmonized System) code catalog and validation.
+ * @manya-os/customs-shield — HS (Harmonized System) code catalog and validation.
  *
  * Implements a small built-in catalog of HS code prefixes (section + chapter
  * + heading) for validation. Production deployments should plug in a full

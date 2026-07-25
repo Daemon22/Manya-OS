@@ -1,8 +1,8 @@
 /**
- * @manya/attest — hashing primitives.
+ * @manya-os/attest — hashing primitives.
  *
  * Self-contained crypto wrappers around Node `crypto`. This package must NOT
- * import from `@manya/keyring` (a sibling workspace); all primitives are
+ * import from `@manya-os/keyring` (a sibling workspace); all primitives are
  * implemented locally.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

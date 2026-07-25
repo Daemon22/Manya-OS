@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — in-memory ledger store (array-backed).
+ * @manya-os/ledger — in-memory ledger store (array-backed).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon), founder

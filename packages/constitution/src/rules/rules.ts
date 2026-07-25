@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — ethical rules.
+ * @manya-os/constitution — ethical rules.
  *
  * An `EthicalRule` is either a prohibition (forbidden=true: violated when the
  * described behavior occurs) or a requirement (forbidden=false: violated when

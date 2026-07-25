@@ -1,5 +1,5 @@
 /**
- * @manya/weave — graph exporters.
+ * @manya-os/weave — graph exporters.
  *
  * Serialize a graph to multiple formats:
  *   - `toJSON`   — JSON string of the graph shape.
@@ -112,7 +112,7 @@ export function toMermaid(graph: Graph): string {
  * Render a minimal SVG using absolute positions from a layout.
  *
  * This is intentionally simple. For a full-featured renderer with configurable
- * colors, fonts, and canvas size, use `renderToSVG` from `@manya/weave/render`.
+ * colors, fonts, and canvas size, use `renderToSVG` from `@manya-os/weave/render`.
  *
  * @param graph input graph
  * @param layout node positions

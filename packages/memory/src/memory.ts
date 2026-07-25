@@ -1,5 +1,5 @@
 /**
- * @manya/memory — the unified memory facade.
+ * @manya-os/memory — the unified memory facade.
  *
  * Wires together all subsystems: working, episodic, semantic, procedural,
  * long-term, index, links, ranking, permissions, aging, sync, backup, I/O.

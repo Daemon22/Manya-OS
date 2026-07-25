@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — pipeline configuration.
+ * @manya-os/customs-shield — pipeline configuration.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

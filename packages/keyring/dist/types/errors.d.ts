@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — typed error hierarchy.
+ * @manya-os/keyring — typed error hierarchy.
  *
  * Every public function throws a subclass of {@link KeyringError}. Callers
  * can catch broadly on {@link KeyringError} or narrowly on a specific class.
@@ -8,7 +8,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 /**
- * Base class for every error thrown by @manya/keyring.
+ * Base class for every error thrown by @manya-os/keyring.
  *
  * Carries an optional `cause` (per ES2022) and a stable `code` string that
  * callers can switch on without parsing messages.

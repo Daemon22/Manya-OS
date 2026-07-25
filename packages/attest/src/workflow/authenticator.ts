@@ -1,5 +1,5 @@
 /**
- * @manya/attest — authentication workflow.
+ * @manya-os/attest — authentication workflow.
  *
  * Orchestrates the full challenge-response + attestation + session flow:
  *

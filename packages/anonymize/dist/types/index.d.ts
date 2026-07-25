@@ -1,7 +1,7 @@
 /**
- * @manya/anonymize — research-grade anonymization.
+ * @manya-os/anonymize — research-grade anonymization.
  *
- * Public API surface for @manya/anonymize. Everything exported here is part
+ * Public API surface for @manya-os/anonymize. Everything exported here is part
  * of the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

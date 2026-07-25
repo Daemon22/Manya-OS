@@ -1,5 +1,5 @@
 /**
- * @manya/weave — layout algorithms.
+ * @manya-os/weave — layout algorithms.
  *
  * Computes 2-D positions for graph nodes. Four algorithms are provided:
  *   - `forceDirected` — simple Fruchterman-Reingold force simulation.

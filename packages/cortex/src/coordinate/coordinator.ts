@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — multi-component coordination.
+ * @manya-os/cortex — multi-component coordination.
  *
  * Coordinates multiple intelligent components (planner, scheduler, tools,
  * memory, council, etc.) to execute a plan end-to-end.

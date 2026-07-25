@@ -1,5 +1,5 @@
 /**
- * @manya/weave — graph filtering.
+ * @manya-os/weave — graph filtering.
  *
  * Filtering produces a new `Graph` (subgraph) containing only the nodes/edges
  * that satisfy the predicate. All filters preserve the `directed` flag.

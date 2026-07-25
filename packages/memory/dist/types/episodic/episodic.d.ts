@@ -1,5 +1,5 @@
 /**
- * @manya/memory — episodic memory (timestamped events).
+ * @manya-os/memory — episodic memory (timestamped events).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

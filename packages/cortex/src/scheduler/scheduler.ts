@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — task scheduler.
+ * @manya-os/cortex — task scheduler.
  *
  * Schedules tasks onto workers with priority and dependency awareness.
  *

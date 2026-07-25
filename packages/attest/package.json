@@ -1,5 +1,5 @@
 {
-  "name": "@manya/attest",
+  "name": "@manya-os/attest",
   "version": "1.0.0",
   "description": "Device and session attestation for the MANYA Intelligence OS.",
   "main": "dist/cjs/index.js",

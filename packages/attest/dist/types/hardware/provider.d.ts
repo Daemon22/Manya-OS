@@ -1,5 +1,5 @@
 /**
- * @manya/attest — hardware attestation provider interface + software fallback.
+ * @manya-os/attest — hardware attestation provider interface + software fallback.
  *
  * A `HardwareAttestationProvider` produces a signed attestation quote using
  * hardware-rooted keys (TPM, Secure Enclave, HSM). The

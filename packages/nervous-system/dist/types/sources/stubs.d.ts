@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — hardware/peripheral source stubs.
+ * @manya-os/nervous-system — hardware/peripheral source stubs.
  *
  * `UsbSource`, `BluetoothSource`, `SensorSource`, `CameraSource`, and
  * `MicrophoneSource` are stubs. They implement the {@link EventSource}

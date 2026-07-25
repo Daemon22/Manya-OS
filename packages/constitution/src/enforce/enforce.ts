@@ -1,5 +1,5 @@
 /**
- * @manya/constitution — runtime enforcement engine.
+ * @manya-os/constitution — runtime enforcement engine.
  *
  * The `EnforcementEngine` binds together rules, policies, permissions, and
  * safety rules into a single `evaluate(action, subject, context)` call. The

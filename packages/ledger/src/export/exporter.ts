@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — audit-log exporter (JSON, JSONL, CSV).
+ * @manya-os/ledger — audit-log exporter (JSON, JSONL, CSV).
  *
  * Exports a sequence of ledger events in one of three formats:
  *   - `json`  — a single JSON array of events.

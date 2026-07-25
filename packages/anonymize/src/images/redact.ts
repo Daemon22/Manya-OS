@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — image identifier handling.
+ * @manya-os/anonymize — image identifier handling.
  *
  * Images carry several classes of identifiers: EXIF metadata, steganographic
  * watermarks, perceptual hashes, and embedded thumbnails. This module strips

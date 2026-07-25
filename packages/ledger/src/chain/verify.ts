@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — chain verification.
+ * @manya-os/ledger — chain verification.
  *
  * Verifies the cryptographic integrity of a sequence of ledger events:
  *   1. Each event's `prevHash` MUST equal the previous event's `hash`.

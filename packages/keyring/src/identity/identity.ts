@@ -1,5 +1,5 @@
 /**
- * @manya/keyring — Identity (sovereign, did:key-style).
+ * @manya-os/keyring — Identity (sovereign, did:key-style).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

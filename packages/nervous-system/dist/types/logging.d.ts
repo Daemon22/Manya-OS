@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — structured logging (mirrors @manya/memory pattern).
+ * @manya-os/nervous-system — structured logging (mirrors @manya-os/memory pattern).
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon),

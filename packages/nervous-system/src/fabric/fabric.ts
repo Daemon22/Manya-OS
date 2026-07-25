@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — core event fabric.
+ * @manya-os/nervous-system — core event fabric.
  *
  * High-performance publish/subscribe event fabric with O(1) topic lookup
  * and O(k) per-topic filter evaluation. Supports the wildcard `*` topic,

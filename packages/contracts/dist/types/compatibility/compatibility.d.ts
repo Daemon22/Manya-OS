@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — version compatibility.
+ * @manya-os/contracts — version compatibility.
  *
  * Provides semver parsing (`parseSemver`), ordering (`compareSemver`), range
  * satisfaction (`satisfies`), and structural backward-compatibility checking

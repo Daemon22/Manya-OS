@@ -1,13 +1,13 @@
 /**
- * @manya/council — typed error hierarchy.
+ * @manya-os/council — typed error hierarchy.
  *
- * Every public @manya/council API throws a subclass of `CouncilError`. Errors
+ * Every public @manya-os/council API throws a subclass of `CouncilError`. Errors
  * carry a stable `code` string for programmatic discrimination.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
  */
-/** Base class for all @manya/council errors. */
+/** Base class for all @manya-os/council errors. */
 export declare class CouncilError extends Error {
     readonly code: string;
     readonly cause?: unknown;

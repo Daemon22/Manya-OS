@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — ledger store interface.
+ * @manya-os/ledger — ledger store interface.
  *
  * A {@link LedgerStore} is the persistence abstraction for a ledger chain.
  * Stores MUST be append-only: once an event is written, it MUST NOT be

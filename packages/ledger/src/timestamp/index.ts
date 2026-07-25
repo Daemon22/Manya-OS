@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — timestamp barrel.
+ * @manya-os/ledger — timestamp barrel.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

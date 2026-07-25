@@ -1,5 +1,5 @@
 /**
- * @manya/attest — typed error hierarchy.
+ * @manya-os/attest — typed error hierarchy.
  *
  * Every public function throws a subclass of {@link AttestError}. Callers
  * can catch broadly on {@link AttestError} or narrowly on a specific class.
@@ -9,7 +9,7 @@
  */
 
 /**
- * Base class for every error thrown by @manya/attest.
+ * Base class for every error thrown by @manya-os/attest.
  *
  * Carries an optional `cause` (per ES2022) and a stable `code` string that
  * callers can switch on without parsing messages.

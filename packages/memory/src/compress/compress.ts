@@ -1,5 +1,5 @@
 /**
- * @manya/memory — payload compression (simple dictionary-based).
+ * @manya-os/memory — payload compression (simple dictionary-based).
  *
  * NOTE: This is a simple structural compressor for JSON-serializable
  * payloads. For binary payloads, use Node's zlib externally.

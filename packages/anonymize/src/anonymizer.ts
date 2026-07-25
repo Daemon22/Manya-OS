@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — the main pipeline orchestrator.
+ * @manya-os/anonymize — the main pipeline orchestrator.
  *
  * Wires together detectors, redactors, and the validator. Provides a single
  * `anonymize(input)` method that returns a complete {@link AnonymizationResult}

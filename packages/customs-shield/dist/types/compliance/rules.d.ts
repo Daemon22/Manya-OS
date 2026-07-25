@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — import/export compliance rules.
+ * @manya-os/customs-shield — import/export compliance rules.
  *
  * Encodes common compliance rules: restricted-origin lists, license
  * requirements by HS chapter, country-specific embargoes, and duty

@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — structured logging with secret scrubbing.
+ * @manya-os/ledger — structured logging with secret scrubbing.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon), founder

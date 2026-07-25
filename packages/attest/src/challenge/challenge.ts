@@ -1,5 +1,5 @@
 /**
- * @manya/attest — challenge generation, signed challenge-response, expiry.
+ * @manya-os/attest — challenge generation, signed challenge-response, expiry.
  *
  * A challenge is a fresh random byte string issued by a verifier. The prover
  * signs the canonical challenge bytes with their private key and returns a

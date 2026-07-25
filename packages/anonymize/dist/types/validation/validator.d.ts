@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — validation reports.
+ * @manya-os/anonymize — validation reports.
  *
  * After anonymization, the validator re-scans the output to detect
  * residual PII/PHI and produces a structured report.

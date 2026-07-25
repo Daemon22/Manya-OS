@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — boundary enforcement.
+ * @manya-os/contracts — boundary enforcement.
  *
  * Enforces module-level call boundaries declared via a `BoundaryPolicy` — a
  * named collection of `BoundaryRule`s plus a `defaultAllow` flag. Rules map

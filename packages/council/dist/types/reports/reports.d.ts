@@ -1,5 +1,5 @@
 /**
- * @manya/council — review reports.
+ * @manya-os/council — review reports.
  *
  * The reports module aggregates everything the council produced for a single
  * problem — analyses, conflicts, debates, minority opinions, the consensus

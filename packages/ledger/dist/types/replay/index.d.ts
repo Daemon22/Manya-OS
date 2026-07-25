@@ -1,5 +1,5 @@
 /**
- * @manya/ledger — replay barrel.
+ * @manya-os/ledger — replay barrel.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

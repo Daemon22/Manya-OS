@@ -1,7 +1,7 @@
 /**
- * @manya/attest — device and session attestation for the MANYA Intelligence OS.
+ * @manya-os/attest — device and session attestation for the MANYA Intelligence OS.
  *
- * Public API surface for @manya/attest. Everything exported here is part of
+ * Public API surface for @manya-os/attest. Everything exported here is part of
  * the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.

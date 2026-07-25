@@ -1,5 +1,5 @@
 {
-  "name": "@manya/keyring",
+  "name": "@manya-os/keyring",
   "version": "1.0.0",
   "description": "Sovereign identity and credential wallet for the MANYA Intelligence OS.",
   "main": "dist/cjs/index.js",

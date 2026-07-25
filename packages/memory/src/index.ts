@@ -1,7 +1,7 @@
 /**
- * @manya/memory — unified memory system.
+ * @manya-os/memory — unified memory system.
  *
- * Public API surface for @manya/memory. Everything exported here is part
+ * Public API surface for @manya-os/memory. Everything exported here is part
  * of the stable, semver-bound public API.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
