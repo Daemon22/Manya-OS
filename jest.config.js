@@ -15,6 +15,7 @@ module.exports = {
     // back to the underlying .ts file (ts-jest does not do this natively).
     '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@manya/(.*)$': '<rootDir>/packages/$1/src',
+    '^@manya-os/(.*)$': '<rootDir>/packages/$1/src',
   },
   transform: {
     '^.+\\.ts$': ['ts-jest', {

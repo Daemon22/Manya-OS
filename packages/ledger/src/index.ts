@@ -97,7 +97,7 @@ export { EventReplayer } from './replay/replay.js';
 export type { ReplayFilter } from './replay/replay.js';
 
 // ----- store -----
-export type { LedgerStore } from './store/store.js';
+export type { LedgerStore, AsyncLedgerStore } from './store/store.js';
 export { InMemoryLedgerStore, cloneEvent } from './store/memory.js';
 export {
   FileLedgerStore,

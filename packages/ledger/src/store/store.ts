@@ -44,3 +44,28 @@ export interface LedgerStore {
   /** Replace the store's contents with `events`. Used by restore paths. */
   restore(events: LedgerEvent[]): void;
 }
+
+/**
+ * Async append-only persistence abstraction for a ledger chain.
+ *
+ * Mirrors {@link LedgerStore} but with Promise return types, suitable for
+ * network-backed stores (databases, APIs). Sync stores (InMemoryLedgerStore,
+ * FileLedgerStore) can satisfy this interface since sync return values are
+ * valid Promise return values.
+ */
+export interface AsyncLedgerStore {
+  /** Append an event to the store. */
+  append(event: LedgerEvent): Promise<void>;
+  /** Get the event at 1-based sequence number `seq`, or `undefined`. */
+  get(seq: number): Promise<LedgerEvent | undefined>;
+  /** Get the event with id `id`, or `undefined`. */
+  getById(id: string): Promise<LedgerEvent | undefined>;
+  /** Number of events in the store. */
+  length(): Promise<number>;
+  /** All events in chain order. */
+  all(): Promise<LedgerEvent[]>;
+  /** A deep copy of all events (for snapshotting). */
+  snapshot(): Promise<LedgerEvent[]>;
+  /** Replace the store's contents with `events`. Used by restore paths. */
+  restore(events: LedgerEvent[]): Promise<void>;
+}

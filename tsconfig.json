@@ -31,7 +31,20 @@
       "@manya/memory": ["packages/memory/src"],
       "@manya/constitution": ["packages/constitution/src"],
       "@manya/council": ["packages/council/src"],
-      "@manya/nervous-system": ["packages/nervous-system/src"]
+      "@manya/nervous-system": ["packages/nervous-system/src"],
+      "@manya-os/keyring": ["packages/keyring/src"],
+      "@manya-os/attest": ["packages/attest/src"],
+      "@manya-os/ledger": ["packages/ledger/src"],
+      "@manya-os/anonymize": ["packages/anonymize/src"],
+      "@manya-os/customs-shield": ["packages/customs-shield/src"],
+      "@manya-os/weave": ["packages/weave/src"],
+      "@manya-os/contracts": ["packages/contracts/src"],
+      "@manya-os/cortex": ["packages/cortex/src"],
+      "@manya-os/memory": ["packages/memory/src"],
+      "@manya-os/constitution": ["packages/constitution/src"],
+      "@manya-os/council": ["packages/council/src"],
+      "@manya-os/nervous-system": ["packages/nervous-system/src"],
+      "@manya-os/supabase": ["packages/supabase/src"]
     }
   },
   "files": [],
@@ -47,6 +60,7 @@
     { "path": "packages/memory" },
     { "path": "packages/constitution" },
     { "path": "packages/council" },
-    { "path": "packages/nervous-system" }
+    { "path": "packages/nervous-system" },
+    { "path": "packages/supabase" }
   ]
 }
