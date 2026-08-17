@@ -3,6 +3,11 @@
 All notable changes to `@manya/memory` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Adheres to [SemVer](https://semver.org/).
 
+## [1.1.0] — 2026-08-17
+### Added
+- Expanded test suite from 80 tests (1 file) to 235 tests (19 files).
+- Per-module test coverage: errors, logging, config, working, episodic, semantic, procedural, longterm, longterm-keys, index, link, permissions, rank, aging, compress, sync, backup, io, memory-system.
+
 ## [1.0.0] — 2024-01-15
 ### Added
 - Initial release.
