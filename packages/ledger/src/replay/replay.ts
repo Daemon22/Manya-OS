@@ -74,9 +74,7 @@ export class EventReplayer {
     if (Number.isNaN(toTimeMs)) {
       throw new ReplayError('replay: toTime is not a valid timestamp');
     }
-    let i = 0;
     for (const ev of this.events) {
-      i++;
       if (ev.seq < fromSeq || ev.seq > toSeq) continue;
       if (filter.type !== undefined && ev.type !== filter.type) continue;
       if (filter.actor !== undefined && ev.actor !== filter.actor) continue;
