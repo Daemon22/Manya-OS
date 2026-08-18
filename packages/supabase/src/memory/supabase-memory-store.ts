@@ -201,7 +201,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memoryEpisodic)
-        .delete()
+        .delete({ count: 'exact' })
         .eq('id', id);
       if (error) throw classifyError(error);
       return (count ?? 0) > 0;
@@ -229,7 +229,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memoryEpisodic)
-        .delete()
+        .delete({ count: 'exact' })
         .lt('timestamp', olderThan);
       if (error) throw classifyError(error);
       return count ?? 0;
@@ -266,7 +266,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memorySemantic)
-        .delete()
+        .delete({ count: 'exact' })
         .eq('id', id);
       if (error) throw classifyError(error);
       return (count ?? 0) > 0;
@@ -292,7 +292,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memorySemantic)
-        .update({ confidence })
+        .update({ confidence }, { count: 'exact' })
         .eq('id', id);
       if (error) throw classifyError(error);
       return (count ?? 0) > 0;
@@ -329,7 +329,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memoryLongterm)
-        .delete()
+        .delete({ count: 'exact' })
         .eq('id', id);
       if (error) throw classifyError(error);
       return (count ?? 0) > 0;
@@ -380,7 +380,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memoryLinks)
-        .delete()
+        .delete({ count: 'exact' })
         .eq('from_id', fromId)
         .eq('to_id', toId)
         .eq('relation', relation);
@@ -441,7 +441,7 @@ export class SupabaseMemoryStore implements MemoryStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.tables.memoryPermissions)
-        .delete()
+        .delete({ count: 'exact' })
         .eq('record_id', recordId);
       if (error) throw classifyError(error);
       return (count ?? 0) > 0;

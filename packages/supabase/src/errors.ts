@@ -84,7 +84,15 @@ export class ConfigError extends SupabaseError {
 export function classifyError(err: unknown): SupabaseError {
   if (err instanceof SupabaseError) return err;
 
-  const msg = err instanceof Error ? err.message : String(err);
+  const msg = err instanceof Error
+    ? err.message
+    : typeof err === 'object' && err !== null
+      ? [
+          'message' in err ? String((err as { message?: unknown }).message) : undefined,
+          'details' in err ? String((err as { details?: unknown }).details) : undefined,
+          'code' in err ? String((err as { code?: unknown }).code) : undefined,
+        ].filter(Boolean).join(': ')
+      : String(err);
   const lower = msg.toLowerCase();
 
   if (lower.includes('timeout') || lower.includes('etimedout')) {

@@ -35,16 +35,13 @@ LANGUAGE plpgsql
 SECURITY DEFINER
 SET search_path = public
 AS $$
-DECLARE
-  updated BOOLEAN;
 BEGIN
   UPDATE memory_longterm
   SET access_count = access_count + 1,
       last_accessed_at = p_accessed_at
   WHERE id = p_id;
 
-  GET DIAGNOSTICS updated = FOUND;
-  RETURN updated;
+  RETURN FOUND;
 END;
 $$;
 

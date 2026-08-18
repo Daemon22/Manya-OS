@@ -10,7 +10,7 @@ BEGIN;
 -- LEDGER — Append-only immutable audit events
 -- ============================================================
 CREATE TABLE IF NOT EXISTS ledger_events (
-  seq           BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  seq           BIGINT PRIMARY KEY,
   id            TEXT NOT NULL UNIQUE,
   type          TEXT NOT NULL,
   actor         TEXT NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS attest_sessions (
   session_id     TEXT NOT NULL UNIQUE,
   created_at     TIMESTAMPTZ NOT NULL,
   expires_at     TIMESTAMPTZ NOT NULL,
-  fingerprint    JSONB NOT NULL,
+  fingerprint    TEXT NOT NULL,
   identity       TEXT,
   trust_score    REAL,
   bound_nonce    TEXT NOT NULL,

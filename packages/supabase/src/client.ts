@@ -52,18 +52,32 @@ export class SupabaseClientFacade {
   /** Verify connectivity by running a lightweight query. */
   async ping(): Promise<boolean> {
     try {
-      const { error } = await this.client
-        .from('pg_catalog')
-        .select('1')
-        .limit(1)
-        .maybeSingle();
-      // pg_catalog may not be accessible via PostgREST; fallback to raw
-      if (error) {
-        // Try a simple RPC call instead
-        const { error: rpcError } = await this.client.rpc('version');
-        return !rpcError;
-      }
-      return true;
+      const pingSignal = AbortSignal.timeout(Math.min(this.config.timeoutMs, 1000));
+      const pingClient = createClient(this.config.url, this.config.serviceRoleKey, {
+        auth: { autoRefreshToken: false, persistSession: false },
+        db: { schema: 'public' },
+        global: {
+          headers: { 'x-manya-client': '@manya-os/supabase' },
+          fetch: (url: string | URL | Request, init?: RequestInit) => fetch(url, { ...init, signal: pingSignal }),
+        },
+      });
+      return await Promise.race([
+        (async () => {
+          const { error } = await pingClient
+            .from('pg_catalog')
+            .select('1')
+            .limit(1)
+            .maybeSingle();
+          // pg_catalog may not be accessible via PostgREST; fallback to raw
+          if (error) {
+            // Try a simple RPC call instead
+            const { error: rpcError } = await pingClient.rpc('version');
+            return !rpcError;
+          }
+          return true;
+        })(),
+        new Promise<boolean>((resolve) => setTimeout(() => resolve(false), 1500)),
+      ]);
     } catch {
       return false;
     }

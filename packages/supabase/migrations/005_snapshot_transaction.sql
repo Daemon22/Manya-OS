@@ -56,7 +56,7 @@ BEGIN
       (f->>'id')::TEXT,
       (f->>'entity')::TEXT,
       (f->>'attribute')::TEXT,
-      (f->>'value')::TEXT,
+      f->'value',
       (f->>'confidence')::REAL,
       (f->>'learnedAt')::BIGINT,
       (f->>'source')::TEXT,

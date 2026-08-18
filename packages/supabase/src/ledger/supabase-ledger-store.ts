@@ -20,7 +20,7 @@ import { withRetry } from '../retry.js';
 function toEvent(row: LedgerEventRow): LedgerEvent {
   return {
     id: row.id,
-    seq: row.seq,
+    seq: Number(row.seq),
     type: row.type,
     actor: row.actor,
     payload: row.payload ?? {},

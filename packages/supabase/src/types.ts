@@ -83,7 +83,7 @@ export interface AttestSessionRow {
   session_id: string;
   created_at: string;
   expires_at: string;
-  fingerprint: Record<string, unknown>;
+  fingerprint: string;
   identity: string | null;
   trust_score: number | null;
   bound_nonce: string;

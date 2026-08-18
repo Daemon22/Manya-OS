@@ -64,5 +64,5 @@ describeIfIntegration('Migrations', () => {
     for (const s of status) {
       expect(typeof s.applied).toBe('boolean');
     }
-  });
+  }, 30000);
 });

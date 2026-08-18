@@ -88,7 +88,7 @@ Or apply manually via the Supabase SQL Editor.
 
 ### 2. Schema Overview
 
-15 tables across 6 domains:
+16 tables across 6 domains plus migration tracking:
 
 | Domain | Tables | Owner |
 |---|---|---|
@@ -99,6 +99,7 @@ Or apply manually via the Supabase SQL Editor.
 | Council | `council_debates`, `council_decisions` | `@manya-os/council` |
 | Constitution | `constitution_audit` | `@manya-os/constitution` |
 | Customs | `customs_reports` | `@manya-os/customs-shield` |
+| Migrations | `schema_migrations` | `@manya-os/supabase` |
 
 ### 3. Row Level Security
 
@@ -124,7 +125,17 @@ npm test -- --testPathPattern=packages/supabase
 
 ### Integration Tests
 
-Integration tests require a real Supabase instance:
+Integration tests require a real Supabase/Postgres instance. Two options:
+
+**Option A — Local (no Docker required):**
+
+```bash
+# Starts embedded Postgres + Supabase-compatible REST proxy, applies
+# migrations, runs all tests, then cleans up:
+node scripts/run-integration-tests.js
+```
+
+**Option B — Remote Supabase project:**
 
 ```bash
 # 1. Set up environment

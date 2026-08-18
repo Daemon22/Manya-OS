@@ -41,7 +41,7 @@ function toRow(record: SessionRecord): Record<string, unknown> {
     fingerprint: record.fingerprint,
     identity: record.identity ?? null,
     trust_score: record.trustScore ?? null,
-    bound_nonce: record.boundNonce ?? null,
+    bound_nonce: record.boundNonce ?? '',
   };
 }
 
@@ -109,7 +109,7 @@ export class SupabaseSessionStore {
     return withRetry(async () => {
       const { error, count } = await this.client
         .from(this.table)
-        .delete()
+        .delete({ count: 'exact' })
         .eq('token', token);
 
       if (error) throw classifyError(error);
@@ -136,7 +136,7 @@ export class SupabaseSessionStore {
       const now = new Date().toISOString();
       const { error, count } = await this.client
         .from(this.table)
-        .delete()
+        .delete({ count: 'exact' })
         .lt('expires_at', now);
 
       if (error) throw classifyError(error);
