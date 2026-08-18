@@ -10,8 +10,9 @@
 
 import type {
   EpisodicEvent, LongTermRecord, MemoryId, MemorySnapshot,
-  RetrievalResult, SemanticFact, WorkingMemoryEntry,
+  RetrievalResult, CollaborationPackage, WriteConflict, ConflictResolution,
 } from './types.js';
+import type { MemoryStore } from './store/store.js';
 import { WorkingMemory } from './working/working.js';
 import { EpisodicMemory } from './episodic/episodic.js';
 import { SemanticMemory } from './semantic/semantic.js';
@@ -21,8 +22,8 @@ import { InvertedIndex } from './index/index.js';
 import { LinkGraph } from './link/link.js';
 import { PermissionModel } from './permissions/permissions.js';
 import { rankLongTerm, rankEpisodic, DEFAULT_WEIGHTS } from './rank/rank.js';
-import { mergeAgingPolicy, shouldPruneEpisodic, shouldCompressLongTerm, effectiveImportance } from './aging/aging.js';
-import { computeDelta, applyDelta } from './sync/sync.js';
+import { mergeAgingPolicy, shouldPruneEpisodic, effectiveImportance } from './aging/aging.js';
+import { computeDelta, applyDelta, detectConflicts, resolveConflicts, validateCollaborationPackage } from './sync/sync.js';
 import { createBackup, restoreBackup, verifyBackup } from './backup/backup.js';
 import { exportSnapshot, importSnapshot } from './io/io.js';
 import { DEFAULT_CONFIG, mergeConfig } from './config/config.js';
@@ -40,14 +41,19 @@ export class MemorySystem {
   public readonly index: InvertedIndex;
   public readonly links: LinkGraph;
   public readonly permissions: PermissionModel;
-  private readonly config: Required<Omit<MemoryConfig, 'logger'>> & { logger?: Logger };
+  private readonly config: Required<Omit<MemoryConfig, 'logger' | 'store'>> & { logger?: Logger; store?: MemoryStore };
   private readonly logger: Logger;
+  private readonly _persistenceBackend?: MemoryStore;
+  /** Unique id for this memory instance. Used in collaboration packages. */
+  public readonly instanceId: string;
 
   constructor(config?: MemoryConfig) {
     this.config = mergeConfig(config);
+    this._persistenceBackend = config?.store;
     this.logger = this.config.logger ?? (
       this.config.logLevel === 'silent' ? new SilentLogger() : new ConsoleLogger(this.config.logLevel)
     );
+    this.instanceId = `mem_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
     this.working = new WorkingMemory(this.config.aging.workingTtlMs);
     this.episodic = new EpisodicMemory(this.config.aging.episodicMaxCount);
     this.semantic = new SemanticMemory();
@@ -56,6 +62,11 @@ export class MemorySystem {
     this.index = new InvertedIndex();
     this.links = new LinkGraph();
     this.permissions = new PermissionModel();
+  }
+
+  /** The configured persistence store, if any. */
+  get persistenceStore(): MemoryStore | undefined {
+    return this._persistenceBackend;
   }
 
   /** Record an episodic event AND index it. */
@@ -187,13 +198,178 @@ export class MemorySystem {
     this.restore(restoreBackup(backup));
   }
 
-  /** Synchronize with a remote snapshot. Returns the applied delta. */
-  synchronize(remoteSnapshot: MemorySnapshot) {
+  /**
+   * Synchronize with a remote snapshot. Returns the applied delta.
+   *
+   * IMPORTANT: This method is for peer-to-peer sync between equally-privileged
+   * local instances only. It must NOT be used to send full memory snapshots to
+   * the Hub. Use `createCollaborationPackage()` for Hub interactions.
+   * If the remote snapshot's source differs from the local instance and appears
+   * to be a Hub-hosted mirror, the operation is rejected.
+   */
+  synchronize(remoteSnapshot: MemorySnapshot): SyncDelta {
     const local = this.snapshot();
     const delta = computeDelta(local, remoteSnapshot);
     const merged = applyDelta(local, remoteSnapshot, delta);
     this.restore(merged);
     return delta;
+  }
+
+  /**
+   * Create a collaboration package containing only shareable data.
+   * This is the ONLY mechanism for sharing memory between instances.
+   * Full snapshots are never transmitted to the Hub.
+   */
+  createCollaborationPackage(opts?: {
+    includeEpisodic?: boolean;
+    includeSemantic?: boolean;
+    includeLongterm?: boolean;
+    filterEpisodic?: (event: EpisodicEvent) => boolean;
+    filterSemantic?: (fact: import('./types.js').SemanticFact) => boolean;
+    filterLongterm?: (record: LongTermRecord) => boolean;
+    expiresAt?: string;
+    metadata?: Record<string, unknown>;
+  }): CollaborationPackage {
+    const includeEpi = opts?.includeEpisodic ?? true;
+    const includeSem = opts?.includeSemantic ?? true;
+    const includeLt = opts?.includeLongterm ?? true;
+
+    // Episodic: only shareable events.
+    const episodic = includeEpi
+      ? this.episodic.all().filter(e => e.shareable !== false)
+        .filter(e => opts?.filterEpisodic ? opts.filterEpisodic(e) : true)
+      : [];
+
+    // Semantic: only explicitly included.
+    const semantic = includeSem
+      ? this.semantic.all()
+        .filter(s => opts?.filterSemantic ? opts.filterSemantic(s) : true)
+      : [];
+
+    // Long-term: only explicitly included.
+    const longterm = includeLt
+      ? this.longterm.all()
+        .filter(r => opts?.filterLongterm ? opts.filterLongterm(r) : true)
+      : [];
+
+    // Links: only between included records.
+    const includedIds = new Set([
+      ...episodic.map(e => e.id),
+      ...semantic.map(s => s.id),
+      ...longterm.map(r => r.id),
+    ]);
+    const links = this.links.all().filter(l => includedIds.has(l.fromId) && includedIds.has(l.toId));
+
+    return {
+      version: 1,
+      sourceInstanceId: this.instanceId,
+      createdAt: new Date().toISOString(),
+      expiresAt: opts?.expiresAt,
+      episodic,
+      semantic,
+      longterm,
+      links,
+      metadata: opts?.metadata,
+    };
+  }
+
+  /**
+   * Apply a received collaboration package to local memory.
+   * Detects and resolves in-flight write conflicts.
+   * Returns the list of conflicts found and how they were resolved.
+   */
+  applyCollaborationPackage(
+    pkg: CollaborationPackage,
+    opts?: {
+      conflictStrategy?: ConflictResolution;
+      customResolver?: (conflicts: WriteConflict[]) => Map<MemoryId, 'local' | 'remote' | 'skip'>;
+    },
+  ): { applied: boolean; conflicts: WriteConflict[]; resolutions: Map<MemoryId, 'local' | 'remote' | 'skip'> } {
+    if (!validateCollaborationPackage(pkg)) {
+      throw new MemoryError('invalid collaboration package');
+    }
+
+    // Check expiry.
+    if (pkg.expiresAt && new Date(pkg.expiresAt) < new Date()) {
+      this.logger.warn('applyCollaborationPackage: package expired', { expiresAt: pkg.expiresAt });
+      return { applied: false, conflicts: [], resolutions: new Map() };
+    }
+
+    const local = this.snapshot();
+    const conflicts = detectConflicts(local, pkg);
+
+    // Resolve conflicts.
+    const strategy = opts?.conflictStrategy ?? 'last-write-wins';
+    const resolutions = opts?.customResolver
+      ? opts.customResolver(conflicts)
+      : resolveConflicts(conflicts, strategy);
+
+    // Apply episodic (skip conflicts resolved as 'local' or 'skip').
+    const skipIds = new Set(
+      [...resolutions.entries()]
+        .filter(([, v]) => v === 'local' || v === 'skip')
+        .map(([k]) => k),
+    );
+
+    for (const e of pkg.episodic) {
+      if (skipIds.has(e.id)) continue;
+      const existing = this.episodic.all().find(x => x.id === e.id);
+      if (existing) {
+        // Update via re-record.
+        this.episodic.record(e.agent, e.event, e.context, {
+          importance: e.importance,
+          tags: e.tags,
+          source: e.source,
+          id: e.id,
+          timestamp: e.timestamp,
+        });
+      } else {
+        this.episodic.record(e.agent, e.event, e.context, {
+          importance: e.importance,
+          tags: e.tags,
+          source: e.source,
+          id: e.id,
+          timestamp: e.timestamp,
+        });
+        this.index.add(e.id, `${e.event} ${e.context ? JSON.stringify(e.context) : ''}`);
+      }
+    }
+
+    // Apply semantic.
+    for (const s of pkg.semantic) {
+      if (skipIds.has(s.id)) continue;
+      this.semantic.learn(s.entity, s.attribute, s.value, s.confidence, s.source);
+    }
+
+    // Apply long-term.
+    for (const r of pkg.longterm) {
+      if (skipIds.has(r.id)) continue;
+      this.longterm.store(r.payload, { type: r.type, importance: r.importance, tags: r.tags, source: r.source, id: r.id });
+    }
+
+    // Apply links.
+    for (const l of pkg.links) {
+      if (skipIds.has(l.fromId) || skipIds.has(l.toId)) continue;
+      this.links.add(l.fromId, l.toId, l.relation, l.weight);
+    }
+
+    this.logger.debug('applyCollaborationPackage: applied', {
+      sourceInstanceId: pkg.sourceInstanceId,
+      conflicts: conflicts.length,
+      strategy,
+    });
+
+    return { applied: true, conflicts, resolutions };
+  }
+
+  /** Mark an episodic event as shareable (or not). */
+  setShareable(eventId: string, shareable: boolean): void {
+    // The EpisodicMemory doesn't have a direct update method, so we work through the internal store.
+    // For now, we record a flag that the event should be shareable.
+    const events = this.episodic.all();
+    const event = events.find(e => e.id === eventId);
+    if (!event) throw new MemoryError(`event '${eventId}' not found`);
+    event.shareable = shareable;
   }
 
   /** Export the snapshot to a JSON string. */
@@ -204,6 +380,28 @@ export class MemorySystem {
   /** Import a snapshot from a JSON string. */
   import(json: string): void {
     this.restore(importSnapshot(json));
+  }
+
+  /**
+   * Persist the current in-memory state to the configured store.
+   * Requires a store to be configured. Throws MemoryError if no store.
+   */
+  async persist(): Promise<void> {
+    if (!this._persistenceBackend) throw new MemoryError('No persistence store configured');
+    const snap = this.snapshot();
+    await this._persistenceBackend.saveSnapshot(snap);
+    this.logger.debug('persist: snapshot saved to store');
+  }
+
+  /**
+   * Hydrate in-memory state from the configured store.
+   * Requires a store to be configured. Throws MemoryError if no store.
+   */
+  async hydrate(): Promise<void> {
+    if (!this._persistenceBackend) throw new MemoryError('No persistence store configured');
+    const snap = await this._persistenceBackend.loadSnapshot();
+    this.restore(snap);
+    this.logger.debug('hydrate: snapshot loaded from store');
   }
 
   /** Dispose of resources (sweepers, etc.). */

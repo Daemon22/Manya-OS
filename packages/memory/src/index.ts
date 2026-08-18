@@ -40,6 +40,10 @@ export { LinkGraph } from './link/link.js';
 // ----- permissions -----
 export { PermissionModel } from './permissions/permissions.js';
 
+// ----- persistence store -----
+export { InMemoryMemoryStore } from './store/store.js';
+export type { MemoryStore } from './store/store.js';
+
 // ----- ranking -----
 export { rankLongTerm, rankEpisodic, DEFAULT_WEIGHTS } from './rank/rank.js';
 export type { RankingWeights } from './rank/rank.js';
@@ -55,7 +59,7 @@ export { compress, decompress, ratio } from './compress/compress.js';
 export type { CompressedPayload } from './compress/compress.js';
 
 // ----- sync -----
-export { computeDelta, applyDelta } from './sync/sync.js';
+export { computeDelta, applyDelta, detectConflicts, resolveConflicts, validateCollaborationPackage } from './sync/sync.js';
 export type { SyncDelta } from './sync/sync.js';
 
 // ----- backup -----

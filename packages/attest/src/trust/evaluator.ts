@@ -10,7 +10,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 
-import type { TrustEvaluationInputs, TrustFactors, TrustScore } from '../types.js';
+import type { TrustEvaluationInputs, TrustFactors, TrustScore, GrantValidityCheck } from '../types.js';
 import { TrustEvaluationError } from '../errors.js';
 import {
   DEFAULT_FACTOR_WEIGHTS,
@@ -25,17 +25,25 @@ import {
  *
  * Construct with custom {@link TrustFactors} weights to tune the relative
  * importance of each signal. Default weights are {@link DEFAULT_FACTOR_WEIGHTS}.
+ *
+ * Optionally provide a {@link GrantValidityCheck} callback to allow active
+ * capability grants to influence the trust decision. When a valid grant is
+ * found, the trust decision is upgraded to 'trust' regardless of the raw score.
  */
 export class TrustEvaluator {
   private readonly weights: TrustFactors;
+  private readonly grantCheck?: GrantValidityCheck;
 
   /**
    * @param weights - Per-factor weights. Renormalized to sum to 1.0 if they
    *   don't already (within a small epsilon). Defaults to
    *   {@link DEFAULT_FACTOR_WEIGHTS}.
+   * @param grantCheck - Optional callback to check if a capability grant
+   *   is valid. When provided, valid grants can upgrade trust decisions.
    */
-  constructor(weights: TrustFactors = DEFAULT_FACTOR_WEIGHTS) {
+  constructor(weights: TrustFactors = DEFAULT_FACTOR_WEIGHTS, grantCheck?: GrantValidityCheck) {
     this.weights = normalizeWeights(weights);
+    this.grantCheck = grantCheck;
   }
 
   /**
@@ -49,10 +57,25 @@ export class TrustEvaluator {
    * Evaluate a trust score from raw inputs.
    *
    * @param inputs - The raw trust inputs.
+   * @param grantId - Optional capability grant id to check for validity.
+   * @param capability - Optional capability string to check against the grant.
    * @returns The computed {@link TrustScore}.
    */
-  evaluate(inputs: TrustEvaluationInputs): TrustScore {
-    return buildTrustScore(inputs, this.weights);
+  evaluate(inputs: TrustEvaluationInputs, grantId?: string, capability?: string): TrustScore {
+    let score = buildTrustScore(inputs, this.weights);
+
+    // Check grant validity and potentially upgrade the decision.
+    if (grantId && capability && this.grantCheck) {
+      if (this.grantCheck(grantId, capability)) {
+        score = {
+          ...score,
+          decision: 'trust',
+          grantInfluence: grantId,
+        };
+      }
+    }
+
+    return score;
   }
 
   /**
@@ -61,11 +84,22 @@ export class TrustEvaluator {
    * under new weights.
    *
    * @param factors - Pre-computed per-factor contributions.
+   * @param grantId - Optional grant id to check.
+   * @param capability - Optional capability to check against the grant.
    */
-  evaluateFromFactors(factors: TrustFactors): TrustScore {
+  evaluateFromFactors(factors: TrustFactors, grantId?: string, capability?: string): TrustScore {
     const score = aggregateScore(factors, this.weights);
-    const decision = decideFromScore(score);
-    return { score, factors, decision };
+    let decision = decideFromScore(score);
+    let grantInfluence: string | undefined;
+
+    if (grantId && capability && this.grantCheck) {
+      if (this.grantCheck(grantId, capability)) {
+        decision = 'trust';
+        grantInfluence = grantId;
+      }
+    }
+
+    return { score, factors, decision, grantInfluence };
   }
 
   /**

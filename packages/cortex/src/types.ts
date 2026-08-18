@@ -222,7 +222,43 @@ export type Intent = 'planning' | 'recall' | 'execution' | 'communication' | 'an
 /** A reasoning event for observability. */
 export interface ReasoningEvent {
   id: string;
-  type: 'goal_set' | 'plan_created' | 'task_scheduled' | 'task_started' | 'task_completed' | 'task_failed' | 'tool_invoked' | 'confidence_updated' | 'workflow_step' | 'retry' | 'coordinated';
+  type: 'goal_set' | 'plan_created' | 'task_scheduled' | 'task_started' | 'task_completed' | 'task_failed' | 'tool_invoked' | 'confidence_updated' | 'workflow_step' | 'retry' | 'coordinated' | 'knowledge_registered' | 'knowledge_updated' | 'knowledge_queried';
   timestamp: number;
   meta?: Record<string, unknown>;
+}
+
+// ----- knowledge registry types -----
+
+/** A single provenance entry tracking which component owns a knowledge key. */
+export interface ProvenanceEntry {
+  /** The knowledge key (e.g. 'user:preferences:theme'). */
+  key: string;
+  /** The component that registered this key. */
+  ownerComponentId: string;
+  /** Epoch ms when first registered. */
+  registeredAt: number;
+  /** Epoch ms when last updated. */
+  lastUpdated: number;
+  /** Optional human-readable description of what this key represents. */
+  description?: string;
+}
+
+/** A delta payload representing changes since a given timestamp. */
+export interface DeltaPayload {
+  /** Keys that were newly registered after `since`. */
+  added: ProvenanceEntry[];
+  /** Keys that were updated after `since` (registered earlier, modified later). */
+  changed: ProvenanceEntry[];
+  /** Keys that were derived (i.e. not directly registered but computed from others). */
+  derived: ProvenanceEntry[];
+}
+
+/** Result of a diff operation. */
+export interface DiffResult {
+  /** Whether any changes exist since the given timestamp. */
+  hasChanges: boolean;
+  /** The delta payload. */
+  delta: DeltaPayload;
+  /** Timestamp of the diff query. */
+  queriedAt: number;
 }

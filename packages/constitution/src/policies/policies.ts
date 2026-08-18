@@ -382,11 +382,11 @@ function deepEqual(a: unknown, b: unknown): boolean {
 function evaluate(node: AstNode, context: GovernanceContext): unknown {
   switch (node.kind) {
     case 'and':
-      return Boolean(evaluate(node.left, context)) && Boolean(evaluate(node.right, context));
+      return evaluate(node.left, context) && evaluate(node.right, context);
     case 'or':
-      return Boolean(evaluate(node.left, context)) || Boolean(evaluate(node.right, context));
+      return evaluate(node.left, context) || evaluate(node.right, context);
     case 'not':
-      return !Boolean(evaluate(node.operand, context));
+      return !evaluate(node.operand, context);
     case 'cmp': {
       const left = evaluate(node.left, context);
       const right = evaluate(node.right, context);

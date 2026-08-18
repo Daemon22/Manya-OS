@@ -24,13 +24,16 @@
 
 import type {
   EnforcementResult, GovernanceContext, PermissionModel, PolicySet,
-  RuleSet, SafetyRule, SafetyViolation,
+  RuleSet, SafetyRule, SafetyViolation, ConstitutionGrant,
 } from '../types.js';
 import { EnforcementError } from '../errors.js';
 import { evaluateRuleSet } from '../rules/rules.js';
 import { evaluatePolicySet } from '../policies/policies.js';
 import { can } from '../permissions/permissions.js';
 import { SafetyChecker, type SafetyPredicate } from '../safety/safety.js';
+
+/** Callback to check if a capability grant is valid. */
+export type GrantCheck = (grantId: string, resource: string, action: string) => boolean;
 
 /** An entry in the enforcement audit log. */
 export interface AuditEntry {
@@ -72,6 +75,9 @@ export class EnforcementEngine {
   private safety?: SafetyChecker;
   private readonly audit: AuditEntry[] = [];
   private readonly requireApprovalDenies: boolean;
+  private grantCheck?: GrantCheck;
+  private readonly grants: ConstitutionGrant[] = [];
+  private readonly grantRevocations: import('../types.js').GrantRevocationEvent[] = [];
 
   constructor(opts: { requireApprovalDenies?: boolean } = {}) {
     this.requireApprovalDenies = opts.requireApprovalDenies ?? true;
@@ -114,6 +120,41 @@ export class EnforcementEngine {
     return this;
   }
 
+  /** Register a grant validity check callback. */
+  registerGrantCheck(check: GrantCheck): this {
+    this.grantCheck = check;
+    return this;
+  }
+
+  /** Register a capability grant for governance tracking. */
+  registerGrant(grant: ConstitutionGrant): this {
+    this.grants.push(grant);
+    return this;
+  }
+
+  /** Revoke a grant. */
+  revokeGrant(grantId: string, revokedBy: string, reason?: string): void {
+    const grant = this.grants.find(g => g.id === grantId);
+    if (!grant) throw new EnforcementError(`grant '${grantId}' not found`);
+    grant.revoked = true;
+    this.grantRevocations.push({
+      grantId,
+      revokedAt: new Date().toISOString(),
+      revokedBy,
+      reason,
+    });
+  }
+
+  /** Get all registered grants. */
+  getGrants(): ConstitutionGrant[] {
+    return [...this.grants];
+  }
+
+  /** Get all grant revocations. */
+  getGrantRevocations(): import('../types.js').GrantRevocationEvent[] {
+    return [...this.grantRevocations];
+  }
+
   /**
    * Evaluates `action` by `subject` against the registered governance.
    * Returns an `EnforcementResult` and appends an entry to the audit log.
@@ -130,16 +171,36 @@ export class EnforcementEngine {
     }
     const reasons: string[] = [];
     const violations: string[] = [];
+    let grantUsed: string | undefined;
 
-    // 1. Permissions
-    if (this.permissionModel) {
+    // 0. Grant check (checked before permissions — grants override role-based access).
+    if (this.grantCheck) {
+      const resource = context.resource ?? '*';
+      // Check all active grants for this subject.
+      const activeGrants = this.grants.filter(
+        g => g.subject === context.subject
+          && !g.revoked
+          && new Date() >= new Date(g.validFrom)
+          && new Date() <= new Date(g.validUntil),
+      );
+      for (const grant of activeGrants) {
+        if (this.grantCheck(grant.id, resource, action)) {
+          grantUsed = grant.id;
+          reasons.push(`capability grant '${grant.id}' permits '${action}' on '${resource}'`);
+          break;
+        }
+      }
+    }
+
+    // 1. Permissions (skip if a grant already authorized).
+    if (!grantUsed && this.permissionModel) {
       const permitted = can(this.permissionModel, subject, action);
       if (permitted) {
         reasons.push(`permission granted: ${subject} can ${action}`);
       } else {
         violations.push(`permission denied: ${subject} cannot ${action}`);
       }
-    } else {
+    } else if (!grantUsed) {
       reasons.push('no permission model registered; skipping permission check');
     }
 
@@ -208,7 +269,7 @@ export class EnforcementEngine {
       violations,
     };
     this.audit.push(entry);
-    return { allowed, reasons, violations, auditId };
+    return { allowed, reasons, violations, auditId, grantUsed };
   }
 
   /** Returns a defensive copy of the audit log. */

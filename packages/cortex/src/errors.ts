@@ -50,3 +50,6 @@ export class RetryError extends CortexError {
 export class CoordinationError extends CortexError {
   constructor(message: string, cause?: unknown) { super(message, 'COORDINATION_ERROR', cause); }
 }
+export class KnowledgeError extends CortexError {
+  constructor(message: string, cause?: unknown) { super(message, 'KNOWLEDGE_ERROR', cause); }
+}

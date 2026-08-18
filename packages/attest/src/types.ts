@@ -237,7 +237,15 @@ export interface TrustScore {
   factors: TrustFactors;
   /** Overall decision based on `score`. */
   decision: 'trust' | 'challenge' | 'reject';
+  /** Whether any active capability grant influenced the trust decision. */
+  grantInfluence?: string;
 }
+
+/**
+ * Callback to check if a capability grant is still valid.
+ * Returns true if the grant is active and covers the specified capability.
+ */
+export type GrantValidityCheck = (grantId: string, capability: string) => boolean;
 
 /**
  * Authentication policy. Configures the {@link import('./workflow/authenticator.js').AuthenticationWorkflow}.

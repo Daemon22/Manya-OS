@@ -43,6 +43,9 @@ export { Planner, topoSort } from './planner/planner.js';
 // ----- tools -----
 export { ToolRegistry } from './tools/registry.js';
 
+// ----- knowledge registry -----
+export { KnowledgeRegistry } from './registry/knowledge.js';
+
 // ----- router -----
 export { Router } from './router/router.js';
 

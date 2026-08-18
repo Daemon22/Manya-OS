@@ -8,10 +8,13 @@
 import type { AgingPolicy } from '../types.js';
 import type { Logger, LogLevel } from '../logging.js';
 import type { RankingWeights } from '../rank/rank.js';
+import type { MemoryStore } from '../store/store.js';
 
 export interface MemoryConfig {
   aging?: AgingPolicy;
   rankingWeights?: RankingWeights;
+  /** Optional persistence backend. When absent, everything is in-memory. */
+  store?: MemoryStore;
   logLevel?: LogLevel;
   logger?: Logger;
 }

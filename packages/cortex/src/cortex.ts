@@ -24,6 +24,7 @@ import { ConfidenceEstimator } from './confidence/confidence.js';
 import { ResourceManager } from './resources/manager.js';
 import { WorkflowEngine } from './workflow/engine.js';
 import { Coordinator } from './coordinate/coordinator.js';
+import { KnowledgeRegistry } from './registry/knowledge.js';
 import { DEFAULT_CONFIG, mergeConfig } from './config/config.js';
 import type { CortexConfig } from './config/config.js';
 import { ConsoleLogger, SilentLogger } from './logging.js';
@@ -40,6 +41,7 @@ export class Cortex {
   public readonly resources: ResourceManager;
   public readonly workflows: WorkflowEngine;
   public readonly coordinator: Coordinator;
+  public readonly knowledge: KnowledgeRegistry;
   private readonly config: Required<Omit<CortexConfig, 'logger'>> & { logger?: Logger };
   private readonly logger: Logger;
 
@@ -56,6 +58,7 @@ export class Cortex {
     this.confidence = new ConfidenceEstimator();
     this.resources = new ResourceManager(this.config.resourceBudget);
     this.workflows = new WorkflowEngine(this.tools);
+    this.knowledge = new KnowledgeRegistry();
     this.coordinator = new Coordinator(
       this.tools, this.scheduler, this.resources, this.confidence,
       { logger: this.logger, retryPolicy: this.config.retryPolicy },
@@ -107,6 +110,16 @@ export class Cortex {
   /** Get all reasoning events from the last coordination run. */
   getEvents(): ReasoningEvent[] {
     return this.coordinator.getEvents();
+  }
+
+  /** Register a knowledge key in the cortex knowledge registry. */
+  registerKnowledge(key: string, ownerComponentId: string, opts?: { description?: string }): void {
+    this.knowledge.register(key, ownerComponentId, opts);
+  }
+
+  /** Query knowledge ownership. */
+  queryKnowledge(key: string): string | undefined {
+    return this.knowledge.lookup(key)?.ownerComponentId;
   }
 
   /** Reset the cortex for a fresh run. */

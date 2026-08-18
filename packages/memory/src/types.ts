@@ -31,6 +31,8 @@ export interface EpisodicEvent {
   tags?: string[];
   importance?: number;  // [0,1] — affects aging & ranking
   source?: string;
+  /** Whether this event may be included in collaboration packages. */
+  shareable?: boolean;
 }
 
 /** A semantic fact (entity-attribute-value style). */
@@ -129,4 +131,49 @@ export interface AgingPolicy {
   episodicPruneThreshold?: number;
   /** Days after which low-importance long-term records get compressed. */
   longtermCompressAfterDays?: number;
+}
+
+// ----- collaboration types -----
+
+/**
+ * A narrow, curated subset of memory that may be shared between instances.
+ * This is NOT a full snapshot — only data explicitly marked as shareable
+ * is included. The Hub never receives full memory snapshots.
+ */
+export interface CollaborationPackage {
+  /** Package format version. */
+  version: 1;
+  /** Instance id of the source. */
+  sourceInstanceId: string;
+  /** ISO-8601 timestamp when the package was created. */
+  createdAt: string;
+  /** ISO-8601 timestamp when the package expires (optional). */
+  expiresAt?: string;
+  /** Only episodic events marked shareable. */
+  episodic: EpisodicEvent[];
+  /** Only semantic facts explicitly included. */
+  semantic: SemanticFact[];
+  /** Only long-term records explicitly included. */
+  longterm: LongTermRecord[];
+  /** Links between included records only. */
+  links: MemoryLink[];
+  /** Arbitrary metadata about the collaboration context. */
+  metadata?: Record<string, unknown>;
+}
+
+/** Conflict resolution strategy for sync. */
+export type ConflictResolution = 'last-write-wins' | 'local-wins' | 'remote-wins' | 'manual';
+
+/** A detected in-flight write conflict. */
+export interface WriteConflict {
+  /** Record id. */
+  id: MemoryId;
+  /** Memory type. */
+  memoryType: MemoryType;
+  /** Local version timestamp. */
+  localTimestamp: number;
+  /** Remote version timestamp. */
+  remoteTimestamp: number;
+  /** Which side wins. */
+  resolution: 'local' | 'remote' | 'manual';
 }

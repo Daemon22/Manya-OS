@@ -309,14 +309,14 @@ export class EventFabric {
   on(event: 'published', handler: (event: NervousEvent) => void): this;
   on(event: 'error', handler: (err: Error, event: NervousEvent) => void): this;
   on(event: 'dropped', handler: (event: NervousEvent) => void): this;
-  on(event: string, handler: (...args: any[]) => void): this {
-    this.ee.on(event, handler as (...args: unknown[]) => void);
+  on(event: string, handler: (...args: unknown[]) => void): this {
+    this.ee.on(event, handler);
     return this;
   }
 
   /** Remove a fabric-level event listener. */
-  off(event: string, handler: (...args: any[]) => void): this {
-    this.ee.off(event, handler as (...args: unknown[]) => void);
+  off(event: string, handler: (...args: unknown[]) => void): this {
+    this.ee.off(event, handler);
     return this;
   }
 

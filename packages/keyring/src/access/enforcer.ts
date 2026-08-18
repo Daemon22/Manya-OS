@@ -7,25 +7,34 @@
 
 import { Role, RoleManager } from '../identity/roles.js';
 import type { AccessPolicySet, AccessPolicy } from './policy.js';
-import type { EnforcementResult } from '../types.js';
+import type { EnforcementResult, CapabilityGrant } from '../types.js';
 import { AccessDeniedError } from '../errors.js';
+import { CapabilityGrantManager } from './grants.js';
 
 /**
- * Access enforcer. Combines a {@link RoleManager} and an
- * {@link AccessPolicySet} to render allow/deny decisions.
+ * Access enforcer. Combines a {@link RoleManager}, an
+ * {@link AccessPolicySet}, and optionally a {@link CapabilityGrantManager}
+ * to render allow/deny decisions.
  *
  * Decision algorithm:
- * 1. Resolve the caller's roles via {@link RoleManager.getRoles}.
- * 2. Look up the most-specific matching policy. If none matches, deny.
- * 3. If any caller role is in `policy.deny`, deny.
- * 4. If any caller role is in `policy.allow`, allow.
- * 5. Otherwise deny.
+ * 1. Check active capability grants for the identity. If a grant covers
+ *    this resource + action and is valid, allow immediately.
+ * 2. Resolve the caller's roles via {@link RoleManager.getRoles}.
+ * 3. Look up the most-specific matching policy. If none matches, deny.
+ * 4. If any caller role is in `policy.deny`, deny.
+ * 5. If any caller role is in `policy.allow`, allow.
+ * 6. Otherwise deny.
  */
 export class AccessEnforcer {
+  private readonly grants: CapabilityGrantManager;
+
   constructor(
     private readonly roles: RoleManager,
-    private readonly policies: AccessPolicySet
-  ) {}
+    private readonly policies: AccessPolicySet,
+    grants?: CapabilityGrantManager,
+  ) {
+    this.grants = grants ?? new CapabilityGrantManager();
+  }
 
   /**
    * Render an enforcement decision. Does not throw on denial — use
@@ -36,6 +45,23 @@ export class AccessEnforcer {
     resource: string,
     action: string
   ): Promise<EnforcementResult> {
+    // 1. Check capability grants first.
+    const activeGrants = this.grants.activeGrantsFor(identityId);
+    for (const grant of activeGrants) {
+      const { allowed } = this.grants.validate(grant.id, resource, action);
+      if (allowed) {
+        this.grants.recordUse(grant.id);
+        return {
+          allowed: true,
+          reason: `permitted by capability grant '${grant.id}'`,
+          resource,
+          action,
+          grantUsed: grant.id,
+        };
+      }
+    }
+
+    // 2. Fall back to role-based policy check.
     const roles = await this.roles.getRoles(identityId);
     const policy = this.policies.match(resource, action);
     if (!policy) {
@@ -90,6 +116,11 @@ export class AccessEnforcer {
   /** Inspect which policy would match without enforcing. */
   public inspect(resource: string, action: string): AccessPolicy | undefined {
     return this.policies.match(resource, action);
+  }
+
+  /** Access the grant manager for issuing/revoking grants. */
+  public get grantManager(): CapabilityGrantManager {
+    return this.grants;
   }
 
   private intersect(a: Role[], b: Role[]): Role[] {

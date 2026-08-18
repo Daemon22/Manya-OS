@@ -81,6 +81,7 @@ export {
 } from './access/policy.js';
 export type { AccessPolicy } from './access/policy.js';
 export { AccessEnforcer } from './access/enforcer.js';
+export { CapabilityGrantManager } from './access/grants.js';
 
 // ----- wallet -----
 export {

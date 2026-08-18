@@ -45,6 +45,10 @@ export { EventRecorder, DEFAULT_RECORDER_MAX_SIZE } from './recorder/recorder.js
 export { EventQueue, DEFAULT_QUEUE_CAPACITY } from './queue/queue.js';
 export type { QueueOptions } from './queue/queue.js';
 
+// ----- collaboration -----
+export { CollaborationRequestQueue } from './collaboration/queue.js';
+export type { CollaborationQueueOptions } from './collaboration/queue.js';
+
 // ----- metrics -----
 export { MetricsCollector, DEFAULT_LATENCY_BUFFER, DEFAULT_LATENCY_SAMPLE_EVERY } from './metrics/metrics.js';
 

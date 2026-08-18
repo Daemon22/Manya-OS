@@ -171,6 +171,56 @@ export interface EnforcementResult {
   resource?: string;
   /** Matched policy action, if any. */
   action?: string;
+  /** Whether the decision was influenced by a capability grant. */
+  grantUsed?: string;
+}
+
+// ----- capability grants -----
+
+/**
+ * A scoped, time-boxed capability grant. Grants allow a specific subject
+ * to perform a specific action on a specific resource for a limited time.
+ * Grants are the ONLY mechanism for cross-instance capability delegation.
+ */
+export interface CapabilityGrant {
+  /** Unique grant id (UUID v4). */
+  id: string;
+  /** DID of the authority that issued this grant. */
+  grantor: string;
+  /** DID of the subject receiving the grant. */
+  grantee: string;
+  /** Resource pattern the grant covers (supports wildcards). */
+  resource: string;
+  /** Actions the grant covers. */
+  actions: string[];
+  /** ISO-8601 timestamp when the grant becomes active. */
+  validFrom: string;
+  /** ISO-8601 timestamp when the grant expires. */
+  validUntil: string;
+  /** Optional maximum number of times this grant can be used. */
+  maxUses?: number;
+  /** Number of times this grant has been used so far. */
+  useCount: number;
+  /** Whether this grant has been revoked. */
+  revoked: boolean;
+  /** ISO-8601 timestamp when the grant was revoked, if applicable. */
+  revokedAt?: string;
+  /** Optional metadata about why the grant was issued. */
+  metadata?: Record<string, unknown>;
+}
+
+/**
+ * A record of a grant revocation event.
+ */
+export interface GrantRevocation {
+  /** The grant id that was revoked. */
+  grantId: string;
+  /** ISO-8601 timestamp when the revocation occurred. */
+  revokedAt: string;
+  /** DID of the party that revoked the grant. */
+  revokedBy: string;
+  /** Reason for the revocation. */
+  reason?: string;
 }
 
 /**

@@ -111,4 +111,49 @@ export interface NervousConfig {
   logLevel?: LogLevel;
   /** Logger instance (overrides logLevel). */
   logger?: Logger;
+  /** Maximum number of collaboration requests in the queue (default 256). */
+  collaborationQueueCapacity?: number;
+  /** TTL in ms for collaboration requests (default 300_000 = 5 min). */
+  collaborationRequestTtlMs?: number;
+}
+
+// ----- collaboration types -----
+
+/** A collaboration request event flowing between instances. */
+export interface CollaborationRequestEvent {
+  /** Unique event id. */
+  id: string;
+  /** Topic: always 'collaboration.request'. */
+  topic: 'collaboration.request';
+  /** Source instance id. */
+  source: string;
+  /** Target instance id. */
+  target: string;
+  /** The request type. */
+  requestType: 'sync' | 'query' | 'handshake' | 'grant-request';
+  /** Payload specific to the request type. */
+  payload: unknown;
+  /** Epoch ms when the request was created. */
+  createdAt: number;
+  /** Epoch ms when the request expires. */
+  expiresAt: number;
+  /** Whether this is a reconnect (re-delivery of a previously failed request). */
+  isReconnect?: boolean;
+  /** Number of times this request has been retried. */
+  retryCount?: number;
+}
+
+/** Status of a collaboration request. */
+export type CollaborationRequestStatus = 'pending' | 'processing' | 'completed' | 'failed' | 'expired' | 'retrying';
+
+/** A tracked collaboration request with status. */
+export interface TrackedCollaborationRequest {
+  /** The event. */
+  event: CollaborationRequestEvent;
+  /** Current status. */
+  status: CollaborationRequestStatus;
+  /** Epoch ms when the status was last updated. */
+  updatedAt: number;
+  /** Error message if failed. */
+  error?: string;
 }

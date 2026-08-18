@@ -111,3 +111,7 @@ export {
   importJsonl,
 } from './export/exporter.js';
 export type { ExportFormat, ExportOptions } from './export/exporter.js';
+
+// ----- collaboration -----
+export { CollaborationLedger } from './collaboration/ledger.js';
+export type { CollaborationLedgerOptions } from './collaboration/ledger.js';

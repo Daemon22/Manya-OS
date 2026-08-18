@@ -177,3 +177,35 @@ export interface TimestampToken {
 
 /** Re-export to keep `crypto` types accessible to consumers. */
 export type { KeyObject } from 'crypto';
+
+// ----- collaboration attribution types -----
+
+/**
+ * Payload for a collaboration attribution event.
+ * Recorded in the ledger when instances collaborate, providing full
+ * provenance for every data exchange.
+ */
+export interface CollaborationAttributionPayload {
+  /** The type of collaboration. */
+  collaborationType: 'sync' | 'query' | 'grant' | 'handshake';
+  /** Source instance id. */
+  sourceInstanceId: string;
+  /** Target instance id. */
+  targetInstanceId: string;
+  /** Capability grant id used for this collaboration, if any. */
+  grantId?: string;
+  /** Number of records exchanged. */
+  recordCount: number;
+  /** Types of records exchanged. */
+  recordTypes: string[];
+  /** Epoch ms when the collaboration started. */
+  startedAt: number;
+  /** Epoch ms when the collaboration completed. */
+  completedAt: number;
+  /** Whether the collaboration succeeded. */
+  success: boolean;
+  /** Error message if the collaboration failed. */
+  error?: string;
+  /** Arbitrary metadata about the collaboration. */
+  metadata?: Record<string, unknown>;
+}
