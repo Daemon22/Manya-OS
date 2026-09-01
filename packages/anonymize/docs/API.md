@@ -1,6 +1,6 @@
-# @manya/anonymize — API Reference
+# @manya-os/anonymize — API Reference
 
-> Complete TypeScript API reference for `@manya/anonymize` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/anonymize` v1.0.0.
 
 ## Contents
 

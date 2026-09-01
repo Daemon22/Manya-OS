@@ -42,4 +42,7 @@ export declare class RetryError extends CortexError {
 export declare class CoordinationError extends CortexError {
     constructor(message: string, cause?: unknown);
 }
+export declare class KnowledgeError extends CortexError {
+    constructor(message: string, cause?: unknown);
+}
 //# sourceMappingURL=errors.d.ts.map

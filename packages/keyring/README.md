@@ -1,8 +1,8 @@
-# @manya/keyring
+# @manya-os/keyring
 
 > Sovereign identity and credential wallet for the MANYA Intelligence OS.
 
-`@manya/keyring` is the cryptographic and identity substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/keyring` is the cryptographic and identity substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides secure key generation, key derivation (HKDF-SHA256), encrypted storage (AES-256-GCM), did:key-style identity management, W3C-style verifiable credentials, RSA-PSS / ECDSA P-256 digital signatures, role-based access control, real Shamir Secret Sharing over GF(2⁸), encrypted backups, signed multi-device sync bundles, and a pluggable hardware-key-provider interface with a software fallback.
 
@@ -10,7 +10,7 @@ The package provides secure key generation, key derivation (HKDF-SHA256), encryp
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project to return sovereignty to individuals and communities over their own intelligence infrastructure. `@manya/keyring` is the keystone of that vision: **your keys, your identity, your credentials — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project to return sovereignty to individuals and communities over their own intelligence infrastructure. `@manya-os/keyring` is the keystone of that vision: **your keys, your identity, your credentials — yours alone.**
 
 - **Sovereign.** Private keys never leave the wallet unencrypted. All sensitive operations are explicit and audit-loggable.
 - **Local-first.** No network calls. No cloud dependency. Works fully offline.
@@ -45,9 +45,9 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/keyring
+npm install @manya-os/keyring
 # or
-yarn add @manya/keyring
+yarn add @manya-os/keyring
 ```
 
 Requires Node.js 18+.
@@ -59,7 +59,7 @@ Requires Node.js 18+.
 ### 1. Create a wallet and identity
 
 ```ts
-import { KeyringWallet, Role } from '@manya/keyring';
+import { KeyringWallet, Role } from '@manya-os/keyring';
 
 const wallet = new KeyringWallet();
 
@@ -94,7 +94,7 @@ console.log(ok); // true
 ### 3. Multi-device sync
 
 ```ts
-import { MultiDeviceSync } from '@manya/keyring';
+import { MultiDeviceSync } from '@manya-os/keyring';
 
 const sync = new MultiDeviceSync();
 

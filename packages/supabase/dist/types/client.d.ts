@@ -14,7 +14,12 @@ export declare class SupabaseClientFacade {
     private client;
     private disposed;
     private timeoutId;
+    private readonly initialization;
+    private readonly ownedMigrationExecutor?;
     constructor(config: ResolvedConfig, logger: Logger);
+    private initializeMigrations;
+    /** Wait for optional startup migrations to finish. */
+    ready(): Promise<void>;
     /** Get the underlying Supabase client. */
     getClient(): SupabaseClient;
     /** Verify connectivity by running a lightweight query. */

@@ -82,7 +82,7 @@ Signed-off-by: Your Name <you@example.com>
 ## Release Model
 
 - Packages are versioned independently using semantic versioning.
-- Releases are tagged `@manya/<pkg>@<version>`.
+- Releases are tagged `@manya-os/<pkg>@<version>`.
 - The Foundation cuts releases; contributors do not publish.
 - Breaking changes require a major version bump and a migration guide.
 

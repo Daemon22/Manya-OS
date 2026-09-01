@@ -76,8 +76,10 @@ export { SupabaseEncryptedStorage } from './keyring/supabase-encrypted-storage.j
 
 // ----- migrations -----
 export { MigrationRunner } from './migrations/runner.js';
+export { PostgresMigrationExecutor } from './migrations/postgres-executor.js';
 export type {
   Migration,
   MigrationStatus,
   MigrationResult,
+  MigrationSqlExecutor,
 } from './migrations/runner.js';

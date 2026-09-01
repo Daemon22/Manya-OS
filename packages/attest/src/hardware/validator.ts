@@ -35,6 +35,26 @@ function execQuiet(cmd: string, timeoutMs = 800): string {
 }
 
 /**
+ * Execute a Windows executable without starting an intermediate shell.
+ * Shell-based invocation can leave command wrappers alive on Windows even
+ * after the requested timeout expires.
+ */
+function execFileQuiet(file: string, args: string[], timeoutMs = 800): string {
+  try {
+    const out = child_process.execFileSync(file, args, {
+      timeout: timeoutMs,
+      windowsHide: true,
+      stdio: ['ignore', 'pipe', 'ignore'],
+      encoding: 'utf8',
+      maxBuffer: 1024 * 1024,
+    });
+    return out.trim();
+  } catch {
+    return '';
+  }
+}
+
+/**
  * Check whether a path exists (file, directory, or device node).
  * @internal
  */
@@ -185,28 +205,21 @@ function probeMacSecureEnclave(): { present: boolean; details: string } {
 /**
  * Probe for a TPM on Windows.
  *
- * Heuristic: shell out to `reg query` for the TPM spec version, or to
- * `powershell Get-Tpm` (if available). Returns the trimmed stdout for
- * caller inspection.
+ * Heuristic: query the TPM service registry key. The registry query is
+ * bounded and avoids PowerShell/WMI subprocesses, which can outlive a
+ * synchronous timeout on Windows.
  *
  * @internal
  */
 function probeWindowsTpm(): { present: boolean; details: string } {
   // Try reg query for TPM 2.0 spec version.
-  const regOut = execQuiet(
-    'reg query "HKLM\\SYSTEM\\CurrentControlSet\\Services\\TPM\\WMI\\Admin" /v SpecVersion 2>nul',
+  const regOut = execFileQuiet(
+    'reg.exe',
+    ['query', 'HKLM\\SYSTEM\\CurrentControlSet\\Services\\TPM\\WMI\\Admin', '/v', 'SpecVersion'],
     1000
   );
   if (regOut.length > 0 && /SpecVersion/i.test(regOut)) {
     return { present: true, details: `TPM detected via registry: ${regOut.split('\n')[0]}` };
-  }
-  // Fall back to powershell Get-Tpm.
-  const psOut = execQuiet(
-    'powershell -NoProfile -Command "(Get-Tpm).TpmPresent"',
-    2000
-  );
-  if (psOut.length > 0 && /true/i.test(psOut)) {
-    return { present: true, details: 'TPM detected via Get-Tpm' };
   }
   return { present: false, details: 'no Windows TPM detected' };
 }
@@ -214,18 +227,33 @@ function probeWindowsTpm(): { present: boolean; details: string } {
 /**
  * Probe for a TEE on Windows (VBS, Credential Guard, SGX).
  *
+ * Uses registry-backed VBS and Credential Guard signals so probing remains
+ * bounded and side-effect-free in environments without WMI availability.
+ *
  * @internal
  */
 function probeWindowsTee(): { present: boolean; details: string } {
-  const psOut = execQuiet(
-    'powershell -NoProfile -Command "(Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\\Microsoft\\Windows\\DeviceGuard -ErrorAction SilentlyContinue).SecurityServicesRunning"',
-    2000
+  const vbsOut = execFileQuiet(
+    'reg.exe',
+    [
+      'query',
+      'HKLM\\SYSTEM\\CurrentControlSet\\Control\\DeviceGuard\\Scenarios\\HypervisorEnforcedCodeIntegrity',
+      '/v',
+      'Enabled',
+    ],
+    1000
   );
-  if (psOut.length > 0) {
-    // SecurityServicesRunning is an array; {1, 2} means VBS + Credential Guard.
-    if (/\{?.*\b1\b.*\b2\b.*\}?/.test(psOut) || /\b1\b/.test(psOut)) {
-      return { present: true, details: `Windows VBS / Device Guard running: ${psOut}` };
-    }
+  if (/Enabled\s+REG_DWORD\s+0x1/i.test(vbsOut)) {
+    return { present: true, details: 'Windows VBS detected via registry' };
+  }
+
+  const credentialGuardOut = execFileQuiet(
+    'reg.exe',
+    ['query', 'HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa', '/v', 'LsaCfgFlags'],
+    1000
+  );
+  if (/LsaCfgFlags\s+REG_DWORD\s+0x[1-3]/i.test(credentialGuardOut)) {
+    return { present: true, details: 'Windows Credential Guard configured via registry' };
   }
   return { present: false, details: 'no Windows VBS / Device Guard detected' };
 }
@@ -238,6 +266,8 @@ function probeWindowsTee(): { present: boolean; details: string } {
  * underlying probe throws unexpectedly, `probe()` returns a probe with
  * everything set to `false` and `details` describing the error.
  */
+let cachedHardwareProbe: HardwareProbe | null = null;
+
 export class HardwareValidator {
   /**
    * Probe the local host.
@@ -248,57 +278,63 @@ export class HardwareValidator {
    *     `sgx`/`sev` flags.
    *   - `darwin`: shells out to `ioreg` for the Apple Secure Enclave, and to
    *     `system_profiler` for the Apple T2 / Apple Silicon bridge.
-   *   - `win32`: shells out to `reg query` for the TPM spec version, and to
-   *     `powershell Get-Tpm` / `Get-CimInstance Win32_DeviceGuard` for VBS.
+    *   - `win32`: queries the TPM, VBS, and Credential Guard registry keys.
    *   - other platforms: returns `{ tpm: false, secureEnclave: false, tee: false,
    *     details: 'unsupported platform' }`.
    */
   probe(): HardwareProbe {
+    if (cachedHardwareProbe) return { ...cachedHardwareProbe };
+
     try {
       const platform = process.platform;
       if (platform === 'linux') {
         const tpm = probeLinuxTpm();
         const tee = probeLinuxTee();
-        return {
+        cachedHardwareProbe = {
           tpm: tpm.present,
           secureEnclave: false, // Not applicable on Linux.
           tee: tee.present,
           details: `linux: ${tpm.details}; ${tee.details}`,
         };
+        return { ...cachedHardwareProbe };
       }
       if (platform === 'darwin') {
         const se = probeMacSecureEnclave();
-        return {
+        cachedHardwareProbe = {
           tpm: false, // Not applicable on macOS (no TPM).
           secureEnclave: se.present,
           tee: se.present, // The Secure Enclave serves as the TEE on Apple platforms.
           details: `darwin: ${se.details}`,
         };
+        return { ...cachedHardwareProbe };
       }
       if (platform === 'win32') {
         const tpm = probeWindowsTpm();
         const tee = probeWindowsTee();
-        return {
+        cachedHardwareProbe = {
           tpm: tpm.present,
           secureEnclave: false, // Not applicable on Windows.
           tee: tee.present,
           details: `win32: ${tpm.details}; ${tee.details}`,
         };
+        return { ...cachedHardwareProbe };
       }
-      return {
+      cachedHardwareProbe = {
         tpm: false,
         secureEnclave: false,
         tee: false,
         details: `unsupported platform: ${platform}`,
       };
+      return { ...cachedHardwareProbe };
     } catch (err) {
       // Defense-in-depth: probe() MUST NOT throw.
-      return {
+      cachedHardwareProbe = {
         tpm: false,
         secureEnclave: false,
         tee: false,
         details: `probe failed: ${(err as Error).message}`,
       };
+      return { ...cachedHardwareProbe };
     }
   }
 

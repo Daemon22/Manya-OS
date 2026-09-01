@@ -1,4 +1,4 @@
-# Contributing to @manya/council
+# Contributing to @manya-os/council
 
 ## Code style
 - TypeScript strict mode mandatory.

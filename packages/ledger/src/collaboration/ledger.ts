@@ -71,7 +71,7 @@ export class CollaborationLedger {
       timestamp: new Date().toISOString(),
       prevHash: '0'.repeat(64),
       hash: '', // Will be computed by the chain on append.
-      payload,
+      payload: payload as unknown as Record<string, unknown>,
     };
 
     return this.chain.append(event);
@@ -83,7 +83,7 @@ export class CollaborationLedger {
   byInstance(instanceId: string, events: LedgerEvent[]): LedgerEvent[] {
     return events.filter(e => {
       if (e.type !== 'collaboration.attribution') return false;
-      const p = e.payload as CollaborationAttributionPayload;
+      const p = e.payload as unknown as CollaborationAttributionPayload;
       return p.sourceInstanceId === instanceId || p.targetInstanceId === instanceId;
     });
   }
@@ -94,7 +94,7 @@ export class CollaborationLedger {
   byGrant(grantId: string, events: LedgerEvent[]): LedgerEvent[] {
     return events.filter(e => {
       if (e.type !== 'collaboration.attribution') return false;
-      const p = e.payload as CollaborationAttributionPayload;
+      const p = e.payload as unknown as CollaborationAttributionPayload;
       return p.grantId === grantId;
     });
   }
@@ -105,7 +105,7 @@ export class CollaborationLedger {
   failures(events: LedgerEvent[]): LedgerEvent[] {
     return events.filter(e => {
       if (e.type !== 'collaboration.attribution') return false;
-      const p = e.payload as CollaborationAttributionPayload;
+      const p = e.payload as unknown as CollaborationAttributionPayload;
       return !p.success;
     });
   }
@@ -127,7 +127,7 @@ export class CollaborationLedger {
     const byType: Record<string, number> = {};
 
     for (const e of collabEvents) {
-      const p = e.payload as CollaborationAttributionPayload;
+      const p = e.payload as unknown as CollaborationAttributionPayload;
       if (p.success) successful++;
       else failed++;
       totalRecordsExchanged += p.recordCount ?? 0;

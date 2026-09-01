@@ -1,6 +1,6 @@
-# API Reference -- @manya/ledger
+# API Reference -- @manya-os/ledger
 
-This document is the authoritative TypeScript API reference for all public exports of `@manya-os/ledger` (resolved internally as `@manya/ledger`).
+This document is the authoritative TypeScript API reference for all public exports of `@manya-os/ledger` (resolved internally as `@manya-os/ledger`).
 
 ---
 
@@ -312,7 +312,7 @@ class LedgerError extends Error {
 - `TamperError` -- Tamper detection failure.
 
 ```ts
-import { LedgerError, ChainError } from '@manya/ledger';
+import { LedgerError, ChainError } from '@manya-os/ledger';
 
 try {
   chain.append('test', 'actor', {});
@@ -353,7 +353,7 @@ type LogLevel = 'debug' | 'info' | 'warn' | 'error' | 'silent';
 JSON logger to stdout/stderr that scrubs sensitive fields.
 
 ```ts
-import { ConsoleLogger } from '@manya/ledger';
+import { ConsoleLogger } from '@manya-os/ledger';
 
 const logger = new ConsoleLogger('info');
 logger.info('Ledger initialized', { ledgerId: 'demo-1' });
@@ -364,7 +364,7 @@ logger.info('Ledger initialized', { ledgerId: 'demo-1' });
 No-op logger for tests or silent mode.
 
 ```ts
-import { SilentLogger } from '@manya/ledger';
+import { SilentLogger } from '@manya-os/ledger';
 
 const logger = new SilentLogger();
 ```
@@ -374,7 +374,7 @@ const logger = new SilentLogger();
 Recursively scrubs sensitive fields from an object. Returns a new object with secret fields replaced by `[redacted]`.
 
 ```ts
-import { scrubMetadata } from '@manya/ledger';
+import { scrubMetadata } from '@manya-os/ledger';
 
 const clean = scrubMetadata({ privateKey: 'secret', other: 'data' });
 // { privateKey: '[redacted]', other: 'data' }
@@ -385,7 +385,7 @@ const clean = scrubMetadata({ privateKey: 'secret', other: 'data' });
 Returns whether a field name should be scrubbed.
 
 ```ts
-import { shouldScrubField } from '@manya/ledger';
+import { shouldScrubField } from '@manya-os/ledger';
 
 shouldScrubField('privateKey'); // true
 shouldScrubField('other');      // false
@@ -396,7 +396,7 @@ shouldScrubField('other');      // false
 Array of field name suffixes that are scrubbed by default.
 
 ```ts
-import { SCRUBBED_FIELD_NAMES } from '@manya/ledger';
+import { SCRUBBED_FIELD_NAMES } from '@manya-os/ledger';
 
 // ['privateKey', 'privateKeyPem', 'publicKeyPem', 'password', 'passphrase',
 //  'token', 'secret', 'credential', 'iv', 'tag', 'share', 'nonce',
@@ -837,7 +837,7 @@ tree.verifyProof(leaf: Buffer, proof: MerkleProof): boolean;
 **Important:** The `leaf` parameter must be the **leaf-prefixed hash** (`sha256(0x00 || rawLeaf)`), which is what `MerkleTree.build` stores internally. To verify against the original raw leaf bytes:
 
 ```ts
-import { MerkleTree, sha256 } from '@manya/ledger';
+import { MerkleTree, sha256 } from '@manya-os/ledger';
 
 const LEAF_PREFIX = Buffer.from([0x00]);
 const rawLeaf = Buffer.from('my-data');

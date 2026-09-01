@@ -83,7 +83,9 @@ function collectMacs(): string[] {
  *
  * @internal
  */
-function collectMachineId(): string | undefined {
+let cachedMachineId: string | undefined | null = null;
+
+function detectMachineId(): string | undefined {
   const platform = process.platform;
   try {
     if (platform === 'linux') {
@@ -122,6 +124,12 @@ function collectMachineId(): string | undefined {
     // Fall through.
   }
   return undefined;
+}
+
+function collectMachineId(): string | undefined {
+  if (cachedMachineId !== null) return cachedMachineId;
+  cachedMachineId = detectMachineId();
+  return cachedMachineId;
 }
 
 /**

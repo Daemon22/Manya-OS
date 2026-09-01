@@ -1,6 +1,6 @@
-# @manya/nervous-system — API Reference
+# @manya-os/nervous-system — API Reference
 
-> Complete TypeScript API reference for `@manya/nervous-system` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/nervous-system` v1.0.0.
 
 ## Contents
 - [Types](#types)

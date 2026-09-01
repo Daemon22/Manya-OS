@@ -22,6 +22,8 @@ export type { RoutingResult } from './router/router.js';
 export { EventRecorder, DEFAULT_RECORDER_MAX_SIZE } from './recorder/recorder.js';
 export { EventQueue, DEFAULT_QUEUE_CAPACITY } from './queue/queue.js';
 export type { QueueOptions } from './queue/queue.js';
+export { CollaborationRequestQueue } from './collaboration/queue.js';
+export type { CollaborationQueueOptions } from './collaboration/queue.js';
 export { MetricsCollector, DEFAULT_LATENCY_BUFFER, DEFAULT_LATENCY_SAMPLE_EVERY } from './metrics/metrics.js';
 export { FilesystemSource } from './sources/filesystem.js';
 export type { FilesystemSourceOptions } from './sources/filesystem.js';

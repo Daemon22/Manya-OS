@@ -9,12 +9,16 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { ResolvedConfig } from './config.js';
 import type { Logger } from './logging.js';
 import { ConnectionError } from './errors.js';
+import { MigrationRunner } from './migrations/runner.js';
+import { PostgresMigrationExecutor } from './migrations/postgres-executor.js';
 
 /** Wrapper around SupabaseClient with lifecycle management. */
 export class SupabaseClientFacade {
   private client: SupabaseClient;
   private disposed = false;
   private timeoutId: ReturnType<typeof setTimeout> | undefined;
+  private readonly initialization: Promise<void>;
+  private readonly ownedMigrationExecutor?: PostgresMigrationExecutor;
 
   constructor(
     private readonly config: ResolvedConfig,
@@ -39,6 +43,35 @@ export class SupabaseClientFacade {
 
     this.timeoutId = timeoutId;
     this.logger.info('Supabase client created', { url: config.url });
+    this.ownedMigrationExecutor = !config.migrateOnStart || config.migrationExecutor || !config.databaseUrl
+      ? undefined
+      : new PostgresMigrationExecutor(config.databaseUrl);
+    this.initialization = config.migrateOnStart
+      ? this.initializeMigrations()
+      : Promise.resolve();
+  }
+
+  private async initializeMigrations(): Promise<void> {
+    const runner = new MigrationRunner(
+      this.client,
+      this.logger,
+      this.config.migrationDir,
+      this.config.migrationExecutor ?? this.ownedMigrationExecutor,
+    );
+    const results = await runner.runPending();
+    const failed = results.find((result) => !result.applied);
+    if (failed) {
+      throw new ConnectionError(
+        `Migration ${failed.version} (${failed.name}) failed: ${failed.error ?? 'unknown error'}`,
+      );
+    }
+    this.logger.info('Supabase migrations initialized', { applied: results.length });
+  }
+
+  /** Wait for optional startup migrations to finish. */
+  async ready(): Promise<void> {
+    if (this.disposed) throw new ConnectionError('Client has been disposed');
+    await this.initialization;
   }
 
   /** Get the underlying Supabase client. */
@@ -51,6 +84,7 @@ export class SupabaseClientFacade {
 
   /** Verify connectivity by running a lightweight query. */
   async ping(): Promise<boolean> {
+    if (this.disposed) return false;
     try {
       const pingSignal = AbortSignal.timeout(Math.min(this.config.timeoutMs, 1000));
       const pingClient = createClient(this.config.url, this.config.serviceRoleKey, {
@@ -90,6 +124,9 @@ export class SupabaseClientFacade {
       if (this.timeoutId) {
         clearTimeout(this.timeoutId);
         this.timeoutId = undefined;
+      }
+      if (this.ownedMigrationExecutor) {
+        void this.ownedMigrationExecutor.close();
       }
       this.logger.info('Supabase client disposed');
     }

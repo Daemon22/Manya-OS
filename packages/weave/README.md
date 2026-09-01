@@ -1,8 +1,8 @@
-# @manya/weave
+# @manya-os/weave
 
 > Interactive visualization substrate for the MANYA Intelligence OS — dependency graphs, knowledge graphs, event flows, architecture diagrams, live system topology, and pan/zoom exploration with multi-format export.
 
-`@manya/weave` is the visualization engine of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/weave` is the visualization engine of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides an in-memory directed/undirected graph model with cycle detection and topological sort, four deterministic layout algorithms (force-directed, hierarchical, radial, grid), graph filtering by label/type/component/depth, text and fuzzy search with BFS and Dijkstra path finding, export to JSON / Graphviz DOT / Mermaid / SVG, a configurable SVG renderer with arrow markers and labels, a live topology tracker with structural diffing, and interactive primitives (selection model, pan/zoom viewport).
 
@@ -10,7 +10,7 @@ The package provides an in-memory directed/undirected graph model with cycle det
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/weave` extends that sovereignty into the visualization domain: **your graphs, your layouts, your topology history — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/weave` extends that sovereignty into the visualization domain: **your graphs, your layouts, your topology history — yours alone.**
 
 - **Sovereign.** No network calls, no DOM dependency, no external rendering service. Pure TypeScript that runs in Node or in the browser.
 - **Deterministic.** Every layout algorithm accepts a numeric seed and produces byte-identical output for byte-identical input.
@@ -40,7 +40,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/weave
+npm install @manya-os/weave
 ```
 
 Requires Node.js 18+. No external runtime dependencies — only Node built-ins.
@@ -52,7 +52,7 @@ Requires Node.js 18+. No external runtime dependencies — only Node built-ins.
 ### 1. Build and lay out a dependency graph
 
 ```ts
-import { createGraph, hierarchical, renderToSVG } from '@manya/weave';
+import { createGraph, hierarchical, renderToSVG } from '@manya-os/weave';
 
 const graph = createGraph(
   [
@@ -77,7 +77,7 @@ console.log(svg); // full <svg>...</svg> document
 ### 2. Detect cycles and topologically sort
 
 ```ts
-import { createGraph } from '@manya/weave';
+import { createGraph } from '@manya-os/weave';
 
 const dag = createGraph(
   [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }, { id: 'c', label: 'C' }],
@@ -95,7 +95,7 @@ console.log(dag.topologicalSort());      // ['a', 'b', 'c']
 ### 3. Filter, search, and find the shortest path
 
 ```ts
-import { createGraph, filterByType, search, bfsPath, dijkstra } from '@manya/weave';
+import { createGraph, filterByType, search, bfsPath, dijkstra } from '@manya-os/weave';
 
 const graph = createGraph(
   [
@@ -119,7 +119,7 @@ const shortest = dijkstra(graph, 'billing', 'db'); // { path: ['billing', 'db'],
 ### 4. Track live topology over time
 
 ```ts
-import { createGraph, TopologyTracker } from '@manya/weave';
+import { createGraph, TopologyTracker } from '@manya-os/weave';
 
 const tracker = new TopologyTracker(10);
 const v1 = createGraph(
@@ -142,7 +142,7 @@ console.log(diff.removedNodes);                // []
 ### 5. Export to Graphviz DOT, Mermaid, and JSON
 
 ```ts
-import { createGraph, toDot, toMermaid, toJSON } from '@manya/weave';
+import { createGraph, toDot, toMermaid, toJSON } from '@manya-os/weave';
 
 const g = createGraph(
   [{ id: 'a', label: 'Alpha' }, { id: 'b', label: 'Beta' }],
@@ -206,8 +206,8 @@ export interface Viewport {
 ### Add a custom layout algorithm
 
 ```ts
-import type { Graph } from '@manya/weave';
-import type { Layout, Point } from '@manya/weave';
+import type { Graph } from '@manya-os/weave';
+import type { Layout, Point } from '@manya-os/weave';
 
 export function circular(graph: Graph, radius = 200): Layout {
   const layout = new Map<string, Point>();

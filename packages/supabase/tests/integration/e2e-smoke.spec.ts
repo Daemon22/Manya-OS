@@ -127,6 +127,8 @@ describeIfIntegration('E2E Smoke Test', () => {
 
     await kvStore.delete(kvKey);
     expect(await kvStore.get(kvKey)).toBeNull();
+
+    await facade.getClient().from('ledger_events').delete().eq('id', ledgerEventId);
   }, 30000);
 
   it('memory longterm lifecycle: create → touch → read-back', async () => {

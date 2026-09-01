@@ -1,4 +1,4 @@
-# Contributing to @manya/customs-shield
+# Contributing to @manya-os/customs-shield
 
 ## Code style
 - TypeScript strict mode mandatory.

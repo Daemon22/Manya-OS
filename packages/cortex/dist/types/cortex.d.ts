@@ -23,6 +23,7 @@ import { ConfidenceEstimator } from './confidence/confidence.js';
 import { ResourceManager } from './resources/manager.js';
 import { WorkflowEngine } from './workflow/engine.js';
 import { Coordinator } from './coordinate/coordinator.js';
+import { KnowledgeRegistry } from './registry/knowledge.js';
 import { DEFAULT_CONFIG } from './config/config.js';
 import type { CortexConfig } from './config/config.js';
 export declare class Cortex {
@@ -35,6 +36,7 @@ export declare class Cortex {
     readonly resources: ResourceManager;
     readonly workflows: WorkflowEngine;
     readonly coordinator: Coordinator;
+    readonly knowledge: KnowledgeRegistry;
     private readonly config;
     private readonly logger;
     constructor(config?: CortexConfig);
@@ -65,6 +67,12 @@ export declare class Cortex {
     runWorkflow(workflow: Workflow, initialInput?: unknown): Promise<WorkflowExecution>;
     /** Get all reasoning events from the last coordination run. */
     getEvents(): ReasoningEvent[];
+    /** Register a knowledge key in the cortex knowledge registry. */
+    registerKnowledge(key: string, ownerComponentId: string, opts?: {
+        description?: string;
+    }): void;
+    /** Query knowledge ownership. */
+    queryKnowledge(key: string): string | undefined;
     /** Reset the cortex for a fresh run. */
     reset(): void;
 }

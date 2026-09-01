@@ -15,14 +15,6 @@ import type { HardwareProbe } from '../types.js';
  * @internal
  */
 declare function globDir(dir: string, pattern: RegExp): string[];
-/**
- * Pluggable hardware validator. Probes the local host for the presence of
- * hardware attestation roots (TPM, Secure Enclave, TEE).
- *
- * All probes are wrapped in try/catch — `probe()` MUST NOT throw. If the
- * underlying probe throws unexpectedly, `probe()` returns a probe with
- * everything set to `false` and `details` describing the error.
- */
 export declare class HardwareValidator {
     /**
      * Probe the local host.
@@ -33,8 +25,7 @@ export declare class HardwareValidator {
      *     `sgx`/`sev` flags.
      *   - `darwin`: shells out to `ioreg` for the Apple Secure Enclave, and to
      *     `system_profiler` for the Apple T2 / Apple Silicon bridge.
-     *   - `win32`: shells out to `reg query` for the TPM spec version, and to
-     *     `powershell Get-Tpm` / `Get-CimInstance Win32_DeviceGuard` for VBS.
+      *   - `win32`: queries the TPM, VBS, and Credential Guard registry keys.
      *   - other platforms: returns `{ tpm: false, secureEnclave: false, tee: false,
      *     details: 'unsupported platform' }`.
      */

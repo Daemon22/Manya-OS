@@ -32,6 +32,12 @@ export interface MigrationResult {
     durationMs: number;
     error?: string;
 }
+/** Executes arbitrary migration SQL inside the caller's trusted database connection. */
+export interface MigrationSqlExecutor {
+    query(sql: string, values?: unknown[]): Promise<{
+        rows?: unknown[];
+    } | unknown>;
+}
 /**
  * Migration runner for Supabase/Postgres.
  *
@@ -41,8 +47,10 @@ export interface MigrationResult {
 export declare class MigrationRunner {
     private readonly client;
     private readonly logger;
+    private readonly sqlExecutor?;
     private migrationDir;
-    constructor(client: SupabaseClient, logger: Logger, migrationDir?: string);
+    constructor(client: SupabaseClient, logger: Logger, migrationDir?: string, sqlExecutor?: MigrationSqlExecutor | undefined);
+    private executeSql;
     /**
      * Read all migration files from the migration directory.
      */

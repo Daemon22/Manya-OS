@@ -8,7 +8,7 @@
 
 | Command | What it does | Wall time |
 | --- | --- | --- |
-| `npm run build:fast` | Bundle all 12 packages with esbuild (CJS + ESM, no types) | ~260 ms |
+| `npm run build:fast` | Bundle all 13 packages with esbuild (CJS + ESM, no types) | ~260 ms |
 | `npm run build:types` | Generate `.d.ts` declarations with tsc | ~28 s |
 | `npm run build` | Full per-package build (bundles + types) | ~28 s |
 | `npm run build:bundle` | Workspace super-bundle (single minified file) | ~400 ms |
@@ -16,7 +16,7 @@
 | `npm run build:analyze` | Super-bundle + size analysis report | ~1 s |
 | `npm run typecheck` | Type-check all packages (incremental, `tsc -b --noEmit`) | ~5 s |
 | `npm run typecheck:parallel` | Type-check all packages (parallel spawn) | ~26 s |
-| `npm run test` | Run full jest test suite (1,318 tests) | ~10 s |
+| `npm run test` | Run full jest test suite (2,189 tests) | ~10 s |
 | `npm run test:coverage` | Run tests with V8 coverage | ~17 s |
 | `npm run clean` | Remove all build artifacts | <1 s |
 
@@ -41,7 +41,7 @@
 │         │                         │                  │
 │         └──────────┬──────────────┘                  │
 │                    ▼                                  │
-│         Per-package output (12 packages)             │
+│         Per-package output (13 packages)             │
 │                                                      │
 │  ┌──────────────────────────────────────────────┐   │
 │  │           Workspace super-bundle              │   │
@@ -59,7 +59,7 @@
 
 ## Per-package output
 
-Every `@manya/*` package produces three output formats in `dist/`:
+Every `@manya-os/*` package produces three output formats in `dist/`:
 
 ```
 packages/<name>/dist/
@@ -97,7 +97,7 @@ Each `package.json` declares:
 
 ## Super-bundle
 
-The workspace super-bundle is a single file containing all 12 packages, suitable for:
+The workspace super-bundle is a single file containing all 13 packages, suitable for:
 
 - **Edge deployment** (Cloudflare Workers, Vercel Edge, Deno Deploy)
 - **Browser distribution** (single `<script>` tag)
@@ -105,12 +105,12 @@ The workspace super-bundle is a single file containing all 12 packages, suitable
 
 ```js
 // CJS
-const { MemorySystem, Cortex, Anonymizer } = require('@manya/os');
+const { MemorySystem, Cortex, Anonymizer } = require('./dist/manya-os.min.cjs');
 // or directly from the file:
 const { MemorySystem } = require('./dist/manya-os.min.cjs');
 
 // ESM
-import { MemorySystem, Cortex } from '@manya/os';
+import { MemorySystem, Cortex } from './dist/manya-os.min.mjs';
 // or:
 import { MemorySystem } from './dist/manya-os.min.mjs';
 ```
@@ -122,7 +122,7 @@ unused exports. Example:
 
 ```js
 // Only MemorySystem is bundled — Cortex, Anonymizer, etc. are tree-shaken away.
-import { MemorySystem } from '@manya/memory';
+import { MemorySystem } from '@manya-os/memory';
 ```
 
 ## Optimization techniques applied
@@ -156,12 +156,12 @@ Measured on a typical development machine (4-core CPU, SSD):
 
 | Operation | Time |
 | --- | --- |
-| Clean build (esbuild all 12 packages) | 260 ms |
-| Type declarations (all 12 packages) | 28 s |
-| Super-bundle (all 12 → 1 file, minified) | 400 ms |
+| Clean build (esbuild all 13 packages) | 260 ms |
+| Type declarations (all 13 packages) | 28 s |
+| Super-bundle (all 13 → 1 file, minified) | 400 ms |
 | Type-check incremental (`tsc -b --noEmit`) | 5 s |
-| Type-check parallel (12 packages) | 26 s |
-| Full test suite (1,318 tests) | 10 s |
+| Type-check parallel (13 packages) | 26 s |
+| Full test suite (2,189 tests) | 10 s |
 
 ## Bundle sizes
 

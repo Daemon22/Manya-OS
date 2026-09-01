@@ -29,7 +29,11 @@ export class CollaborationRequestQueue {
   private readonly queue: TrackedCollaborationRequest[] = [];
   private readonly capacity: number;
   private readonly ttlMs: number;
-  private readonly pending = new Map<string, { resolve: (v: TrackedCollaborationRequest) => void; reject: (e: Error) => void }>();
+  private readonly pending = new Map<string, {
+    resolve: (v: TrackedCollaborationRequest | null) => void;
+    reject: (e: Error) => void;
+    timer: NodeJS.Timeout;
+  }>();
 
   constructor(opts?: CollaborationQueueOptions) {
     this.capacity = opts?.capacity ?? DEFAULT_COLLABORATION_QUEUE_CAPACITY;
@@ -59,6 +63,7 @@ export class CollaborationRequestQueue {
     const waiter = this.pending.values().next().value;
     if (waiter) {
       this.pending.delete(this.pending.keys().next().value!);
+      clearTimeout(waiter.timer);
       waiter.resolve(tracked);
     }
 
@@ -92,17 +97,18 @@ export class CollaborationRequestQueue {
     // Nothing available — register a waiter.
     const key = `waiter_${Date.now()}_${Math.random().toString(36).slice(2)}`;
     return new Promise<TrackedCollaborationRequest | null>((resolve, reject) => {
-      this.pending.set(key, {
-        resolve: (v) => resolve(v),
-        reject: (e) => reject(e),
-      });
-      // Auto-expire the wait after TTL.
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         if (this.pending.has(key)) {
           this.pending.delete(key);
           resolve(null);
         }
       }, this.ttlMs);
+      if (typeof timer.unref === 'function') timer.unref();
+      this.pending.set(key, {
+        resolve: (v) => resolve(v),
+        reject: (e) => reject(e),
+        timer,
+      });
     });
   }
 
@@ -145,6 +151,7 @@ export class CollaborationRequestQueue {
     const waiter = this.pending.values().next().value;
     if (waiter) {
       this.pending.delete(this.pending.keys().next().value!);
+      clearTimeout(waiter.timer);
       waiter.resolve(tracked);
     }
 
@@ -197,6 +204,7 @@ export class CollaborationRequestQueue {
   stop(): void {
     this.queue.length = 0;
     for (const [, w] of this.pending) {
+      clearTimeout(w.timer);
       w.reject(new QueueError('queue stopped'));
     }
     this.pending.clear();

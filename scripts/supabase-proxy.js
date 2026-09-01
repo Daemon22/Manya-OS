@@ -220,26 +220,47 @@ async function handleRequest(req, res) {
       const keys = Object.keys(params);
       const values = keys.map(k => params[k]);
 
+      if (fnName === 'record_migration') {
+        await client.query(
+          `INSERT INTO schema_migrations (version, name, checksum)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (version) DO NOTHING`,
+          [params.p_version, params.p_name, params.p_checksum],
+        );
+        return json(res, null);
+      }
+
       // Resolve parameter types using pg_proc (works across PG versions)
       const typeQuery = `
         SELECT
-          a.parameter_name,
-          t.typname
-        FROM (
-          SELECT
-            unnest(p.proargnames) AS parameter_name,
-            unnest(p.proargtypes) AS type_oid,
-            generate_series(1, array_length(p.proargtypes, 1)) AS pos
-          FROM pg_proc p
-          WHERE p.proname = $1
-            AND p.pronamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')
-        ) a
-        JOIN pg_type t ON t.oid = a.type_oid
-        WHERE a.parameter_name IS NOT NULL
-        ORDER BY a.pos
+          p.proargnames AS names,
+          ARRAY(
+            SELECT format_type(type_oid, NULL)
+            FROM unnest(p.proargtypes::oid[]) AS arg(type_oid)
+          ) AS types
+        FROM pg_proc p
+        WHERE p.proname = $1
+          AND p.pronamespace = (SELECT oid FROM pg_namespace WHERE nspname = 'public')
+        ORDER BY p.oid
+        LIMIT 1
       `;
       const typeResult = await client.query(typeQuery, [fnName]);
-      const paramTypes = typeResult.rows;
+      const signature = typeResult.rows[0];
+      const paramTypes = signature
+        ? (signature.types || []).map((typname, i) => ({
+            parameter_name: signature.names?.[i],
+            typname,
+          }))
+        : [];
+      const fallbackSignatures = {
+        record_migration: ['integer', 'text', 'text'],
+        exec_sql: ['text'],
+        increment_longterm_access: ['text'],
+        touch_longterm_record: ['text', 'bigint'],
+      };
+      if (paramTypes.length === 0 && fallbackSignatures[fnName]) {
+        paramTypes.push(...fallbackSignatures[fnName].map(typname => ({ typname })));
+      }
 
       let sql;
       if (paramTypes.length === 0) {

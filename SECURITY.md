@@ -13,7 +13,7 @@ The MANYA Intelligence OS is currently in active development. Security fixes are
 
 **Do NOT file security vulnerabilities as public issues.**
 
-The Manya Hael Foundation takes security reports seriously. If you discover a vulnerability in any `@manya/*` package, please report it privately:
+The Manya Hael Foundation takes security reports seriously. If you discover a vulnerability in any `@manya-os/*` package, please report it privately:
 
 1. Email **security@manyahael.org** with a description, reproduction steps, and impact assessment.
 2. You will receive an acknowledgement within **72 hours**.
@@ -43,7 +43,7 @@ Out of scope:
 - **Cryptographic correctness.** Use vetted primitives. Never roll custom crypto.
 - **Constant-time comparisons** for signature and token verification.
 - **No secrets in logs.** Logging primitives scrub `privateKey`, `password`, `token`, `secret`, `credential` fields by default.
-- **Auditable operations.** Destructive or sensitive operations emit audit events suitable for the `@manya/ledger`.
+- **Auditable operations.** Destructive or sensitive operations emit audit events suitable for the `@manya-os/ledger`.
 
 ## Cryptography
 

@@ -1,6 +1,6 @@
-# @manya/keyring — API Reference
+# @manya-os/keyring — API Reference
 
-> Full TypeScript API reference for every public export of `@manya/keyring`.
+> Full TypeScript API reference for every public export of `@manya-os/keyring`.
 >
 > Copyright 2024 Manya Hael Foundation. All rights reserved. Licensed under the Apache License, Version 2.0.
 
@@ -142,7 +142,7 @@ class HardwareKeyError     extends KeyringError { /* code: 'HARDWARE_KEY_ERROR' 
 Example:
 
 ```ts
-import { KeyringError, DecryptionError } from '@manya/keyring';
+import { KeyringError, DecryptionError } from '@manya-os/keyring';
 
 try {
   await wallet.importEncrypted(blob, 'wrong-passphrase');
@@ -184,7 +184,7 @@ function scrubMetadata(meta: unknown): unknown;
 `ConsoleLogger` writes JSON to stdout (`debug`/`info`) or stderr (`warn`/`error`), and deeply scrubs fields whose names end with any of `SCRUBBED_FIELD_NAMES` (case-insensitive). Example:
 
 ```ts
-import { ConsoleLogger } from '@manya/keyring';
+import { ConsoleLogger } from '@manya-os/keyring';
 
 const logger = new ConsoleLogger('info');
 logger.info('user:login', { userId: 'u-1', password: 'hunter2' });
@@ -213,7 +213,7 @@ function constantTimeEqual(a: Buffer, b: Buffer): boolean;
 Example:
 
 ```ts
-import { sha256, hkdf, pbkdf2 } from '@manya/keyring';
+import { sha256, hkdf, pbkdf2 } from '@manya-os/keyring';
 
 const masterKey = pbkdf2('my-passphrase', salt, 210_000, 32);
 const subKey = hkdf(masterKey, Buffer.alloc(32), Buffer.from('manya:sync:v1'), 32);
@@ -242,7 +242,7 @@ function decrypt(
 Example:
 
 ```ts
-import { encrypt, decrypt, AES_256_KEY_BYTES } from '@manya/keyring';
+import { encrypt, decrypt, AES_256_KEY_BYTES } from '@manya-os/keyring';
 import * as crypto from 'crypto';
 
 const key = crypto.randomBytes(AES_256_KEY_BYTES);
@@ -285,7 +285,7 @@ function getKeyFingerprint(publicKey: crypto.KeyObject | string): string; // 64-
 Example:
 
 ```ts
-import { generateKeyPair, exportKeyPem, getKeyFingerprint } from '@manya/keyring';
+import { generateKeyPair, exportKeyPem, getKeyFingerprint } from '@manya-os/keyring';
 
 const { publicKey, privateKey, algorithm } = generateKeyPair('ecdsa');
 const pubPem = exportKeyPem(publicKey, 'public');
@@ -319,7 +319,7 @@ function proofTypeFor(algo: SignatureAlgorithm): string;
 Example:
 
 ```ts
-import { generateKeyPair, sign, verify } from '@manya/keyring';
+import { generateKeyPair, sign, verify } from '@manya-os/keyring';
 
 const { publicKey, privateKey, algorithm } = generateKeyPair('ecdsa');
 const data = Buffer.from('hello', 'utf8');
@@ -372,7 +372,7 @@ function base58Encode(input: Buffer): string; // Bitcoin alphabet
 Example:
 
 ```ts
-import { Identity, generateKeyPair, exportKeyPem } from '@manya/keyring';
+import { Identity, generateKeyPair, exportKeyPem } from '@manya-os/keyring';
 
 const { publicKey, algorithm } = generateKeyPair('ecdsa');
 const pem = exportKeyPem(publicKey, 'public');
@@ -417,7 +417,7 @@ class RoleManager {
 Example:
 
 ```ts
-import { RoleManager, Role } from '@manya/keyring';
+import { RoleManager, Role } from '@manya-os/keyring';
 
 const rm = new RoleManager();
 await rm.assignRole('id-1', Role.Admin);
@@ -484,7 +484,7 @@ Decision algorithm:
 Example:
 
 ```ts
-import { RoleManager, AccessEnforcer, defaultPolicySet, Role } from '@manya/keyring';
+import { RoleManager, AccessEnforcer, defaultPolicySet, Role } from '@manya-os/keyring';
 
 const rm = new RoleManager();
 const enforcer = new AccessEnforcer(rm, defaultPolicySet());
@@ -581,7 +581,7 @@ class KeyringWallet {
 Example — full lifecycle:
 
 ```ts
-import { KeyringWallet, Role } from '@manya/keyring';
+import { KeyringWallet, Role } from '@manya-os/keyring';
 
 const wallet = new KeyringWallet();
 const id = await wallet.createIdentity('ecdsa', { name: 'agent-1' });
@@ -626,7 +626,7 @@ function assertValidKey(key: string): void; // throws StorageError on invalid ke
 Example:
 
 ```ts
-import { FileStorage, KeyringWallet } from '@manya/keyring';
+import { FileStorage, KeyringWallet } from '@manya-os/keyring';
 
 const storage = new FileStorage('./.manya/keyring');
 await storage.ensureInitialized();
@@ -667,7 +667,7 @@ function canonicalCredentialBytes(credential: VerifiableCredential): Buffer;
 Example:
 
 ```ts
-import { issueCredential, verifyCredential, generateKeyPair } from '@manya/keyring';
+import { issueCredential, verifyCredential, generateKeyPair } from '@manya-os/keyring';
 
 const { privateKey, publicKey, algorithm } = generateKeyPair('ecdsa');
 
@@ -704,7 +704,7 @@ Constraints: `2 ≤ k ≤ n ≤ 255`. The secret must be non-empty.
 Example:
 
 ```ts
-import { shamirSplit, shamirCombine } from '@manya/keyring';
+import { shamirSplit, shamirCombine } from '@manya-os/keyring';
 import * as crypto from 'crypto';
 
 const secret = crypto.randomBytes(32);
@@ -751,7 +751,7 @@ Backups contain **only public identity + credentials**. NO raw private key is in
 Example:
 
 ```ts
-import { createBackup, restoreBackup } from '@manya/keyring';
+import { createBackup, restoreBackup } from '@manya-os/keyring';
 
 const blob = createBackup(wallet, 'backup-passphrase');
 const { payload } = restoreBackup(blob, 'backup-passphrase');
@@ -806,7 +806,7 @@ function buildBundleFromParts(
 Example:
 
 ```ts
-import { MultiDeviceSync } from '@manya/keyring';
+import { MultiDeviceSync } from '@manya-os/keyring';
 
 const sync = new MultiDeviceSync();
 const bundle = sync.createSyncBundle(walletA);
@@ -868,7 +868,7 @@ The default `SoftwareKeyProvider` keeps keys in process memory. To bind keys to 
 Example — custom hardware provider:
 
 ```ts
-import { KeyringWallet, type HardwareKeyProvider } from '@manya/keyring';
+import { KeyringWallet, type HardwareKeyProvider } from '@manya-os/keyring';
 
 class MyTpmProvider implements HardwareKeyProvider {
   isAvailable() { return true; }

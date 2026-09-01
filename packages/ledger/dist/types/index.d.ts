@@ -27,10 +27,12 @@ export { LocalTimestampAuthority, TIMESTAMP_TOKEN_VERSION, canonicalTimestampByt
 export { commit, reveal, issueTimestamp, verifyTimestamp, COMMITMENT_NONCE_BYTES, COMMITMENT_BYTES, } from './timestamp/timestamp.js';
 export { EventReplayer } from './replay/replay.js';
 export type { ReplayFilter } from './replay/replay.js';
-export type { LedgerStore } from './store/store.js';
+export type { LedgerStore, AsyncLedgerStore } from './store/store.js';
 export { InMemoryLedgerStore, cloneEvent } from './store/memory.js';
 export { FileLedgerStore, DEFAULT_COMPACT_THRESHOLD_BYTES, } from './store/file.js';
 export type { FileLedgerStoreOptions } from './store/file.js';
 export { exportAuditLog, importJsonl, } from './export/exporter.js';
 export type { ExportFormat, ExportOptions } from './export/exporter.js';
+export { CollaborationLedger } from './collaboration/ledger.js';
+export type { CollaborationLedgerOptions } from './collaboration/ledger.js';
 //# sourceMappingURL=index.d.ts.map

@@ -1,8 +1,8 @@
-# @manya/contracts
+# @manya-os/contracts
 
 > Universal contract and schema validation for the MANYA Intelligence OS — interface schemas, manifests, semver compatibility, API contracts, schema sync, boundary enforcement, and validation reports.
 
-`@manya/contracts` is the contract substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/contracts` is the contract substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides a JSON-ish schema definition language with a typed compiler, manifest validation, full semver parsing and range satisfaction, backward-compatibility analysis between two schema versions, HTTP API contract validation, schema diffing and merging with conflict detection, module boundary enforcement via policies, and aggregated validation reports.
 
@@ -10,7 +10,7 @@ The package provides a JSON-ish schema definition language with a typed compiler
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/contracts` extends that sovereignty into the contract domain: **your interfaces, your versioning rules, your boundary policy — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/contracts` extends that sovereignty into the contract domain: **your interfaces, your versioning rules, your boundary policy — yours alone.**
 
 - **Sovereign.** No network calls. Every schema, manifest, and policy is local.
 - **Typed.** Every public symbol is typed; every error carries a stable `code` string.
@@ -38,7 +38,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/contracts
+npm install @manya-os/contracts
 ```
 
 Requires Node.js 18+.
@@ -50,7 +50,7 @@ Requires Node.js 18+.
 ### 1. Define a schema and validate a value
 
 ```ts
-import { compileSchema, validateValue } from '@manya/contracts';
+import { compileSchema, validateValue } from '@manya-os/contracts';
 
 const User = compileSchema({
   name: 'User', version: '1.0.0',
@@ -77,11 +77,11 @@ console.log(result.errors); // []
 ### 2. Validate a manifest and check version compatibility
 
 ```ts
-import { validateManifest, satisfies, checkBackwardCompat } from '@manya/contracts';
+import { validateManifest, satisfies, checkBackwardCompat } from '@manya-os/contracts';
 
 const m = validateManifest({
-  name: '@manya/example', version: '1.2.3',
-  dependencies: { '@manya/contracts': '^1.0.0' },
+  name: '@manya-os/example', version: '1.2.3',
+  dependencies: { '@manya-os/contracts': '^1.0.0' },
   exports: ['./src/index.js'],
   capabilities: ['crypto'],
 });
@@ -97,7 +97,7 @@ console.log(compat.compatible, compat.breakingChanges);
 ### 3. Validate an HTTP request/response against an API contract
 
 ```ts
-import { compileSchema, validateRequest, validateResponse } from '@manya/contracts';
+import { compileSchema, validateRequest, validateResponse } from '@manya-os/contracts';
 
 const contract = {
   name: 'users-api', version: '1.0.0',
@@ -126,7 +126,7 @@ console.log(req.valid, res.valid);
 ```ts
 import {
   enforceBoundary, detectViolations, buildReport, aggregateReports, summarizeReport,
-} from '@manya/contracts';
+} from '@manya-os/contracts';
 
 const policy = {
   name: 'p', defaultAllow: false,
@@ -153,7 +153,7 @@ console.log(summarizeReport(aggregateReports([report])));
 
 ## Configuration
 
-`@manya/contracts` has no runtime configuration object — every function is pure and explicit. The only configurable surface is the optional `Logger` you can pass to higher-level orchestration code; the package ships `ConsoleLogger` (with secret scrubbing) and `SilentLogger`.
+`@manya-os/contracts` has no runtime configuration object — every function is pure and explicit. The only configurable surface is the optional `Logger` you can pass to higher-level orchestration code; the package ships `ConsoleLogger` (with secret scrubbing) and `SilentLogger`.
 
 ### Supported schema type kinds
 

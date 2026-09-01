@@ -6,7 +6,7 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "build": "node ../../scripts/build-package.js supabase",
-    "test": "jest",
+    "test": "jest --config ../../jest.config.js",
     "clean": "rm -rf dist build node_modules",
     "build:types": "node ../../scripts/build-types.js supabase",
     "build:bundle": "node ../../scripts/build-package.js supabase --no-types && node ../../scripts/build-types.js supabase"
@@ -23,20 +23,28 @@
   "author": "Uviwe Menyiwe (Azura Daemon) <foundation@manyahael.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.0"
+    "@supabase/supabase-js": "^2.49.0",
+    "pg": "^8.23.0"
   },
-  "devDependencies": {},
   "peerDependencies": {
-    "@manya-os/ledger": "*",
-    "@manya-os/memory": "*",
+    "@manya-os/attest": "*",
     "@manya-os/keyring": "*",
-    "@manya-os/attest": "*"
+    "@manya-os/ledger": "*",
+    "@manya-os/memory": "*"
   },
   "peerDependenciesMeta": {
-    "@manya-os/ledger": { "optional": true },
-    "@manya-os/memory": { "optional": true },
-    "@manya-os/keyring": { "optional": true },
-    "@manya-os/attest": { "optional": true }
+    "@manya-os/ledger": {
+      "optional": true
+    },
+    "@manya-os/memory": {
+      "optional": true
+    },
+    "@manya-os/keyring": {
+      "optional": true
+    },
+    "@manya-os/attest": {
+      "optional": true
+    }
   },
   "module": "dist/esm/index.mjs",
   "exports": {

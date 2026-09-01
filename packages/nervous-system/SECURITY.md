@@ -1,7 +1,7 @@
-# @manya/nervous-system Security Policy
+# @manya-os/nervous-system Security Policy
 
 ## Scope
-`@manya/nervous-system` runs entirely in-process. No event payloads, filter predicates, or source samples leave the host process. The fabric, recorder, queue, and metrics are all in-memory data structures.
+`@manya-os/nervous-system` runs entirely in-process. No event payloads, filter predicates, or source samples leave the host process. The fabric, recorder, queue, and metrics are all in-memory data structures.
 
 ## Threat model
 

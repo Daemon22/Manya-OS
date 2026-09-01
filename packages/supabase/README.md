@@ -30,11 +30,14 @@ import { resolveConfig, SupabaseClientFacade, SupabaseMemoryStore } from '@manya
 const config = resolveConfig({
   url: 'https://your-project.supabase.co',
   serviceRoleKey: 'your-service-role-key',
+     databaseUrl: 'postgresql://migration-user:password@db-host:5432/database',
   logLevel: 'info',
+     migrateOnStart: true,
 });
 
 // 2. Create client
 const facade = new SupabaseClientFacade(config, logger);
+await facade.ready(); // wait for startup migrations
 
 // 3. Create adapter
 const store = new SupabaseMemoryStore(facade.getClient(), config, logger);
@@ -50,8 +53,9 @@ const memory = new MemorySystem({ store });
 ```typescript
 import { configFromEnv, SupabaseClientFacade } from '@manya-os/supabase';
 
-const config = configFromEnv(); // reads SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY
+const config = configFromEnv(); // reads Supabase credentials and optional DATABASE_URL
 const facade = new SupabaseClientFacade(config, logger);
+await facade.ready();
 ```
 
 ## Configuration
@@ -60,6 +64,7 @@ const facade = new SupabaseClientFacade(config, logger);
 |---|---|---|---|
 | `url` | `string` | **required** | Supabase project URL |
 | `serviceRoleKey` | `string` | **required** | Service-role key (server-side only) |
+| `databaseUrl` | `string` | — | Direct PostgreSQL URL for fresh migrations (server-side only) |
 | `anonKey` | `string` | — | Anonymous key (client-safe) |
 | `migrateOnStart` | `boolean` | `false` | Run pending migrations on first connection |
 | `migrationDir` | `string` | `./migrations` | Path to migration SQL files |
@@ -71,24 +76,71 @@ const facade = new SupabaseClientFacade(config, logger);
 | `logLevel` | `LogLevel` | `'info'` | Log level |
 | `logger` | `Logger` | — | Custom logger (overrides logLevel) |
 
+`SUPABASE_DB_URL` or `DATABASE_URL` supplies `databaseUrl`. When present,
+`migrateOnStart` uses the trusted PostgreSQL executor for the same migrations
+in local and live environments. This is required for a fresh database before
+the `exec_sql` helper exists. Existing databases may use the locked-down RPC
+fallback when no direct URL is supplied.
+
 ## Database Setup
 
 ### 1. Run Migrations
 
-Migrations are in `packages/supabase/migrations/`. Apply them via the migration runner:
+Migrations are in `packages/supabase/migrations/`. The migration system supports both local development and production deployments using a single codepath.
+
+#### Automatic Migration on Startup
+
+Configure your application to run migrations automatically:
 
 ```typescript
-import { MigrationRunner } from '@manya-os/supabase';
+import { configFromEnv, SupabaseClientFacade } from '@manya-os/supabase';
 
-const runner = new MigrationRunner(client, logger, './migrations');
-const results = await runner.runPending();
+const config = configFromEnv();
+const facade = new SupabaseClientFacade(config, logger);
+await facade.ready(); // Waits for migrations to complete
 ```
 
-Or apply manually via the Supabase SQL Editor.
+#### Manual Migration Execution
+
+For more control over migration timing:
+
+```typescript
+import { MigrationRunner, PostgresMigrationExecutor } from '@manya-os/supabase';
+
+// For fresh databases, use the direct PostgreSQL executor
+const executor = new PostgresMigrationExecutor(config.databaseUrl!);
+const runner = new MigrationRunner(client, logger, './migrations', executor);
+const results = await runner.runPending();
+await executor.close();
+```
+
+#### Environment Configuration
+
+The migration system works with both local and production databases through environment configuration:
+
+```bash
+# Local development
+SUPABASE_URL=http://localhost:15433
+SUPABASE_SERVICE_ROLE_KEY=<local key>
+SUPABASE_DB_URL=postgresql://postgres:postgres@localhost:15432/manya_test
+SUPABASE_MIGRATE_ON_START=true
+
+# Production
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=<production key>
+SUPABASE_DB_URL=postgresql://postgres.[ref]:[password]@db.[ref].supabase.co:5432/postgres
+SUPABASE_MIGRATE_ON_START=true
+```
+
+**For detailed setup guides:**
+- [Local Development Guide](./LOCAL_DEVELOPMENT.md) - Setting up local PostgreSQL and testing
+- [Production Deployment Guide](./PRODUCTION_DEPLOYMENT.md) - Production security and deployment best practices
 
 ### 2. Schema Overview
 
-16 tables across 6 domains plus migration tracking:
+### 2. Schema Overview
+
+17 tables across 6 domains plus migration tracking:
 
 | Domain | Tables | Owner |
 |---|---|---|
@@ -156,14 +208,35 @@ core packages (@manya-os/ledger, memory, keyring, attest)
         |
    @manya-os/supabase adapters
         |
-   Supabase/Postgres
+   SupabaseClientFacade (environment-neutral)
+        |
+   MigrationRunner (shared migration logic)
+        |
+   MigrationSqlExecutor (environment-specific)
+        ├─ PostgresMigrationExecutor (local/production PostgreSQL)
+        └─ Supabase RPC fallback (existing databases)
+        |
+   Database (local PostgreSQL or production Supabase)
 ```
+
+### Environment-Neutral Design
+
+The migration and database architecture uses a single codepath for both local and production environments:
+
+- **Environment Configuration**: Reads from environment variables or config objects
+- **Shared Migration Logic**: `MigrationRunner` works identically in all environments
+- **Environment-Specific Execution**: `MigrationSqlExecutor` adapts to the available database connection
+- **Fresh Database Support**: `PostgresMigrationExecutor` for bootstrapping before RPC helpers exist
+- **Existing Database Support**: Falls back to Supabase RPC when direct connection unavailable
+
+### Key Components
 
 - Core packages define store interfaces
 - In-memory defaults ship with each core package
 - `@manya-os/supabase` provides database-backed implementations
 - Adapters are injected via config (no hard coupling)
 - All adapters include retry logic for transient errors
+- Migration system supports both local and production environments
 
 ## Failure Behavior
 

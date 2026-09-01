@@ -1,10 +1,10 @@
-# Security Policy — @manya/attest
+# Security Policy — @manya-os/attest
 
 For the general security policy (supported versions, reporting a vulnerability, disclosure timeline, scope, principles), see the root [SECURITY.md](../../SECURITY.md). This file describes the **package-specific** security surface.
 
 ## Cryptographic surface
 
-`@manya/attest` uses Node.js `crypto` (OpenSSL-backed) for all cryptographic operations:
+`@manya-os/attest` uses Node.js `crypto` (OpenSSL-backed) for all cryptographic operations:
 
 | Operation | Primitive |
 | --- | --- |
@@ -14,7 +14,7 @@ For the general security policy (supported versions, reporting a vulnerability, 
 | UUID generation | `crypto.randomUUID` (RFC-4122 v4). |
 | Constant-time comparison | `crypto.timingSafeEqual` (with length guard). |
 
-Custom cryptographic code is **not** used. The package is **self-contained**: it does NOT import from `@manya/keyring` (a sibling workspace). All primitives are implemented locally in `src/crypto/` and use Node's `crypto` directly.
+Custom cryptographic code is **not** used. The package is **self-contained**: it does NOT import from `@manya-os/keyring` (a sibling workspace). All primitives are implemented locally in `src/crypto/` and use Node's `crypto` directly.
 
 ## Fingerprint privacy
 

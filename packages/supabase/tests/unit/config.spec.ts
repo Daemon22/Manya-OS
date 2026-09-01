@@ -91,6 +91,12 @@ describe('resolveConfig', () => {
     expect(result.timeoutMs).toBe(60000);
     expect(result.logLevel).toBe('debug');
   });
+
+  it('preserves the trusted migration executor', () => {
+    const migrationExecutor = { query: jest.fn() };
+    const result = resolveConfig({ ...validInput, migrationExecutor });
+    expect(result.migrationExecutor).toBe(migrationExecutor);
+  });
 });
 
 describe('configFromEnv', () => {
@@ -118,10 +124,12 @@ describe('configFromEnv', () => {
     process.env.SUPABASE_ANON_KEY = 'anon-env';
     process.env.SUPABASE_MIGRATE_ON_START = 'true';
     process.env.SUPABASE_TIMEOUT_MS = '5000';
+    process.env.SUPABASE_DB_URL = 'postgresql://localhost/manya';
     const result = configFromEnv();
     expect(result.anonKey).toBe('anon-env');
     expect(result.migrateOnStart).toBe(true);
     expect(result.timeoutMs).toBe(5000);
+    expect(result.databaseUrl).toBe('postgresql://localhost/manya');
   });
 
   it('throws ConfigError when SUPABASE_URL is missing', () => {

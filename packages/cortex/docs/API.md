@@ -1,6 +1,6 @@
-# @manya/cortex — API Reference
+# @manya-os/cortex — API Reference
 
-> Complete TypeScript API reference for `@manya/cortex` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/cortex` v1.0.0.
 
 ## Contents
 - [Types](#types)

@@ -1,6 +1,6 @@
-# @manya/contracts — API Reference
+# @manya-os/contracts — API Reference
 
-> Complete TypeScript API reference for `@manya/contracts` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/contracts` v1.0.0.
 
 ## Contents
 - [Types](#types)

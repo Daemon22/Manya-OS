@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@manya/memory` are documented here.
+All notable changes to `@manya-os/memory` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Adheres to [SemVer](https://semver.org/).
 
 ## [1.1.0] — 2026-08-17

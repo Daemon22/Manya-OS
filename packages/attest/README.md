@@ -1,14 +1,14 @@
-# @manya/attest
+# @manya-os/attest
 
 > Device and session attestation for the **MANYA Intelligence OS** — device fingerprinting, trusted session establishment, signed challenge-response authentication, session verification, hardware validation, remote attestation, authentication workflows, and device trust evaluation.
 
-`@manya/attest` is part of the MANYA Intelligence OS monorepo, conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**. It is the trust layer that binds sovereign agents (provisioned by `@manya/keyring`) to the physical devices they run on — without ever collecting personally-identifying information.
+`@manya-os/attest` is part of the MANYA Intelligence OS monorepo, conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**. It is the trust layer that binds sovereign agents (provisioned by `@manya-os/keyring`) to the physical devices they run on — without ever collecting personally-identifying information.
 
 ## Vision
 
 The MANYA Intelligence OS is a sovereign, modular, local-first intelligence operating system. An agent that runs on a laptop in Cape Town today may migrate to a server in Lagos tomorrow; an agent that performs privileged operations must prove that it is *the same* agent, on *the expected* hardware, before it is allowed to act.
 
-`@manya/attest` answers three questions:
+`@manya-os/attest` answers three questions:
 
 1. **Who is this device?** — `DeviceFingerprint` produces a stable SHA-256 over a PII-free vector of hardware/OS signals (CPU count, arch, platform, hostname, MACs, total memory, Node version, OS release, optional machine id).
 2. **Can I prove it?** — signed challenge-response (`signChallenge` / `verifyResponse`) plus signed attestation quotes (`produceAttestation` / `verifyAttestation`) bind the prover's identity key to the device fingerprint.
@@ -34,19 +34,19 @@ The `AuthenticationWorkflow` orchestrates all three into a single challenge → 
 ## Install
 
 ```bash
-npm install @manya/attest
+npm install @manya-os/attest
 # or, in the monorepo:
 pnpm install
 ```
 
-`@manya/attest` has **zero runtime dependencies** — it uses only Node.js `crypto` and built-ins (`os`, `fs`, `path`, `child_process`). It works on Node 18+.
+`@manya-os/attest` has **zero runtime dependencies** — it uses only Node.js `crypto` and built-ins (`os`, `fs`, `path`, `child_process`). It works on Node 18+.
 
 ## Quick start
 
 ### 1. Device fingerprint
 
 ```typescript
-import { collectDeviceSignals, DeviceFingerprint, redactSignals } from '@manya/attest';
+import { collectDeviceSignals, DeviceFingerprint, redactSignals } from '@manya-os/attest';
 
 const signals = collectDeviceSignals();
 const fp = DeviceFingerprint.fromSignals(signals);
@@ -61,7 +61,7 @@ console.log('redacted signals for logging:', redactSignals(signals));
 ### 2. Challenge-response authentication
 
 ```typescript
-import { generateKeyPair, generateChallenge, signChallenge, verifyResponse, NonceStore } from '@manya/attest';
+import { generateKeyPair, generateChallenge, signChallenge, verifyResponse, NonceStore } from '@manya-os/attest';
 
 const prover = generateKeyPair('ecdsa');
 const nonces = new NonceStore();
@@ -88,7 +88,7 @@ import {
   exportKeyPem,
   collectDeviceSignals,
   DeviceFingerprint,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 // Prover: generate keys + collect fingerprint.
 const proverKp = generateKeyPair('ecdsa');
@@ -159,7 +159,7 @@ Decision thresholds: `>= 0.7` → `trust`, `>= 0.3` → `challenge`, `< 0.3` →
 `InMemorySessionStore` is the default. To use a distributed store (Redis, Postgres, etc.), implement the `SessionStore` interface:
 
 ```typescript
-import type { SessionStore, SessionRecord } from '@manya/attest';
+import type { SessionStore, SessionRecord } from '@manya-os/attest';
 
 class RedisSessionStore implements SessionStore {
   async get(token: string): Promise<SessionRecord | null> { /* ... */ }
@@ -178,7 +178,7 @@ class RedisSessionStore implements SessionStore {
 - **Attestation freshness**: `verifyAttestation` rejects quotes older than `freshnessMs` (default 5 min).
 - **Hardware probes never throw**: `HardwareValidator.probe()` is wrapped in try/catch and always returns a `HardwareProbe` (with everything `false` on error).
 - **No raw private keys in logs**: `ConsoleLogger` scrubs `privateKey`, `password`, `passphrase`, `token`, `secret`, `credential`, `iv`, `tag`, `share`, `nonce`, `signature`, `macs`, `machineId`.
-- **Self-contained**: this package does NOT import from `@manya/keyring` (a sibling workspace). All crypto primitives are implemented locally using Node's `crypto` module.
+- **Self-contained**: this package does NOT import from `@manya-os/keyring` (a sibling workspace). All crypto primitives are implemented locally using Node's `crypto` module.
 
 For the full security surface, see [SECURITY.md](./SECURITY.md). For the full API reference, see [docs/API.md](./docs/API.md).
 

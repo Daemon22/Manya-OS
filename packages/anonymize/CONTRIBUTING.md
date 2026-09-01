@@ -1,6 +1,6 @@
-# Contributing to @manya/anonymize
+# Contributing to @manya-os/anonymize
 
-Thank you for considering a contribution to `@manya/anonymize`. This package is part of the MANYA Intelligence OS, stewarded by the Manya Hael Foundation.
+Thank you for considering a contribution to `@manya-os/anonymize`. This package is part of the MANYA Intelligence OS, stewarded by the Manya Hael Foundation.
 
 ## Code style
 

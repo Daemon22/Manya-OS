@@ -6,6 +6,7 @@
   "description": "Executable local-first runtime for MANYA Intelligence OS.",
   "scripts": {
     "start": "node index.mjs",
-    "dev": "node index.mjs"
+    "dev": "node index.mjs",
+    "test": "node ../scripts/test-runtime.mjs"
   }
 }

@@ -1,7 +1,7 @@
 /**
  * MANYA Intelligence OS — workspace super-bundle.
  *
- * Produces a single minified file containing all 12 @manya/* packages,
+ * Produces a single minified file containing all 13 @manya-os/* packages,
  * suitable for edge deployment, browser distribution, or single-file
  * embedding. Uses esbuild for speed (typically <1s for the whole workspace).
  *
@@ -37,7 +37,7 @@ async function buildSuperBundle() {
 
   // Build a single virtual entry that re-exports everything.
   const entryContent = PACKAGES.map(p =>
-    `export * from '@manya/${p}';`
+    `export * from '@manya-os/${p}';`
   ).join('\n') + '\n';
   const entryPath = path.join(OUT_DIR, '_entry.ts');
   fs.writeFileSync(entryPath, entryContent);

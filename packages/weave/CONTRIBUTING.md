@@ -1,4 +1,4 @@
-# Contributing to @manya/weave
+# Contributing to @manya-os/weave
 
 ## Code style
 - TypeScript strict mode mandatory.

@@ -1,8 +1,8 @@
-# @manya/constitution
+# @manya-os/constitution
 
 > Governance substrate for the MANYA Intelligence OS — ethical rules, operational policies, permission models (RBAC with inheritance), decision hierarchies, emergency procedures, safety invariants, conflict resolution, runtime enforcement, and versioned governance documents.
 
-`@manya/constitution` is the governance layer of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/constitution` is the governance layer of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides a small, dependency-free governance engine that binds ethical rules, operational policies, role-based permissions, decision hierarchies, emergency procedures, safety invariants, and conflict resolution into a single runtime enforcement point with a full audit log. It also defines a versioned governance-document format with diffing and supersession semantics, so an organization can author, ratify, and evolve its own constitution in code.
 
@@ -10,7 +10,7 @@ The package provides a small, dependency-free governance engine that binds ethic
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/constitution` extends that sovereignty into the governance domain: **your rules, your policies, your authority structure — yours alone, auditable and machine-checkable.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/constitution` extends that sovereignty into the governance domain: **your rules, your policies, your authority structure — yours alone, auditable and machine-checkable.**
 
 - **Sovereign.** No network calls. Every rule, policy, and permission is local and configurable.
 - **Auditable.** Every enforcement evaluation produces a structured `AuditEntry` with a stable id, reasons, and violations.
@@ -40,7 +40,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/constitution
+npm install @manya-os/constitution
 ```
 
 Requires Node.js 18+.
@@ -52,7 +52,7 @@ Requires Node.js 18+.
 ### 1. Evaluate a single ethical rule
 
 ```ts
-import { evaluateRule } from '@manya/constitution';
+import { evaluateRule } from '@manya-os/constitution';
 
 const result = evaluateRule(
   {
@@ -72,7 +72,7 @@ console.log(result.reason);   // prohibition "harm.no-physical-harm" triggered: 
 ### 2. Build a permission model with role inheritance
 
 ```ts
-import { can, whoCan } from '@manya/constitution';
+import { can, whoCan } from '@manya-os/constitution';
 
 const model = {
   roles: [
@@ -96,7 +96,7 @@ whoCan(model, 'data:read');         // ['alice', 'bob']
 ```ts
 import {
   EnforcementEngine, SafetyChecker,
-} from '@manya/constitution';
+} from '@manya-os/constitution';
 
 const safety = new SafetyChecker();
 safety.register(
@@ -131,7 +131,7 @@ console.log(r.auditId);    // 'audit-...'
 ### 4. Author and supersede a governance document
 
 ```ts
-import { ratify, supersede, diffDocuments } from '@manya/constitution';
+import { ratify, supersede, diffDocuments } from '@manya-os/constitution';
 
 const v1 = ratify({
   id: 'constitution-v1', name: 'Constitution',

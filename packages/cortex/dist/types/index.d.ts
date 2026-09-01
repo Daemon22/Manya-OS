@@ -25,6 +25,7 @@ export { randomId } from './util.js';
 export { decompose, estimateComplexity } from './decompose/decompose.js';
 export { Planner, topoSort } from './planner/planner.js';
 export { ToolRegistry } from './tools/registry.js';
+export { KnowledgeRegistry } from './registry/knowledge.js';
 export { Router } from './router/router.js';
 export { Scheduler } from './scheduler/scheduler.js';
 export { ConfidenceEstimator, DEFAULT_WEIGHTS } from './confidence/confidence.js';

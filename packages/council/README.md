@@ -1,8 +1,8 @@
-# @manya/council
+# @manya-os/council
 
 > Multi-agent consensus engine for the MANYA Intelligence OS — specialist routing, independent analyses, weighted confidence scoring, conflict detection, structured debate, minority opinions, consensus building, review reports, and final decision synthesis.
 
-`@manya/council` is the deliberation layer of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/council` is the deliberation layer of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides a small, dependency-free council engine that routes a problem to specialists, collects their independent analyses, scores them with weighted confidence, detects conflicts (opposing conclusions, factual contradictions, divergent reasoning), facilitates structured debate, records minority opinions, builds consensus via weighted voting, produces a review report, and synthesizes a final defensible decision. Every step is deterministic and explainable.
 
@@ -10,7 +10,7 @@ The package provides a small, dependency-free council engine that routes a probl
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/council` extends that sovereignty into the deliberation domain: **your specialists, your weights, your threshold — your decision, auditable and reproducible.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/council` extends that sovereignty into the deliberation domain: **your specialists, your weights, your threshold — your decision, auditable and reproducible.**
 
 - **Sovereign.** No network calls. Every routing decision, score, and consensus is computed locally.
 - **Deterministic.** Identical inputs produce identical outputs. Tokenization, polarity inference, and severity classification are all rule-based.
@@ -40,7 +40,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/council
+npm install @manya-os/council
 ```
 
 Requires Node.js 18+.
@@ -52,7 +52,7 @@ Requires Node.js 18+.
 ### 1. Route a problem to specialists
 
 ```ts
-import { SpecialistRegistry } from '@manya/council';
+import { SpecialistRegistry } from '@manya-os/council';
 
 const registry = new SpecialistRegistry()
   .register({ id: 'sec', name: 'Security', expertise: ['security', 'crypto'], weight: 2 })
@@ -73,7 +73,7 @@ console.log(ranked.map((s) => s.id)); // ['sec'] — sec has the strongest overl
 ### 2. Collect analyses, detect conflicts, build consensus
 
 ```ts
-import { AnalysisCollector, ConflictDetector, ConsensusBuilder } from '@manya/council';
+import { AnalysisCollector, ConflictDetector, ConsensusBuilder } from '@manya-os/council';
 
 const collector = new AnalysisCollector();
 collector.submit({
@@ -106,7 +106,7 @@ const consensus = new ConsensusBuilder(0.6).build('p1', analyses, conflicts, {
 ### 3. Synthesize a final decision and build a review report
 
 ```ts
-import { synthesize, buildReport, serializeReport } from '@manya/council';
+import { synthesize, buildReport, serializeReport } from '@manya-os/council';
 
 const decision = synthesize('p1', consensus, analyses, conflicts);
 console.log(decision.consensusLevel); // 'strong' | 'majority' | …
@@ -125,7 +125,7 @@ console.log(serializeReport(report));  // pretty JSON
 ### 4. Run a structured debate over a conflict
 
 ```ts
-import { DebateFacilitator } from '@manya/council';
+import { DebateFacilitator } from '@manya-os/council';
 
 const facilitator = new DebateFacilitator();
 const debate = facilitator.open('p1', conflicts.map((c) => c.id));

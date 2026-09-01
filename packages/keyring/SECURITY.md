@@ -1,10 +1,10 @@
-# Security Policy — @manya/keyring
+# Security Policy — @manya-os/keyring
 
 For the general security policy (supported versions, reporting a vulnerability, disclosure timeline, scope, principles), see the root [SECURITY.md](../../SECURITY.md). This file describes the **package-specific** security surface.
 
 ## Cryptographic surface
 
-`@manya/keyring` uses Node.js `crypto` (OpenSSL-backed) for all cryptographic operations:
+`@manya-os/keyring` uses Node.js `crypto` (OpenSSL-backed) for all cryptographic operations:
 
 | Operation | Primitive |
 | --- | --- |

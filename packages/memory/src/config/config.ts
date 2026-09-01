@@ -19,7 +19,7 @@ export interface MemoryConfig {
   logger?: Logger;
 }
 
-export const DEFAULT_CONFIG: Required<Omit<MemoryConfig, 'logger'>> = {
+export const DEFAULT_CONFIG: Required<Omit<MemoryConfig, 'logger' | 'store'>> = {
   aging: {
     workingTtlMs: 5 * 60 * 1000,
     episodicMaxCount: 10_000,
@@ -30,7 +30,7 @@ export const DEFAULT_CONFIG: Required<Omit<MemoryConfig, 'logger'>> = {
   logLevel: 'info',
 };
 
-export function mergeConfig(user?: MemoryConfig): Required<Omit<MemoryConfig, 'logger'>> & { logger?: Logger } {
+export function mergeConfig(user?: MemoryConfig): Required<Omit<MemoryConfig, 'logger' | 'store'>> & { store?: MemoryStore; logger?: Logger } {
   return {
     ...DEFAULT_CONFIG,
     ...(user ?? {}),

@@ -41,6 +41,11 @@ export interface MigrationResult {
   error?: string;
 }
 
+/** Executes arbitrary migration SQL inside the caller's trusted database connection. */
+export interface MigrationSqlExecutor {
+  query(sql: string, values?: unknown[]): Promise<{ rows?: unknown[] } | unknown>;
+}
+
 /**
  * Parse a migration filename into its components.
  * Expected format: NNN_description.sql (e.g. 001_initial_schema.sql)
@@ -174,8 +179,24 @@ export class MigrationRunner {
     private readonly client: SupabaseClient,
     private readonly logger: Logger,
     migrationDir?: string,
+    private readonly sqlExecutor?: MigrationSqlExecutor,
   ) {
     this.migrationDir = migrationDir ?? path.join(process.cwd(), 'migrations');
+  }
+
+  private async executeSql(sql: string): Promise<void> {
+    if (this.sqlExecutor) {
+      await this.sqlExecutor.query(sql);
+      return;
+    }
+
+    const { error } = await this.client.rpc('exec_sql', { query: sql });
+    if (error) {
+      throw new MigrationError(
+        `Migration SQL execution requires an exec_sql RPC or a direct SQL executor: ${error.message}`,
+        error,
+      );
+    }
   }
 
   /**
@@ -221,20 +242,20 @@ export class MigrationRunner {
    * Ensure the schema_migrations table exists.
    */
   async ensureMigrationTable(): Promise<void> {
-    const { error } = await this.client.rpc('exec_sql', {
-      query: `
+    try {
+      await this.executeSql(`
         CREATE TABLE IF NOT EXISTS schema_migrations (
           version    INTEGER PRIMARY KEY,
           name       TEXT NOT NULL,
           checksum   TEXT NOT NULL,
           applied_at TIMESTAMPTZ NOT NULL DEFAULT now()
         );
-      `,
-    });
-    // If RPC not available, try direct query via Supabase client
-    if (error) {
-      // The table may already exist from migration 001
-      this.logger.debug('schema_migrations table check', { error: error.message });
+      `);
+    } catch (error) {
+      if (this.sqlExecutor) throw error;
+      // Existing deployments may already have the table, but a missing executor
+      // must remain visible when bootstrapping a new database.
+      this.logger.debug('schema_migrations table check failed', { error });
     }
   }
 
@@ -242,6 +263,21 @@ export class MigrationRunner {
    * Get all applied migration versions.
    */
   async getAppliedVersions(): Promise<Map<number, { name: string; checksum: string; appliedAt: string }>> {
+    if (this.sqlExecutor) {
+      const result = await this.sqlExecutor.query(
+        'SELECT version, name, checksum, applied_at FROM schema_migrations ORDER BY version ASC',
+      ) as { rows?: Array<{ version: number; name: string; checksum: string; applied_at: string }> };
+      const applied = new Map<number, { name: string; checksum: string; appliedAt: string }>();
+      for (const row of result.rows ?? []) {
+        applied.set(row.version, {
+          name: row.name,
+          checksum: row.checksum,
+          appliedAt: row.applied_at,
+        });
+      }
+      return applied;
+    }
+
     const { data, error } = await this.client
       .from('schema_migrations')
       .select('version, name, checksum, applied_at')
@@ -285,6 +321,7 @@ export class MigrationRunner {
    */
   async runPending(): Promise<MigrationResult[]> {
     const migrations = await this.readMigrations();
+    await this.ensureMigrationTable();
     const applied = await this.getAppliedVersions();
 
     const pending = migrations.filter((m) => !applied.has(m.version));
@@ -303,14 +340,25 @@ export class MigrationRunner {
         const durationMs = Date.now() - start;
 
         // Record in schema_migrations via RPC (idempotent ON CONFLICT DO NOTHING)
-        const { error: recordError } = await this.client.rpc('record_migration', {
-          p_version: migration.version,
-          p_name: migration.name,
-          p_checksum: migration.checksum,
-        });
+        let recordError: { message: string } | null = null;
+        if (this.sqlExecutor) {
+          await this.sqlExecutor.query(
+            `INSERT INTO schema_migrations (version, name, checksum)
+             VALUES ($1, $2, $3)
+             ON CONFLICT (version) DO NOTHING`,
+            [migration.version, migration.name, migration.checksum],
+          );
+        } else {
+          const result = await this.client.rpc('record_migration', {
+            p_version: migration.version,
+            p_name: migration.name,
+            p_checksum: migration.checksum,
+          });
+          recordError = result.error;
+        }
 
         // Fallback to direct insert if record_migration RPC is not available
-        if (recordError) {
+        if (recordError && !this.sqlExecutor) {
           await this.client.from('schema_migrations').insert({
             version: migration.version,
             name: migration.name,
@@ -361,13 +409,17 @@ export class MigrationRunner {
     const statements = splitSqlStatements(migration.sql);
 
     for (const statement of statements) {
-      const { error } = await this.client.rpc('exec_sql', {
-        query: statement,
-      });
-
-      if (error) {
+      try {
+        await this.executeSql(statement);
+      } catch (error) {
+        if (error instanceof MigrationError) {
+          throw new MigrationError(
+            `Statement failed in migration ${migration.version}: ${error.message}`,
+            error,
+          );
+        }
         throw new MigrationError(
-          `Statement failed in migration ${migration.version}: ${error.message}`,
+          `Statement failed in migration ${migration.version}: ${error instanceof Error ? error.message : String(error)}`,
           error,
         );
       }

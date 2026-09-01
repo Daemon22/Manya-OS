@@ -8,6 +8,24 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue.svg)](https://www.typescriptlang.org/)
 [![Node](https://img.shields.io/badge/Node-%3E%3D18-green.svg)](https://nodejs.org/)
 
+## Database/Migration Backbone
+
+Manya-OS includes a complete database and migration backbone that works consistently across local development and production deployments. The backbone uses a single migration architecture and codepath, with environment-specific configuration determining database connections and migration execution.
+
+**Key Documentation:**
+- [Database Backbone Architecture](./DATABASE_BACKBONE.md) - Complete architecture overview and design principles
+- [@manya-os/supabase Local Development Guide](./packages/supabase/LOCAL_DEVELOPMENT.md) - Setting up local PostgreSQL and testing
+- [@manya-os/supabase Production Deployment Guide](./packages/supabase/PRODUCTION_DEPLOYMENT.md) - Production security and deployment best practices
+
+**Quick Start:**
+```bash
+# Local development with automated setup
+node scripts/setup-local-supabase.js
+
+# Run integration tests
+npm test -- --testPathPattern=packages/supabase/tests/integration
+```
+
 ## Vision
 
 MANYA is not simply an npm workspace, a collection of JavaScript libraries, or an AI framework. It is the **technological foundation** of the MANYA Intelligence Operating System — a sovereign platform capable of supporting an entire family of Supreme Intelligences that collaborate through shared identity, memory, governance, communication, reasoning, and execution.
@@ -18,7 +36,7 @@ The ecosystem is layered:
 Foundation     →  Manya Hael Foundation (steward)
 Ecosystem      →  MANYA (umbrella for all projects)
 Platform       →  MANYA Intelligence OS (this repository)
-Packages       →  @manya/* (reusable building blocks)
+Packages       →  @manya-os/* (reusable building blocks)
 Applications   →  Ara, Sire, Atlas, Nova, Sentinel, …
 Agents         →  individual intelligences that run within those applications
 ```
@@ -27,18 +45,19 @@ Agents         →  individual intelligences that run within those applications
 
 | Package | Purpose |
 | --- | --- |
-| [`@manya/keyring`](packages/keyring) | Sovereign identity & credential wallet — key generation, derivation, encrypted storage, signing, role management, multi-device sync, hardware-backed keys. |
-| [`@manya/attest`](packages/attest) | Device & session attestation — fingerprinting, signed challenge-response, hardware validation, remote attestation, trust evaluation. |
-| [`@manya/ledger`](packages/ledger) | Immutable audit ledger — cryptographic event chaining, tamper-evident timestamps, Merkle proofs, replay, export, distributed sync. |
-| [`@manya/anonymize`](packages/anonymize) | Research-grade anonymization — PII/PHI detection & removal, OCR scrubbing, document metadata stripping, validation reports, reproducible publication. |
-| [`@manya/customs-shield`](packages/customs-shield) | Compliance & supply-chain intelligence — HS code verification, sanctions screening, cargo risk scoring, regulatory reporting. |
-| [`@manya/weave`](packages/weave) | Interactive visualization — dependency graphs, knowledge graphs, event flows, architecture diagrams, search, export. |
-| [`@manya/contracts`](packages/contracts) | Universal contract & schema validation — interface definitions, manifest validation, compatibility rules, boundary enforcement, validation reports. |
-| [`@manya/cortex`](packages/cortex) | Reasoning orchestration engine — task decomposition, planning, tool selection, confidence estimation, workflow orchestration. |
-| [`@manya/memory`](packages/memory) | Unified memory system — working, episodic, semantic, procedural memory; indexing, aging, retrieval ranking, sync, import/export. |
-| [`@manya/constitution`](packages/constitution) | Governance — ethical rules, operational policies, permission models, decision hierarchies, emergency procedures, runtime enforcement. |
-| [`@manya/council`](packages/council) | Multi-agent consensus — specialist routing, independent analyses, weighted confidence, structured debate, minority opinions, synthesis. |
-| [`@manya/nervous-system`](packages/nervous-system) | Universal event infrastructure — pub/sub, filtering, routing, recording; filesystem, OS, USB, Bluetooth, network, sensor, app producers. |
+| [`@manya-os/keyring`](packages/keyring) | Sovereign identity & credential wallet — key generation, derivation, encrypted storage, signing, role management, multi-device sync, hardware-backed keys. |
+| [`@manya-os/attest`](packages/attest) | Device & session attestation — fingerprinting, signed challenge-response, hardware validation, remote attestation, trust evaluation. |
+| [`@manya-os/ledger`](packages/ledger) | Immutable audit ledger — cryptographic event chaining, tamper-evident timestamps, Merkle proofs, replay, export, distributed sync. |
+| [`@manya-os/anonymize`](packages/anonymize) | Research-grade anonymization — PII/PHI detection & removal, OCR scrubbing, document metadata stripping, validation reports, reproducible publication. |
+| [`@manya-os/customs-shield`](packages/customs-shield) | Compliance & supply-chain intelligence — HS code verification, sanctions screening, cargo risk scoring, regulatory reporting. |
+| [`@manya-os/weave`](packages/weave) | Interactive visualization — dependency graphs, knowledge graphs, event flows, architecture diagrams, search, export. |
+| [`@manya-os/contracts`](packages/contracts) | Universal contract & schema validation — interface definitions, manifest validation, compatibility rules, boundary enforcement, validation reports. |
+| [`@manya-os/cortex`](packages/cortex) | Reasoning orchestration engine — task decomposition, planning, tool selection, confidence estimation, workflow orchestration. |
+| [`@manya-os/memory`](packages/memory) | Unified memory system — working, episodic, semantic, procedural memory; indexing, aging, retrieval ranking, sync, import/export. |
+| [`@manya-os/constitution`](packages/constitution) | Governance — ethical rules, operational policies, permission models, decision hierarchies, emergency procedures, runtime enforcement. |
+| [`@manya-os/council`](packages/council) | Multi-agent consensus — specialist routing, independent analyses, weighted confidence, structured debate, minority opinions, synthesis. |
+| [`@manya-os/nervous-system`](packages/nervous-system) | Universal event infrastructure — pub/sub, filtering, routing, recording; filesystem, OS, USB, Bluetooth, network, sensor, app producers. |
+| [`@manya-os/supabase`](packages/supabase) | Optional durable Supabase/Postgres persistence adapters for ledger, memory, keyring, and attestation. |
 
 ## Ecosystem
 
@@ -94,7 +113,8 @@ manya-os/
 │   ├── memory/          # storage & recall
 │   ├── constitution/    # governance
 │   ├── council/         # consensus
-│   └── nervous-system/  # event fabric
+│   ├── nervous-system/  # event fabric
+│   └── supabase/        # persistence adapters
 ├── package.json
 ├── tsconfig.json
 ├── jest.config.js

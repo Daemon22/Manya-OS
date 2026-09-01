@@ -56,8 +56,8 @@ let proxyProc = null;
 let pgInstance = null;
 
 function cleanup() {
-  if (proxyProc) { try { proxyProc.kill(); } catch {} proxyProc = null; }
-  if (pgInstance) { try { pgInstance.stop(); } catch {} pgInstance = null; }
+  if (proxyProc) { try { proxyProc.kill(); } catch (e) { /* ignore */ } proxyProc = null; }
+  if (pgInstance) { try { pgInstance.stop(); } catch (e) { /* ignore */ } pgInstance = null; }
 }
 
 async function setupRoles(db) {
@@ -80,24 +80,9 @@ async function grantRuntimePrivileges(db) {
   await db.query(`GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO anon, authenticated, service_role`);
   await db.query(`GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO anon, authenticated, service_role`);
   await db.query(`GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO service_role`);
-}
-
-async function applyMigrations(db) {
-  const files = fs.readdirSync(MIGRATIONS_DIR).filter(f => f.endsWith('.sql')).sort();
-  for (const file of files) {
-    await db.query(fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8'));
-    const match = file.match(/^(\d+)_(.+)\.sql$/);
-    if (match) {
-      await db.query(
-        `INSERT INTO schema_migrations (version, name, checksum)
-         VALUES ($1, $2, $3)
-         ON CONFLICT (version) DO UPDATE SET name = EXCLUDED.name, checksum = EXCLUDED.checksum`,
-        [parseInt(match[1], 10), match[2].replace(/_/g, ' '), require('crypto').createHash('sha256').update(fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8')).digest('hex')],
-      );
-    }
-    log('  Applied: ' + file);
-  }
-  return files;
+  await db.query(`ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO service_role`);
+  await db.query(`ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT USAGE, SELECT ON SEQUENCES TO service_role`);
+  await db.query(`ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT EXECUTE ON FUNCTIONS TO service_role`);
 }
 
 process.on('SIGINT', () => { cleanup(); process.exit(0); });
@@ -125,7 +110,7 @@ async function main() {
       port: PG_PORT, user: 'postgres', password: 'postgres',
     });
     log('Starting embedded PostgreSQL...');
-    try { await pgInstance.initialise(); } catch { /* ok */ }
+    try { await pgInstance.initialise(); } catch (e) { /* ok */ }
     await pgInstance.start();
     log('PostgreSQL started on port ' + PG_PORT);
   }
@@ -144,17 +129,7 @@ async function main() {
 
   log('Setting up database from scratch...');
   await setupRoles(db);
-  await applyMigrations(db);
   await grantRuntimePrivileges(db);
-
-  const tables = await db.query("SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename");
-  log('Tables (' + tables.rows.length + '): ' + tables.rows.map(r => r.tablename).join(', '));
-  const fns = await db.query("SELECT routine_name FROM information_schema.routines WHERE routine_schema = 'public' AND routine_type = 'FUNCTION' ORDER BY routine_name");
-  log('Functions (' + fns.rows.length + '): ' + fns.rows.map(r => r.routine_name).join(', '));
-  const rls = await db.query("SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND rowsecurity = true");
-  log('RLS (' + rls.rows.length + '): ' + rls.rows.map(r => r.tablename).join(', '));
-  await db.end();
-
   // ── Step 3: Start Supabase REST proxy ──
   log('Starting Supabase REST proxy on port ' + PROXY_PORT + '...');
   proxyProc = spawn(process.execPath, [PROXY_SCRIPT], {
@@ -185,6 +160,32 @@ async function main() {
   // ── Step 4: Run integration tests ──
   const serviceJWT = generateJWT('service_role');
   const anonJWT = generateJWT('anon');
+  execSync(`"${process.execPath}" scripts/build-package.js supabase`, { cwd: ROOT, stdio: 'inherit' });
+  const { SupabaseClientFacade, SilentLogger } = require(path.join(ROOT, 'packages', 'supabase', 'dist', 'cjs', 'index.js'));
+  const facade = new SupabaseClientFacade({
+    url: `http://localhost:${PROXY_PORT}`,
+    serviceRoleKey: serviceJWT,
+    migrateOnStart: true,
+    migrationDir: MIGRATIONS_DIR,
+    migrationExecutor: db,
+    poolMin: 1,
+    poolMax: 1,
+    timeoutMs: 30000,
+    tables: {},
+    retry: { maxAttempts: 1, baseDelayMs: 1, maxDelayMs: 1 },
+    logLevel: 'silent',
+  }, new SilentLogger());
+  await facade.ready();
+  await grantRuntimePrivileges(db);
+
+  const tables = await db.query("SELECT tablename FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename");
+  log('Tables (' + tables.rows.length + '): ' + tables.rows.map(r => r.tablename).join(', '));
+  const fns = await db.query("SELECT routine_name FROM information_schema.routines WHERE routine_schema = 'public' AND routine_type = 'FUNCTION' ORDER BY routine_name");
+  log('Functions (' + fns.rows.length + '): ' + fns.rows.map(r => r.routine_name).join(', '));
+  const rls = await db.query("SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND rowsecurity = true");
+  log('RLS (' + rls.rows.length + '): ' + rls.rows.map(r => r.tablename).join(', '));
+  facade.dispose();
+  await db.end();
   const envVars = {
     ...process.env,
     SUPABASE_INTEGRATION_TEST: 'true',
@@ -198,7 +199,7 @@ async function main() {
   log('');
 
   try {
-    execSync(`npx jest --config jest.config.js --testPathPattern="packages/supabase" --no-cache --forceExit`, {
+    execSync(`npx jest --config jest.config.js --testPathPattern="packages/supabase" --no-cache --forceExit --runInBand`, {
       cwd: ROOT, stdio: 'inherit', env: envVars, timeout: 120000,
     });
     log('');

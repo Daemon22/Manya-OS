@@ -1,8 +1,8 @@
-# @manya/anonymize
+# @manya-os/anonymize
 
 > Research-grade anonymization for PII, PHI, sensitive metadata, OCR text, image identifiers, and document metadata — with validation reports and reproducible dataset publication for the MANYA Intelligence OS.
 
-`@manya/anonymize` is the privacy substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/anonymize` is the privacy substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides detector-driven PII/PHI discovery, pluggable redaction strategies, EXIF/metadata stripping for documents and images, OCR-text normalization, post-anonymization validation reports with residual-risk scoring, and reproducible dataset publication with verifiable manifests.
 
@@ -10,7 +10,7 @@ The package provides detector-driven PII/PHI discovery, pluggable redaction stra
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project to return sovereignty to individuals and communities over their own intelligence infrastructure. `@manya/anonymize` is the keystone of privacy: **your data, your rules, your disclosure threshold — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project to return sovereignty to individuals and communities over their own intelligence infrastructure. `@manya-os/anonymize` is the keystone of privacy: **your data, your rules, your disclosure threshold — yours alone.**
 
 - **Sovereign.** No network calls. No cloud dependency. All detection and redaction runs locally.
 - **Reproducible.** Pipeline configurations are hashed; manifests bind datasets to configs.
@@ -39,7 +39,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/anonymize
+npm install @manya-os/anonymize
 ```
 
 Requires Node.js 18+.
@@ -51,7 +51,7 @@ Requires Node.js 18+.
 ### 1. Anonymize a string
 
 ```ts
-import { anonymize } from '@manya/anonymize';
+import { anonymize } from '@manya-os/anonymize';
 
 const input = 'Patient Mr John Smith (ID 8801235111088) contacted alice@example.com from 192.168.1.1.';
 const { result, report } = anonymize(input);
@@ -66,7 +66,7 @@ console.log(report.residualRisk);     // 0
 ### 2. Use a custom redaction strategy per category
 
 ```ts
-import { Anonymizer } from '@manya/anonymize';
+import { Anonymizer } from '@manya-os/anonymize';
 
 const anon = new Anonymizer({
   defaultStrategy: 'mask',
@@ -83,7 +83,7 @@ const { result } = anon.anonymize('Card 4111 1111 1111 1111 belongs to Dr Alice 
 ### 3. Publish a reproducible dataset
 
 ```ts
-import { Anonymizer, verifyManifest } from '@manya/anonymize';
+import { Anonymizer, verifyManifest } from '@manya-os/anonymize';
 
 const anon = new Anonymizer();
 const records = [
@@ -101,7 +101,7 @@ console.log(verifyManifest(manifest, results.map(r => r.output))); // true
 ### 4. Scrub document metadata
 
 ```ts
-import { normalizeMetadata, scrubDocumentMetadata } from '@manya/anonymize';
+import { normalizeMetadata, scrubDocumentMetadata } from '@manya-os/anonymize';
 
 const meta = normalizeMetadata('pdf', {
   Title: 'Report', Author: 'Alice', CreationDate: '2024-01-01',
@@ -156,7 +156,7 @@ export interface AnonymizerConfig {
 ### Add a custom detector
 
 ```ts
-import { DetectorRegistry, type Detector } from '@manya/anonymize';
+import { DetectorRegistry, type Detector } from '@manya-os/anonymize';
 
 const myDetector: Detector = {
   name: 'custom',
@@ -182,7 +182,7 @@ const anon = new Anonymizer({}, reg);
 ### Add a custom redactor
 
 ```ts
-import { applyRedactions, type Redactor } from '@manya/anonymize';
+import { applyRedactions, type Redactor } from '@manya-os/anonymize';
 
 class ReverseRedactor implements Redactor {
   strategy = 'redact' as const;

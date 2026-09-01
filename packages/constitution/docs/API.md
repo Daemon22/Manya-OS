@@ -1,6 +1,6 @@
-# @manya/constitution — API Reference
+# @manya-os/constitution — API Reference
 
-> Complete TypeScript API reference for `@manya/constitution` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/constitution` v1.0.0.
 
 ## Contents
 - [Types](#types)

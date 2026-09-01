@@ -1,8 +1,8 @@
-# @manya/customs-shield
+# @manya-os/customs-shield
 
 > Compliance and supply-chain intelligence — customs validation, HS code verification, sanctions screening, import/export compliance, cargo risk assessment, and shipment risk scoring for the MANYA Intelligence OS.
 
-`@manya/customs-shield` is the trade-compliance substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/customs-shield` is the trade-compliance substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides HS code validation against a built-in WCO chapter catalog, sanctions screening with fuzzy name matching against OFAC/EU/UN/UK lists, embargo detection, license-required checks, restricted-origin rules, product restriction rules (Wassenaar, CITES, Montreal Protocol, UNESCO 1970), cargo risk scoring on a 0-100 scale with severity-weighted findings, and regulatory report generation.
 
@@ -10,7 +10,7 @@ The package provides HS code validation against a built-in WCO chapter catalog, 
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/customs-shield` extends that sovereignty into the supply-chain domain: **your compliance posture, your risk threshold, your screening rules — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/customs-shield` extends that sovereignty into the supply-chain domain: **your compliance posture, your risk threshold, your screening rules — yours alone.**
 
 - **Sovereign.** No network calls. Sanctions lists and rule sets are local and configurable.
 - **Auditable.** Every screening produces a structured `ShieldReport` with per-finding provenance.
@@ -38,7 +38,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/customs-shield
+npm install @manya-os/customs-shield
 ```
 
 Requires Node.js 18+.
@@ -50,7 +50,7 @@ Requires Node.js 18+.
 ### 1. Screen a shipment
 
 ```ts
-import { screen } from '@manya/customs-shield';
+import { screen } from '@manya-os/customs-shield';
 
 const report = screen({
   id: 'shp-001',
@@ -76,7 +76,7 @@ console.log(report.findings);
 ### 2. Use a configured CustomsShield instance
 
 ```ts
-import { CustomsShield } from '@manya/customs-shield';
+import { CustomsShield } from '@manya-os/customs-shield';
 
 const shield = new CustomsShield({
   sanctionsThreshold: 0.85,  // stricter matching
@@ -90,7 +90,7 @@ const report = shield.screen(shipment);
 ### 3. Replace the sanctions list with your own
 
 ```ts
-import { setSanctionsList } from '@manya/customs-shield';
+import { setSanctionsList } from '@manya-os/customs-shield';
 
 setSanctionsList([
   { list: 'OFAC', name: 'Entity X', country: 'RU', program: 'EO 14024', aliases: ['X Holdings'] },
@@ -101,7 +101,7 @@ setSanctionsList([
 ### 4. Generate a regulatory report
 
 ```ts
-import { buildImportDeclaration, serialize } from '@manya/customs-shield';
+import { buildImportDeclaration, serialize } from '@manya-os/customs-shield';
 
 const decl = buildImportDeclaration(shipment, 'CBP');
 console.log(serialize(decl));
@@ -140,7 +140,7 @@ Any `critical` severity finding also triggers `holdForReview: true` regardless o
 ### Add a custom compliance rule
 
 ```ts
-import { setRuleSet, getRuleSet } from '@manya/customs-shield';
+import { setRuleSet, getRuleSet } from '@manya-os/customs-shield';
 
 const current = getRuleSet();
 setRuleSet({
@@ -155,7 +155,7 @@ setRuleSet({
 ### Add a custom product restriction
 
 ```ts
-import { setRestrictions, getRestrictions } from '@manya/customs-shield';
+import { setRestrictions, getRestrictions } from '@manya-os/customs-shield';
 
 const current = getRestrictions();
 setRestrictions([

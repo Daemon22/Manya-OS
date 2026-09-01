@@ -1,8 +1,8 @@
-# @manya/nervous-system
+# @manya-os/nervous-system
 
 > Universal event infrastructure — a high-performance event fabric for the MANYA Intelligence OS. Publish/subscribe, filtering, priority routing, ring-buffer recording, bounded/unbounded queues, performance metrics, and pluggable event sources spanning filesystems, OS metrics, processes, network activity, custom producers, notifications, applications, and hardware stubs (USB / Bluetooth / sensors / cameras / microphones).
 
-`@manya/nervous-system` is the real-time event fabric of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/nervous-system` is the real-time event fabric of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides an in-process pub/sub fabric with O(1) topic lookup, O(k) per-topic filter evaluation, regex topic matching, structured event filters with logical combinators (`and`/`or`/`not`), a priority-ordered router, a fixed-capacity ring-buffer recorder with optional auto-recording, a bounded/unbounded async queue with promise-based blocking dequeue and configurable backpressure, a latency-tracking metrics collector, and eleven event sources covering the most common operational signals.
 
@@ -10,7 +10,7 @@ The package provides an in-process pub/sub fabric with O(1) topic lookup, O(k) p
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/nervous-system` extends that sovereignty into real-time sensing: **your events, your filters, your routing, your record buffer — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/nervous-system` extends that sovereignty into real-time sensing: **your events, your filters, your routing, your record buffer — yours alone.**
 
 - **Sovereign.** No network calls. Every source is in-process and pluggable.
 - **Fast.** O(1) topic lookup, O(k) per-topic filter evaluation. 100k+ events/sec on a single core for matched-delivery workloads.
@@ -41,7 +41,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/nervous-system
+npm install @manya-os/nervous-system
 ```
 
 Requires Node.js 18+.
@@ -53,7 +53,7 @@ Requires Node.js 18+.
 ### 1. Publish/subscribe with the bare fabric
 
 ```ts
-import { EventFabric, createEvent } from '@manya/nervous-system';
+import { EventFabric, createEvent } from '@manya-os/nervous-system';
 
 const fabric = new EventFabric();
 
@@ -71,7 +71,7 @@ fabric.unsubscribe(subId);
 ### 2. Attach an OS metrics source and record events
 
 ```ts
-import { EventFabric, OSSource } from '@manya/nervous-system';
+import { EventFabric, OSSource } from '@manya-os/nervous-system';
 
 const fabric = new EventFabric({ recordByDefault: true });
 fabric.attach(new OSSource({ intervalMs: 5000 }));
@@ -88,7 +88,7 @@ fabric.shutdown();
 ### 3. Combine filters with `and` / `or` / `not`
 
 ```ts
-import { EventFabric, and, or, not } from '@manya/nervous-system';
+import { EventFabric, and, or, not } from '@manya-os/nervous-system';
 
 const fabric = new EventFabric();
 
@@ -105,7 +105,7 @@ fabric.publish({ id: 'x', topic: 'fs.change', source: 'fs', payload: { path: '/t
 ### 4. Route events to queues with priority
 
 ```ts
-import { EventFabric, EventRouter, EventQueue, makeRoute } from '@manya/nervous-system';
+import { EventFabric, EventRouter, EventQueue, makeRoute } from '@manya-os/nervous-system';
 
 const fabric = new EventFabric();
 const router = new EventRouter();

@@ -7,7 +7,8 @@
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
  */
-import type { EpisodicEvent, LongTermRecord, MemoryId, MemorySnapshot, RetrievalResult } from './types.js';
+import type { EpisodicEvent, LongTermRecord, MemoryId, MemorySnapshot, RetrievalResult, CollaborationPackage, WriteConflict, ConflictResolution } from './types.js';
+import type { MemoryStore } from './store/store.js';
 import { WorkingMemory } from './working/working.js';
 import { EpisodicMemory } from './episodic/episodic.js';
 import { SemanticMemory } from './semantic/semantic.js';
@@ -18,6 +19,7 @@ import { LinkGraph } from './link/link.js';
 import { PermissionModel } from './permissions/permissions.js';
 import { DEFAULT_WEIGHTS } from './rank/rank.js';
 import { effectiveImportance } from './aging/aging.js';
+import type { SyncDelta } from './sync/sync.js';
 import { DEFAULT_CONFIG } from './config/config.js';
 import type { MemoryConfig } from './config/config.js';
 export declare class MemorySystem {
@@ -31,7 +33,12 @@ export declare class MemorySystem {
     readonly permissions: PermissionModel;
     private readonly config;
     private readonly logger;
+    private readonly _persistenceBackend?;
+    /** Unique id for this memory instance. Used in collaboration packages. */
+    readonly instanceId: string;
     constructor(config?: MemoryConfig);
+    /** The configured persistence store, if any. */
+    get persistenceStore(): MemoryStore | undefined;
     /** Record an episodic event AND index it. */
     remember(agent: string, event: string, context?: Record<string, unknown>, opts?: {
         importance?: number;
@@ -71,12 +78,60 @@ export declare class MemorySystem {
     backup(): import("./backup/backup.js").Backup;
     /** Restore from a backup. */
     restoreFromBackup(backup: ReturnType<MemorySystem['backup']>): void;
-    /** Synchronize with a remote snapshot. Returns the applied delta. */
-    synchronize(remoteSnapshot: MemorySnapshot): import("./sync/sync.js").SyncDelta;
+    /**
+     * Synchronize with a remote snapshot. Returns the applied delta.
+     *
+     * IMPORTANT: This method is for peer-to-peer sync between equally-privileged
+     * local instances only. It must NOT be used to send full memory snapshots to
+     * the Hub. Use `createCollaborationPackage()` for Hub interactions.
+     * If the remote snapshot's source differs from the local instance and appears
+     * to be a Hub-hosted mirror, the operation is rejected.
+     */
+    synchronize(remoteSnapshot: MemorySnapshot): SyncDelta;
+    /**
+     * Create a collaboration package containing only shareable data.
+     * This is the ONLY mechanism for sharing memory between instances.
+     * Full snapshots are never transmitted to the Hub.
+     */
+    createCollaborationPackage(opts?: {
+        includeEpisodic?: boolean;
+        includeSemantic?: boolean;
+        includeLongterm?: boolean;
+        filterEpisodic?: (event: EpisodicEvent) => boolean;
+        filterSemantic?: (fact: import('./types.js').SemanticFact) => boolean;
+        filterLongterm?: (record: LongTermRecord) => boolean;
+        expiresAt?: string;
+        metadata?: Record<string, unknown>;
+    }): CollaborationPackage;
+    /**
+     * Apply a received collaboration package to local memory.
+     * Detects and resolves in-flight write conflicts.
+     * Returns the list of conflicts found and how they were resolved.
+     */
+    applyCollaborationPackage(pkg: CollaborationPackage, opts?: {
+        conflictStrategy?: ConflictResolution;
+        customResolver?: (conflicts: WriteConflict[]) => Map<MemoryId, 'local' | 'remote' | 'skip'>;
+    }): {
+        applied: boolean;
+        conflicts: WriteConflict[];
+        resolutions: Map<MemoryId, 'local' | 'remote' | 'skip'>;
+    };
+    /** Mark an episodic event as shareable (or not). */
+    setShareable(eventId: string, shareable: boolean): void;
     /** Export the snapshot to a JSON string. */
     export(): string;
     /** Import a snapshot from a JSON string. */
     import(json: string): void;
+    /**
+     * Persist the current in-memory state to the configured store.
+     * Requires a store to be configured. Throws MemoryError if no store.
+     */
+    persist(): Promise<void>;
+    /**
+     * Hydrate in-memory state from the configured store.
+     * Requires a store to be configured. Throws MemoryError if no store.
+     */
+    hydrate(): Promise<void>;
     /** Dispose of resources (sweepers, etc.). */
     dispose(): void;
 }

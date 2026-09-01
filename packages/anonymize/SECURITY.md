@@ -1,8 +1,8 @@
-# @manya/anonymize Security Policy
+# @manya-os/anonymize Security Policy
 
 ## Scope
 
-`@manya/anonymize` is the privacy substrate of the MANYA Intelligence OS. It runs entirely locally, never makes network calls, and never persists data unless the caller explicitly does so.
+`@manya-os/anonymize` is the privacy substrate of the MANYA Intelligence OS. It runs entirely locally, never makes network calls, and never persists data unless the caller explicitly does so.
 
 ## Threat model
 

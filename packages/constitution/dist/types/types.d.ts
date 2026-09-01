@@ -46,6 +46,8 @@ export interface EnforcementResult {
     violations: string[];
     /** Stable audit-log id for this evaluation. */
     auditId: string;
+    /** Grant id used to authorize this action, if any. */
+    grantUsed?: string;
 }
 /** Category of an ethical rule. */
 export type RuleCategory = 'harm' | 'deception' | 'privacy' | 'fairness' | 'autonomy' | 'transparency';
@@ -218,6 +220,43 @@ export interface SafetyViolation {
     enforcementPoint: 'pre' | 'post';
     /** Severity of the violation. */
     severity: RuleSeverity;
+}
+/** A grant revocation event tracked by the constitution. */
+export interface GrantRevocationEvent {
+    /** The grant id that was revoked. */
+    grantId: string;
+    /** ISO 8601 timestamp of the revocation. */
+    revokedAt: string;
+    /** Subject who revoked the grant. */
+    revokedBy: string;
+    /** Optional reason. */
+    reason?: string;
+}
+/** Capability scope for a grant. */
+export interface GrantScope {
+    /** Resource the grant covers. */
+    resource: string;
+    /** Actions the grant covers. */
+    actions: string[];
+}
+/** A capability grant tracked by the constitution for governance purposes. */
+export interface ConstitutionGrant {
+    /** Grant id. */
+    id: string;
+    /** Subject receiving the grant. */
+    subject: string;
+    /** Scope of the grant. */
+    scope: GrantScope;
+    /** ISO 8601 timestamp when the grant becomes active. */
+    validFrom: string;
+    /** ISO 8601 timestamp when the grant expires. */
+    validUntil: string;
+    /** Whether the grant has been revoked. */
+    revoked: boolean;
+    /** Who approved the grant. */
+    approvedBy: string;
+    /** ISO 8601 timestamp when the grant was approved. */
+    approvedAt: string;
 }
 /** Severity of a conflict. */
 export type ConflictSeverity = 'low' | 'medium' | 'high' | 'critical';

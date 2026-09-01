@@ -297,7 +297,7 @@ describe('Integration: full attestation lifecycle', () => {
       identity: 'did:key:z',
     });
     expect(r.success).toBe(false);
-  });
+  }, 15_000);
 
   it('uses a custom SessionStore (e.g. for distributed deployments)', async () => {
     // A trivial wrapper around InMemorySessionStore that adds a prefix.

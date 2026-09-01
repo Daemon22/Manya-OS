@@ -1,4 +1,4 @@
-# Contributing to @manya/nervous-system
+# Contributing to @manya-os/nervous-system
 
 ## Code style
 - TypeScript strict mode mandatory.

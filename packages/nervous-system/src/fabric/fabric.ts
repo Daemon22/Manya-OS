@@ -30,6 +30,8 @@ export const DEFAULT_NERVOUS_CONFIG: Required<Omit<NervousConfig, 'logger'>> = {
   defaultMaxSize: DEFAULT_RECORDER_MAX_SIZE,
   recordByDefault: false,
   logLevel: 'info',
+  collaborationQueueCapacity: 256,
+  collaborationRequestTtlMs: 300_000,
 };
 
 /** Internal subscription record. */
@@ -309,7 +311,7 @@ export class EventFabric {
   on(event: 'published', handler: (event: NervousEvent) => void): this;
   on(event: 'error', handler: (err: Error, event: NervousEvent) => void): this;
   on(event: 'dropped', handler: (event: NervousEvent) => void): this;
-  on(event: string, handler: (...args: unknown[]) => void): this {
+  on(event: string, handler: (...args: any[]) => void): this {
     this.ee.on(event, handler);
     return this;
   }

@@ -1,6 +1,6 @@
-# @manya/attest — API Reference
+# @manya-os/attest — API Reference
 
-Complete TypeScript API reference for `@manya/attest` v1.0.0.
+Complete TypeScript API reference for `@manya-os/attest` v1.0.0.
 
 > Copyright 2024 Manya Hael Foundation. All rights reserved.
 > Conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the Manya Hael Foundation.
@@ -225,7 +225,7 @@ class NonceError extends AttestError {}               // code: 'NONCE_ERROR'
 ```
 
 ```typescript
-import { AttestError, FingerprintError } from '@manya/attest';
+import { AttestError, FingerprintError } from '@manya-os/attest';
 try { /* ... */ } catch (e) {
   if (e instanceof FingerprintError) { /* ... */ }
 }
@@ -294,7 +294,7 @@ const SCRUBBED_FIELD_NAMES: readonly string[];
 
 ## Crypto
 
-Self-contained. Does NOT import `@manya/keyring`.
+Self-contained. Does NOT import `@manya-os/keyring`.
 
 ### Hashing
 
@@ -309,7 +309,7 @@ function uuid(): string;                         // RFC-4122 v4
 ```
 
 ```typescript
-import { sha256, secureRandom, constantTimeEqual } from '@manya/attest';
+import { sha256, secureRandom, constantTimeEqual } from '@manya-os/attest';
 const h = sha256('hello');
 const r = secureRandom(32);
 constantTimeEqual(h, r);  // → false (different lengths)
@@ -343,7 +343,7 @@ function algorithmForKey(key: crypto.KeyObject): SignatureAlgorithm;
 ```
 
 ```typescript
-import { generateKeyPair, exportKeyPem, getKeyFingerprint } from '@manya/attest';
+import { generateKeyPair, exportKeyPem, getKeyFingerprint } from '@manya-os/attest';
 const kp = generateKeyPair('ecdsa');
 const pem = exportKeyPem(kp.publicKey, 'public');
 const fp = getKeyFingerprint(pem);  // 64-char hex
@@ -373,7 +373,7 @@ function proofTypeFor(algo: SignatureAlgorithm): string;  // 'manya:rsa-pss:2024
 If `algo` is omitted, it is inferred from the key type: RSA keys → `rsa-pss`, EC (P-256) keys → `ecdsa-p256`.
 
 ```typescript
-import { generateKeyPair, sign, verify } from '@manya/attest';
+import { generateKeyPair, sign, verify } from '@manya-os/attest';
 const kp = generateKeyPair('ecdsa');
 const data = Buffer.from('hello', 'utf8');
 const sig = sign(kp.privateKey, data);
@@ -436,7 +436,7 @@ class DeviceFingerprint {
 ```
 
 ```typescript
-import { collectDeviceSignals, DeviceFingerprint } from '@manya/attest';
+import { collectDeviceSignals, DeviceFingerprint } from '@manya-os/attest';
 const fp1 = DeviceFingerprint.fromSignals(collectDeviceSignals());
 const fp2 = DeviceFingerprint.fromString(fp1.toString());
 fp1.compare(fp2);  // → { match: true, drift: 0 }
@@ -562,7 +562,7 @@ interface EstablishSessionOptions {
 ```
 
 ```typescript
-import { SessionManager } from '@manya/attest';
+import { SessionManager } from '@manya-os/attest';
 const mgr = new SessionManager();
 const s = await mgr.establish('fp', 'did:key:zabc', { trustScore: 0.9 });
 const verified = await mgr.verify(s.token);
@@ -696,7 +696,7 @@ const DEFAULT_ATTESTATION_FRESHNESS_MS = 5 * 60 * 1000;
 ```
 
 ```typescript
-import { generateKeyPair, produceAttestation, verifyAttestation } from '@manya/attest';
+import { generateKeyPair, produceAttestation, verifyAttestation } from '@manya-os/attest';
 const kp = generateKeyPair('ecdsa');
 const quote = produceAttestation(kp.privateKey, 'device-fp', { v: '1' }, 'nonce-123');
 const ok = verifyAttestation(kp.publicKey, quote, 'nonce-123', { expectedFingerprint: 'device-fp' });
@@ -850,7 +850,7 @@ function createSoftwareWorkflow(opts?: AuthenticationWorkflowOptions): {
 import {
   AuthenticationWorkflow, generateKeyPair, exportKeyPem,
   collectDeviceSignals, DeviceFingerprint,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 const proverKp = generateKeyPair('ecdsa');
 const proverPubPem = exportKeyPem(proverKp.publicKey, 'public');

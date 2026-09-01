@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@manya/customs-shield` are documented here.
+All notable changes to `@manya-os/customs-shield` are documented here.
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Adheres to [SemVer](https://semver.org/).
 
 ## [1.0.0] — 2024-01-15

@@ -1,7 +1,7 @@
-# @manya/contracts Security Policy
+# @manya-os/contracts Security Policy
 
 ## Scope
-`@manya/contracts` runs entirely locally. No schema, manifest, version string, API contract, schema diff, boundary policy, or validation report leaves the host process. The package has zero external runtime dependencies — only Node built-ins.
+`@manya-os/contracts` runs entirely locally. No schema, manifest, version string, API contract, schema diff, boundary policy, or validation report leaves the host process. The package has zero external runtime dependencies — only Node built-ins.
 
 ## Threat model
 - **Adversary:** a developer (or downstream tool) feeding a malformed schema, manifest, or contract in an attempt to bypass validation or crash the host.

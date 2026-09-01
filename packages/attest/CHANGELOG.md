@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@manya/attest` are documented in this file.
+All notable changes to `@manya-os/attest` are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] — 2024-01-01
 
-Initial production release of `@manya/attest`, the device and session
+Initial production release of `@manya-os/attest`, the device and session
 attestation package for the MANYA Intelligence OS. Conceived, directed, and
 owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael
 Foundation**.
@@ -23,7 +23,7 @@ Foundation**.
   P-256), `importKeyPem` / `exportKeyPem` (SPKI / PKCS#8),
   `getKeyFingerprint` (SHA-256 of SPKI DER), `algorithmFor` /
   `algorithmForKey` mappers. Self-contained — does NOT import
-  `@manya/keyring`.
+  `@manya-os/keyring`.
 - **`crypto/signatures.ts`** — `sign` / `verify` for RSA-PSS and ECDSA
   P-256, with algorithm inference from the key type and
   `crypto.timingSafeEqual` constant-time guard on the result;
@@ -169,7 +169,7 @@ Foundation**.
 - All hardware probes wrapped in try/catch — `probe()` never throws.
 - Strict TypeScript; no `any` in public APIs.
 - No raw private keys in any persisted form or log message.
-- Self-contained — no `@manya/keyring` dependency.
+- Self-contained — no `@manya-os/keyring` dependency.
 
 ---
 

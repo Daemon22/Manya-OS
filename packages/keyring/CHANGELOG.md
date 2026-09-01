@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `@manya/keyring` are documented in this file.
+All notable changes to `@manya-os/keyring` are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] — 2024-01-01
 
-Initial production release of `@manya/keyring`, the sovereign identity and
+Initial production release of `@manya-os/keyring`, the sovereign identity and
 credential wallet for the MANYA Intelligence OS. Conceived, directed, and
 owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael
 Foundation**.

@@ -1,6 +1,6 @@
-# Contributing to @manya/keyring
+# Contributing to @manya-os/keyring
 
-First: thank you. `@manya/keyring` is the cryptographic substrate of the MANYA Intelligence OS, stewarded by the **Manya Hael Foundation** under the direction of **Uviwe Menyiwe (Azura Daemon)**. Contributions are welcome, but they must respect the project's architectural principles, governance model, and — above all — its security requirements.
+First: thank you. `@manya-os/keyring` is the cryptographic substrate of the MANYA Intelligence OS, stewarded by the **Manya Hael Foundation** under the direction of **Uviwe Menyiwe (Azura Daemon)**. Contributions are welcome, but they must respect the project's architectural principles, governance model, and — above all — its security requirements.
 
 For the general contribution workflow (code of conduct, branching, commit conventions, release model, governance), see the root [CONTRIBUTING.md](../../CONTRIBUTING.md). This file lists **package-specific** rules that apply on top of those.
 

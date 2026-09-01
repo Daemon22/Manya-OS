@@ -1,17 +1,33 @@
+import globals from 'globals';
 // @ts-check
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
+
+// --- Node environment patches (auto-injected by release gate) ---
+const nodeGlobals = [
+  {
+    files: ['**/*.js', '**/*.mjs', '**/*.cjs', 'jest.config.js', 'runtime/**/*'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    files: ['**/*.spec.ts', '**/*.test.ts'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+];
 
 export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
     rules: {
       // Keep CI focused on actionable source defects. TypeScript's compiler
       // remains the authoritative type-check gate.
@@ -33,4 +49,5 @@ export default tseslint.config(
       '**/*.tsbuildinfo',
     ],
   },
+  ...nodeGlobals,
 );

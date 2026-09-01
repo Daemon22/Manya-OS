@@ -1,4 +1,4 @@
-# Contributing to @manya/memory
+# Contributing to @manya-os/memory
 
 ## Code style
 - TypeScript strict mode mandatory.

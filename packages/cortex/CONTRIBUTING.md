@@ -1,4 +1,4 @@
-# Contributing to @manya/cortex
+# Contributing to @manya-os/cortex
 
 ## Code style
 - TypeScript strict mode mandatory.

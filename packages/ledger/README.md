@@ -1,8 +1,8 @@
-# @manya/ledger
+# @manya-os/ledger
 
 > Immutable audit ledger with cryptographic chaining, Merkle proofs, and distributed sync for the MANYA Intelligence OS.
 
-`@manya/ledger` is the tamper-evident audit substrate of the **MANYA Intelligence OS** -- a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/ledger` is the tamper-evident audit substrate of the **MANYA Intelligence OS** -- a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides cryptographic event chaining, deterministic canonical hashing, RSA-PSS / ECDSA P-256 digital signatures, Merkle trees with RFC 6962-style inclusion proofs, timestamp authority with commitment/reveal, event replay with filtering, in-memory and file-based persistence, JSONL/JSON/CSV export/import, and codec utilities for canonical JSON serialization.
 
@@ -10,7 +10,7 @@ The package provides cryptographic event chaining, deterministic canonical hashi
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project to return sovereignty to individuals and communities over their own intelligence infrastructure. `@manya/ledger` is the immutable foundation of that vision: **an audit trail that cannot be tampered with, only appended to.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project to return sovereignty to individuals and communities over their own intelligence infrastructure. `@manya-os/ledger` is the immutable foundation of that vision: **an audit trail that cannot be tampered with, only appended to.**
 
 - **Tamper-evident.** Every event is cryptographically chained to its predecessor. Merkle roots provide compact proofs of inclusion.
 - **Local-first.** No network calls. No cloud dependency. Works fully offline.
@@ -44,7 +44,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ### 1. Append events to a chain
 
 ```ts
-import { LedgerChain } from '@manya/ledger';
+import { LedgerChain } from '@manya-os/ledger';
 
 const chain = new LedgerChain();
 
@@ -59,7 +59,7 @@ console.log(chain.tail());   // ev2 (last event)
 ### 2. Sign and verify events
 
 ```ts
-import { generateKeyPair, signEvent, verifyEventSignature } from '@manya/ledger';
+import { generateKeyPair, signEvent, verifyEventSignature } from '@manya-os/ledger';
 
 const { publicKey, privateKey } = generateKeyPair('ecdsa');
 
@@ -72,7 +72,7 @@ console.log(ok); // true
 ### 3. Merkle proofs
 
 ```ts
-import { MerkleTree } from '@manya/ledger';
+import { MerkleTree } from '@manya-os/ledger';
 
 const leaves = chain.all().map((ev) => Buffer.from(ev.hash, 'hex'));
 const tree = MerkleTree.build(leaves);
@@ -86,7 +86,7 @@ console.log(valid); // true
 ### 4. Timestamp authority
 
 ```ts
-import { LocalTimestampAuthority, commit, reveal, issueTimestamp, verifyTimestamp } from '@manya/ledger';
+import { LocalTimestampAuthority, commit, reveal, issueTimestamp, verifyTimestamp } from '@manya-os/ledger';
 
 const authority = new LocalTimestampAuthority();
 
@@ -104,7 +104,7 @@ console.log(ok); // true
 ### 5. Replay with filtering
 
 ```ts
-import { EventReplayer } from '@manya/ledger';
+import { EventReplayer } from '@manya-os/ledger';
 
 const replayer = new EventReplayer(chain.all());
 
@@ -124,7 +124,7 @@ const summary = replayer.project(
 ### 6. File persistence
 
 ```ts
-import { FileLedgerStore } from '@manya/ledger';
+import { FileLedgerStore } from '@manya-os/ledger';
 
 const store = new FileLedgerStore('./.manya/ledger');
 
@@ -165,7 +165,7 @@ const store = new FileLedgerStore('./data', 'audit', {
 ### LocalTimestampAuthority
 
 ```ts
-import { LocalTimestampAuthority, generateKeyPair } from '@manya/ledger';
+import { LocalTimestampAuthority, generateKeyPair } from '@manya-os/ledger';
 
 // Fresh keypair (default)
 const authority = new LocalTimestampAuthority();

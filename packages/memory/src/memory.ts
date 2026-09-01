@@ -24,6 +24,7 @@ import { PermissionModel } from './permissions/permissions.js';
 import { rankLongTerm, rankEpisodic, DEFAULT_WEIGHTS } from './rank/rank.js';
 import { mergeAgingPolicy, shouldPruneEpisodic, effectiveImportance } from './aging/aging.js';
 import { computeDelta, applyDelta, detectConflicts, resolveConflicts, validateCollaborationPackage } from './sync/sync.js';
+import type { SyncDelta } from './sync/sync.js';
 import { createBackup, restoreBackup, verifyBackup } from './backup/backup.js';
 import { exportSnapshot, importSnapshot } from './io/io.js';
 import { DEFAULT_CONFIG, mergeConfig } from './config/config.js';

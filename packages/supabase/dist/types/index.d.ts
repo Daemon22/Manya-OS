@@ -20,5 +20,6 @@ export { SupabaseMemoryStore } from './memory/supabase-memory-store.js';
 export { SupabaseSessionStore } from './attest/supabase-session-store.js';
 export { SupabaseEncryptedStorage } from './keyring/supabase-encrypted-storage.js';
 export { MigrationRunner } from './migrations/runner.js';
-export type { Migration, MigrationStatus, MigrationResult, } from './migrations/runner.js';
+export { PostgresMigrationExecutor } from './migrations/postgres-executor.js';
+export type { Migration, MigrationStatus, MigrationResult, MigrationSqlExecutor, } from './migrations/runner.js';
 //# sourceMappingURL=index.d.ts.map

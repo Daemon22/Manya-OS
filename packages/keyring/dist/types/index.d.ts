@@ -23,6 +23,7 @@ export { Role, RoleManager, ALL_ROLES, parseRole, newRoleAssignmentId, } from '.
 export { AccessPolicySet, defaultPolicySet, matchResource, } from './access/policy.js';
 export type { AccessPolicy } from './access/policy.js';
 export { AccessEnforcer } from './access/enforcer.js';
+export { CapabilityGrantManager } from './access/grants.js';
 export { KeyringWallet, WALLET_PBKDF2_ITERATIONS, WALLET_SALT_BYTES, WALLET_MASTER_KEY_BYTES, } from './wallet/wallet.js';
 export { InMemoryStorage, FileStorage, assertValidKey, } from './wallet/storage.js';
 export type { EncryptedStorage } from './wallet/storage.js';

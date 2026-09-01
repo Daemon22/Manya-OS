@@ -1,8 +1,8 @@
-# @manya/cortex
+# @manya-os/cortex
 
 > Reasoning orchestration engine — task decomposition, planning, tool selection, routing, scheduling, confidence estimation, goal management, resource optimization, workflow orchestration, retries, and multi-component coordination for the MANYA Intelligence OS.
 
-`@manya/cortex` is the reasoning substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/cortex` is the reasoning substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 **This package is NOT an AI model.** It coordinates reasoning by decomposing complex tasks, planning execution, selecting tools, routing requests, scheduling work, estimating confidence, managing goals, optimizing resources, orchestrating workflows, handling retries, and coordinating multiple intelligent components.
 
@@ -10,7 +10,7 @@
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/cortex` is the keystone of agency: **your goals, your plans, your tools — orchestrated your way.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/cortex` is the keystone of agency: **your goals, your plans, your tools — orchestrated your way.**
 
 - **Sovereign.** All reasoning is local. No external model calls.
 - **Composable.** Plug in any tool, any worker, any memory backend.
@@ -43,7 +43,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/cortex
+npm install @manya-os/cortex
 ```
 
 Requires Node.js 18+.
@@ -55,7 +55,7 @@ Requires Node.js 18+.
 ### 1. Set a goal and reason
 
 ```ts
-import { Cortex } from '@manya/cortex';
+import { Cortex } from '@manya-os/cortex';
 
 const cortex = new Cortex({ logLevel: 'info' });
 
@@ -84,7 +84,7 @@ console.log(r.confidence); // 0.7+
 ### 3. Execute a multi-step workflow
 
 ```ts
-import type { Workflow } from '@manya/cortex';
+import type { Workflow } from '@manya-os/cortex';
 
 const wf: Workflow = {
   id: 'wf1',
@@ -103,7 +103,7 @@ console.log(exec.status); // 'completed' | 'failed' | 'aborted'
 ### 4. Decompose a complex goal manually
 
 ```ts
-import { decompose, estimateComplexity } from '@manya/cortex';
+import { decompose, estimateComplexity } from '@manya-os/cortex';
 
 const tasks = decompose('fetch data and then parse it followed by save');
 console.log(tasks.length); // 3
@@ -113,7 +113,7 @@ console.log(estimateComplexity('do A and then do B followed by C')); // 3+
 ### 5. Use the confidence estimator standalone
 
 ```ts
-import { ConfidenceEstimator } from '@manya/cortex';
+import { ConfidenceEstimator } from '@manya-os/cortex';
 
 const est = new ConfidenceEstimator();
 const r = est.estimate({

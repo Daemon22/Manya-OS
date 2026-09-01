@@ -108,7 +108,7 @@ export declare class EventFabric {
     on(event: 'error', handler: (err: Error, event: NervousEvent) => void): this;
     on(event: 'dropped', handler: (event: NervousEvent) => void): this;
     /** Remove a fabric-level event listener. */
-    off(event: string, handler: (...args: any[]) => void): this;
+    off(event: string, handler: (...args: unknown[]) => void): this;
     /** Detach all sources, stop recording, and remove all subscribers. */
     shutdown(): void;
 }

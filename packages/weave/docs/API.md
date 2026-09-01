@@ -1,6 +1,6 @@
-# @manya/weave — API Reference
+# @manya-os/weave — API Reference
 
-> Complete TypeScript API reference for `@manya/weave` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/weave` v1.0.0.
 
 ## Contents
 - [Types](#types)

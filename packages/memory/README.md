@@ -1,8 +1,8 @@
-# @manya/memory
+# @manya-os/memory
 
 > Unified memory system — working, episodic, semantic, procedural, long-term storage, indexing, linking, aging, compression, retrieval ranking, access permissions, synchronization, backup, and import/export for the MANYA Intelligence OS.
 
-`@manya/memory` is the cognitive substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
+`@manya-os/memory` is the cognitive substrate of the **MANYA Intelligence OS** — a sovereign, modular, local-first intelligence operating system conceived, directed, and owned by **Uviwe Menyiwe (Azura Daemon)**, founder of the **Manya Hael Foundation**.
 
 The package provides five memory subsystems (working, episodic, semantic, procedural, long-term), an inverted index for fast retrieval, a knowledge-graph link layer, TF-IDF + importance + recency ranking, age-decayed importance scores, gzip+json payload compression, role-based access permissions, snapshot synchronization with conflict detection, SHA-256-verified backups, and JSON import/export.
 
@@ -10,7 +10,7 @@ The package provides five memory subsystems (working, episodic, semantic, proced
 
 ## Vision
 
-The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya/memory` is the keystone of cognition: **your experiences, your knowledge, your skills — yours alone.**
+The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, mission-driven project. `@manya-os/memory` is the keystone of cognition: **your experiences, your knowledge, your skills — yours alone.**
 
 - **Sovereign.** All memory is local. No cloud calls, no telemetry.
 - **Unified.** Five memory types behind one facade, with cross-type indexing and linking.
@@ -45,7 +45,7 @@ The Manya Hael Foundation stewards the MANYA Intelligence OS as a long-horizon, 
 ## Install
 
 ```bash
-npm install @manya/memory
+npm install @manya-os/memory
 ```
 
 Requires Node.js 18+.
@@ -57,7 +57,7 @@ Requires Node.js 18+.
 ### 1. Create a memory system and remember events
 
 ```ts
-import { MemorySystem } from '@manya/memory';
+import { MemorySystem } from '@manya-os/memory';
 
 const memory = new MemorySystem({ logLevel: 'silent' });
 

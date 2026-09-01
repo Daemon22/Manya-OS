@@ -21,8 +21,10 @@
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
  */
-import type { EnforcementResult, GovernanceContext, PermissionModel, PolicySet, RuleSet, SafetyRule } from '../types.js';
+import type { EnforcementResult, GovernanceContext, PermissionModel, PolicySet, RuleSet, SafetyRule, ConstitutionGrant } from '../types.js';
 import { SafetyChecker, type SafetyPredicate } from '../safety/safety.js';
+/** Callback to check if a capability grant is valid. */
+export type GrantCheck = (grantId: string, resource: string, action: string) => boolean;
 /** An entry in the enforcement audit log. */
 export interface AuditEntry {
     /** Stable, unique audit id. */
@@ -51,6 +53,9 @@ export declare class EnforcementEngine {
     private safety?;
     private readonly audit;
     private readonly requireApprovalDenies;
+    private grantCheck?;
+    private readonly grants;
+    private readonly grantRevocations;
     constructor(opts?: {
         requireApprovalDenies?: boolean;
     });
@@ -69,6 +74,16 @@ export declare class EnforcementEngine {
         rule: SafetyRule;
         predicate: SafetyPredicate;
     }>): this;
+    /** Register a grant validity check callback. */
+    registerGrantCheck(check: GrantCheck): this;
+    /** Register a capability grant for governance tracking. */
+    registerGrant(grant: ConstitutionGrant): this;
+    /** Revoke a grant. */
+    revokeGrant(grantId: string, revokedBy: string, reason?: string): void;
+    /** Get all registered grants. */
+    getGrants(): ConstitutionGrant[];
+    /** Get all grant revocations. */
+    getGrantRevocations(): import('../types.js').GrantRevocationEvent[];
     /**
      * Evaluates `action` by `subject` against the registered governance.
      * Returns an `EnforcementResult` and appends an entry to the audit log.

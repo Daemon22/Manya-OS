@@ -1,6 +1,6 @@
-# @manya/customs-shield — API Reference
+# @manya-os/customs-shield — API Reference
 
-> Complete TypeScript API reference for `@manya/customs-shield` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/customs-shield` v1.0.0.
 
 ## Contents
 - [Types](#types)

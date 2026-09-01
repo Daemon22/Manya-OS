@@ -7,6 +7,21 @@
 BEGIN;
 
 -- ============================================================
+-- Execute migration SQL for trusted server-side service-role clients.
+-- This function is never callable by anon or authenticated clients.
+-- ============================================================
+CREATE OR REPLACE FUNCTION exec_sql(query TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  EXECUTE query;
+END;
+$$;
+
+-- ============================================================
 -- Increment access_count atomically for long-term memory records.
 -- Called by SupabaseMemoryStore.touchLongterm via RPC.
 -- ============================================================
@@ -95,5 +110,6 @@ REVOKE EXECUTE ON FUNCTION increment_longterm_access(TEXT) FROM authenticated, a
 REVOKE EXECUTE ON FUNCTION touch_longterm_record(TEXT, BIGINT) FROM authenticated, anon;
 REVOKE EXECUTE ON FUNCTION prune_expired_sessions() FROM authenticated, anon;
 REVOKE EXECUTE ON FUNCTION record_migration(INTEGER, TEXT, TEXT) FROM authenticated, anon;
+REVOKE EXECUTE ON FUNCTION exec_sql(TEXT) FROM authenticated, anon;
 
 COMMIT;

@@ -1,6 +1,6 @@
-# @manya/council — API Reference
+# @manya-os/council — API Reference
 
-> Complete TypeScript API reference for `@manya/council` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/council` v1.0.0.
 
 ## Contents
 - [Types](#types)

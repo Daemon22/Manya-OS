@@ -1,7 +1,7 @@
-# @manya/customs-shield Security Policy
+# @manya-os/customs-shield Security Policy
 
 ## Scope
-`@manya/customs-shield` runs entirely locally. No shipment data, party names, or sanctions-list queries leave the host process.
+`@manya-os/customs-shield` runs entirely locally. No shipment data, party names, or sanctions-list queries leave the host process.
 
 ## Threat model
 - **Adversary:** a sanctioned entity attempting to evade screening by misspelling or alias use.

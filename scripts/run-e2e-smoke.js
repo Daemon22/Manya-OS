@@ -51,8 +51,8 @@ let proxyProc = null;
 let pgInstance = null;
 
 function cleanup() {
-  if (proxyProc) { try { proxyProc.kill(); } catch {} proxyProc = null; }
-  if (pgInstance) { try { pgInstance.stop(); } catch {} pgInstance = null; }
+  if (proxyProc) { try { proxyProc.kill(); } catch (e) { /* ignore */ } proxyProc = null; }
+  if (pgInstance) { try { pgInstance.stop(); } catch (e) { /* ignore */ } pgInstance = null; }
 }
 
 process.on('SIGINT', () => { cleanup(); process.exit(0); });
@@ -84,7 +84,7 @@ async function main() {
     await c.connect(); await c.end();
     pgRunning = true;
     console.log('[smoke] PG already running');
-  } catch {}
+  } catch (e) { /* ignore */ }
 
   if (!pgRunning) {
     pgInstance = new EmbeddedPostgres({
@@ -92,7 +92,7 @@ async function main() {
       port: PG_PORT, user: 'postgres', password: 'postgres',
     });
     console.log('[smoke] Starting embedded PostgreSQL...');
-    try { await pgInstance.initialise(); } catch {}
+    try { await pgInstance.initialise(); } catch (e) { /* ignore */ }
     await pgInstance.start();
     console.log('[smoke] PostgreSQL started');
   }

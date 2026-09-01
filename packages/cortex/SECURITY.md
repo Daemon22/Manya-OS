@@ -1,7 +1,7 @@
-# @manya/cortex Security Policy
+# @manya-os/cortex Security Policy
 
 ## Scope
-`@manya/cortex` orchestrates reasoning. It does NOT execute untrusted code by default — tool handlers are registered by the host application. All reasoning state is in-process.
+`@manya-os/cortex` orchestrates reasoning. It does NOT execute untrusted code by default — tool handlers are registered by the host application. All reasoning state is in-process.
 
 ## Threat model
 - **Adversary:** a malicious tool handler that attempts to consume unbounded resources or leak data.

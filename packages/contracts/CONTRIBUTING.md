@@ -1,4 +1,4 @@
-# Contributing to @manya/contracts
+# Contributing to @manya-os/contracts
 
 ## Code style
 - TypeScript strict mode mandatory.

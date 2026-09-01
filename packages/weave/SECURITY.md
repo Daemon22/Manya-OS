@@ -1,7 +1,7 @@
-# @manya/weave Security Policy
+# @manya-os/weave Security Policy
 
 ## Scope
-`@manya/weave` runs entirely locally. No graph data, layout positions, search queries, or topology snapshots leave the host process. The package has no runtime dependencies on any external library.
+`@manya-os/weave` runs entirely locally. No graph data, layout positions, search queries, or topology snapshots leave the host process. The package has no runtime dependencies on any external library.
 
 ## Threat model
 - **Adversary:** an attacker who can supply malicious graph data (node labels, edge labels, property values) intended to break out of SVG/Mermaid/DOT output and inject markup into a downstream renderer.

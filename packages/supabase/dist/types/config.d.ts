@@ -5,6 +5,7 @@
  * Licensed under the Apache License, Version 2.0.
  */
 import type { LogLevel, Logger } from './logging.js';
+import type { MigrationSqlExecutor } from './migrations/runner.js';
 /** Default table names for each domain. */
 export declare const DEFAULT_TABLE_NAMES: {
     readonly ledgerEvents: "ledger_events";
@@ -37,6 +38,8 @@ export interface SupabaseConfig {
     url: string;
     /** Service-role key — server-side only. Never expose to clients. Required. */
     serviceRoleKey: string;
+    /** Trusted PostgreSQL URL for fresh-database migrations. Server-side only. */
+    databaseUrl?: string;
     /** Anonymous key — client-safe. Optional. */
     anonKey?: string;
     /** Automatically run pending migrations on first connection. Default: false. */
@@ -53,6 +56,8 @@ export interface SupabaseConfig {
     tables?: Partial<TableNames>;
     /** Retry config for transient errors. */
     retry?: Partial<RetryConfig>;
+    /** Trusted server-side SQL executor used for migrations when configured. */
+    migrationExecutor?: MigrationSqlExecutor;
     /** Log level. Default: 'info' */
     logLevel?: LogLevel;
     /** Custom logger. Overrides logLevel. */
@@ -60,6 +65,7 @@ export interface SupabaseConfig {
 }
 /** Resolved configuration with all defaults applied. */
 export type ResolvedConfig = Required<Pick<SupabaseConfig, 'url' | 'serviceRoleKey'>> & {
+    databaseUrl?: string;
     anonKey?: string;
     migrateOnStart: boolean;
     migrationDir: string;
@@ -68,6 +74,7 @@ export type ResolvedConfig = Required<Pick<SupabaseConfig, 'url' | 'serviceRoleK
     timeoutMs: number;
     tables: TableNames;
     retry: RetryConfig;
+    migrationExecutor?: MigrationSqlExecutor;
     logLevel: LogLevel;
     logger?: Logger;
 };

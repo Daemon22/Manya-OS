@@ -7,6 +7,7 @@
 
 import { ConfigError } from './errors.js';
 import type { LogLevel, Logger } from './logging.js';
+import type { MigrationSqlExecutor } from './migrations/runner.js';
 
 /** Default table names for each domain. */
 export const DEFAULT_TABLE_NAMES = {
@@ -43,6 +44,8 @@ export interface SupabaseConfig {
   url: string;
   /** Service-role key — server-side only. Never expose to clients. Required. */
   serviceRoleKey: string;
+  /** Trusted PostgreSQL URL for fresh-database migrations. Server-side only. */
+  databaseUrl?: string;
   /** Anonymous key — client-safe. Optional. */
   anonKey?: string;
   /** Automatically run pending migrations on first connection. Default: false. */
@@ -59,6 +62,8 @@ export interface SupabaseConfig {
   tables?: Partial<TableNames>;
   /** Retry config for transient errors. */
   retry?: Partial<RetryConfig>;
+  /** Trusted server-side SQL executor used for migrations when configured. */
+  migrationExecutor?: MigrationSqlExecutor;
   /** Log level. Default: 'info' */
   logLevel?: LogLevel;
   /** Custom logger. Overrides logLevel. */
@@ -69,6 +74,7 @@ export interface SupabaseConfig {
 export type ResolvedConfig = Required<
   Pick<SupabaseConfig, 'url' | 'serviceRoleKey'>
 > & {
+  databaseUrl?: string;
   anonKey?: string;
   migrateOnStart: boolean;
   migrationDir: string;
@@ -77,6 +83,7 @@ export type ResolvedConfig = Required<
   timeoutMs: number;
   tables: TableNames;
   retry: RetryConfig;
+  migrationExecutor?: MigrationSqlExecutor;
   logLevel: LogLevel;
   logger?: Logger;
 };
@@ -123,6 +130,7 @@ export function resolveConfig(input: SupabaseConfig): ResolvedConfig {
   return {
     url: input.url.replace(/\/$/, ''),
     serviceRoleKey: input.serviceRoleKey,
+    databaseUrl: input.databaseUrl,
     anonKey: input.anonKey,
     migrateOnStart: input.migrateOnStart ?? false,
     migrationDir: input.migrationDir ?? './migrations',
@@ -131,6 +139,7 @@ export function resolveConfig(input: SupabaseConfig): ResolvedConfig {
     timeoutMs: input.timeoutMs ?? 30000,
     tables,
     retry,
+    migrationExecutor: input.migrationExecutor,
     logLevel: input.logLevel ?? 'info',
     logger: input.logger,
   };
@@ -150,6 +159,7 @@ export function configFromEnv(overrides?: Partial<SupabaseConfig>): ResolvedConf
   return resolveConfig({
     url,
     serviceRoleKey,
+    databaseUrl: process.env.SUPABASE_DB_URL || process.env.DATABASE_URL,
     anonKey: process.env.SUPABASE_ANON_KEY,
     migrateOnStart: process.env.SUPABASE_MIGRATE_ON_START === 'true',
     migrationDir: process.env.SUPABASE_MIGRATION_DIR,

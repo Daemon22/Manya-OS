@@ -1,6 +1,6 @@
-# @manya/memory — API Reference
+# @manya-os/memory — API Reference
 
-> Complete TypeScript API reference for `@manya/memory` v1.0.0.
+> Complete TypeScript API reference for `@manya-os/memory` v1.0.0.
 
 ## Contents
 - [Types](#types)

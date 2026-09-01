@@ -34,6 +34,8 @@ describeIfIntegration('Ledger CRUD', () => {
   const logger = new ConsoleLogger('silent');
   let facade: SupabaseClientFacade;
   let store: SupabaseLedgerStore;
+  let initialLength = 0;
+  let firstSeq = 1;
 
   beforeAll(async () => {
     config = resolveConfig({
@@ -43,54 +45,49 @@ describeIfIntegration('Ledger CRUD', () => {
     });
     facade = new SupabaseClientFacade(config, logger);
     store = new SupabaseLedgerStore(facade.getClient(), config, logger);
-    // Clean up only test data scoped to this worker+run
-    await facade.getClient().from('ledger_events')
-      .delete()
-      .like('source', `${TEST_PREFIX}%`);
+    initialLength = await store.length();
+    firstSeq = initialLength + 1;
   });
 
-  afterAll(async () => {
-    await facade.getClient().from('ledger_events')
-      .delete()
-      .like('source', `${TEST_PREFIX}%`);
+  afterAll(() => {
     facade.dispose();
   });
 
-  it('starts empty', async () => {
+  it('starts at the current persisted length', async () => {
     const len = await store.length();
-    expect(len).toBe(0);
+    expect(len).toBe(initialLength);
   });
 
   it('appends and retrieves an event', async () => {
-    const event = makeEvent(1);
+    const event = makeEvent(firstSeq);
     await store.append(event);
-    const retrieved = await store.get(1);
+    const retrieved = await store.get(firstSeq);
     expect(retrieved).toBeDefined();
     expect(retrieved?.id).toBe(event.id);
   });
 
   it('getById returns event', async () => {
-    const event = makeEvent(2);
+    const event = makeEvent(firstSeq + 1);
     await store.append(event);
     const retrieved = await store.getById(event.id);
     expect(retrieved).toBeDefined();
-    expect(retrieved?.seq).toBe(2);
+    expect(retrieved?.seq).toBe(firstSeq + 1);
   });
 
   it('length reflects appended events', async () => {
     const len = await store.length();
-    expect(len).toBeGreaterThanOrEqual(2);
+    expect(len).toBeGreaterThanOrEqual(initialLength + 2);
   });
 
   it('all returns events in order', async () => {
     const events = await store.all();
-    expect(events.length).toBeGreaterThanOrEqual(2);
-    expect(events[0].seq).toBeLessThanOrEqual(events[1].seq);
+    expect(events.length).toBeGreaterThanOrEqual(initialLength + 2);
+    expect(events.at(-2)?.seq).toBeLessThanOrEqual(events.at(-1)?.seq);
   });
 
   it('snapshot returns deep copy', async () => {
     const snap = await store.snapshot();
-    expect(snap.length).toBeGreaterThanOrEqual(2);
+    expect(snap.length).toBeGreaterThanOrEqual(initialLength + 2);
   });
 
   it('get returns undefined for missing seq', async () => {
