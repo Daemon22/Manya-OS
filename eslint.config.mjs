@@ -6,12 +6,6 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
     rules: {
       // Keep CI focused on actionable source defects. TypeScript's compiler
       // remains the authoritative type-check gate.
