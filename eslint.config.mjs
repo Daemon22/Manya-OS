@@ -8,14 +8,11 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.json', './packages/*/tsconfig.json'],
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
     rules: {
-      // Codebase relies on typed error subclasses and index signatures
-      // throughout; keep these as warnings rather than hard failures for
-      // the first pass so CI is useful without a disruptive rewrite.
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -24,7 +21,6 @@ export default tseslint.config(
     },
   },
   {
-    // Compiled output and build artifacts are never linted.
     ignores: [
       '**/dist/**',
       '**/build/**',
