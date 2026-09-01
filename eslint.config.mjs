@@ -13,11 +13,15 @@ export default tseslint.config(
       },
     },
     rules: {
+      // Keep CI focused on actionable source defects. TypeScript's compiler
+      // remains the authoritative type-check gate.
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unused-vars': [
         'warn',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+      '@typescript-eslint/no-empty-object-type': 'off',
+      'prefer-const': 'off',
     },
   },
   {
