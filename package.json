@@ -2,12 +2,10 @@
   "name": "manya-intelligence-os",
   "version": "1.0.0",
   "private": true,
-  "description": "MANYA Intelligence OS — a sovereign, modular, local-first intelligence operating system. Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon), founder of the Manya Hael Foundation.",
+  "description": "MANYA Intelligence OS — a sovereign, modular, local-first intelligence operating system.",
   "author": "Uviwe Menyiwe (Azura Daemon) <foundation@manyahael.org>",
   "license": "Apache-2.0",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "build": "node scripts/build-package.js --all && node scripts/build-types.js --all",
     "build:fast": "node scripts/build-package.js --all --no-types",
@@ -22,7 +20,9 @@
     "lint": "eslint . --max-warnings=-1",
     "typecheck": "tsc -b --noEmit",
     "typecheck:parallel": "node scripts/typecheck-all.js",
-    "bench": "node scripts/run-benchmarks.js"
+    "bench": "node scripts/run-benchmarks.js",
+    "runtime": "node runtime/index.mjs",
+    "runtime:dev": "node runtime/index.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
@@ -38,27 +38,10 @@
     "rollup": "^4.62.0",
     "rollup-plugin-dts": "^6.1.0",
     "ts-jest": "^29.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.0",
-    "typescript-eslint": "^8.5.0"
+    "typescript": "^5.4.0"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "manya",
-    "intelligence-os",
-    "sovereign",
-    "local-first",
-    "ai",
-    "agents",
-    "identity",
-    "governance",
-    "memory"
-  ],
+  "engines": {"node": ">=18.0.0"},
+  "keywords": ["manya", "intelligence-os", "sovereign", "local-first", "ai", "agents", "identity", "governance", "memory"],
   "homepage": "https://github.com/manya-hael/intelligence-os",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/manya-hael/intelligence-os.git"
-  }
+  "repository": {"type": "git", "url": "https://github.com/manya-hael/intelligence-os.git"}
 }
