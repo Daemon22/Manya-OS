@@ -15,6 +15,11 @@ dist/metafile.json
 # Test cache
 .jest-cache/
 
+# Local database/integration state
+.integration/
+diff.txt
+status.txt
+
 # Coverage
 coverage/
 .nyc_output/
