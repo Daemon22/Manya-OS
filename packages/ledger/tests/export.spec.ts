@@ -5,7 +5,7 @@ import {
   GENESIS_PREV_HASH,
   ExportError,
   LedgerEvent,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 function makeEvents(count: number): LedgerEvent[] {
   const events: LedgerEvent[] = [];

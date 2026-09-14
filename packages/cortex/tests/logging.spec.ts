@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — structured logging tests.
+ * @manya-os/cortex — structured logging tests.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

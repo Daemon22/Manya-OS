@@ -1,5 +1,5 @@
-import { computeDelta, applyDelta, SyncError } from '@manya/memory';
-import type { MemorySnapshot } from '@manya/memory';
+import { computeDelta, applyDelta, SyncError } from '@manya-os/memory';
+import type { MemorySnapshot } from '@manya-os/memory';
 
 function makeSnap(overrides?: Partial<MemorySnapshot>): MemorySnapshot {
   return {

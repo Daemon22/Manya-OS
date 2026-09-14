@@ -8,7 +8,7 @@ import {
   buildBundleFromParts,
   type SyncBundle,
   type VerifiableCredential,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('MultiDeviceSync', () => {
   it('createSyncBundle returns a signed bundle', async () => {

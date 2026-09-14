@@ -12,7 +12,7 @@ import {
   GENESIS_PREV_HASH,
   EventError,
   LedgerError,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 describe('createEvent', () => {
   it('creates an event with default values', () => {

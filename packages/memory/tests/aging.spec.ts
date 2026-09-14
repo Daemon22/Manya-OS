@@ -1,8 +1,8 @@
 import {
   DEFAULT_AGING_POLICY, mergeAgingPolicy, ageScore,
   effectiveImportance, shouldPruneEpisodic, shouldCompressLongTerm,
-} from '@manya/memory';
-import type { EpisodicEvent, LongTermRecord } from '@manya/memory';
+} from '@manya-os/memory';
+import type { EpisodicEvent, LongTermRecord } from '@manya-os/memory';
 
 describe('aging', () => {
   describe('DEFAULT_AGING_POLICY', () => {

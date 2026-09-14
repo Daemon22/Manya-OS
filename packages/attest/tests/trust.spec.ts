@@ -10,7 +10,7 @@ import {
   buildTrustScore,
   TrustEvaluationError,
   type TrustFactors,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('trust/model', () => {
   it('decision thresholds are 0.7 and 0.3', () => {

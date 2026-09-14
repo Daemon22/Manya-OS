@@ -1,8 +1,8 @@
 import {
   createBackup, verifyBackup, restoreBackup, serializeBackup, parseBackup,
   BackupError,
-} from '@manya/memory';
-import type { MemorySnapshot } from '@manya/memory';
+} from '@manya-os/memory';
+import type { MemorySnapshot } from '@manya-os/memory';
 
 function makeSnap(overrides?: Partial<MemorySnapshot>): MemorySnapshot {
   return {

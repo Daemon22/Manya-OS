@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — benchmark.
+ * @manya-os/cortex — benchmark.
  *
  * Measures planning, tool invocation, and end-to-end reasoning throughput.
  *

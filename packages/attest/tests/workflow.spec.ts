@@ -18,7 +18,7 @@ import {
   WorkflowError,
   type AuthPolicy,
   type AuthenticationResult,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('workflow/policies', () => {
   it('defaultPolicy returns sensible defaults', () => {

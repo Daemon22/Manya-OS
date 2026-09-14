@@ -9,7 +9,7 @@ import {
   PermissionError,
   SyncError,
   BackupError,
-} from '@manya/memory';
+} from '@manya-os/memory';
 
 describe('MemoryError', () => {
   test('is an instance of Error', () => {

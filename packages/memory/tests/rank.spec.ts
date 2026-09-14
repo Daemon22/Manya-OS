@@ -1,7 +1,7 @@
 import {
   rankLongTerm, rankEpisodic, DEFAULT_WEIGHTS,
-} from '@manya/memory';
-import type { LongTermRecord, EpisodicEvent } from '@manya/memory';
+} from '@manya-os/memory';
+import type { LongTermRecord, EpisodicEvent } from '@manya-os/memory';
 
 describe('ranking', () => {
   describe('DEFAULT_WEIGHTS', () => {

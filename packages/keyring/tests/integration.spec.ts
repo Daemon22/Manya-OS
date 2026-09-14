@@ -30,7 +30,7 @@ import {
   BackupError,
   type VerifiableCredential,
   type EncryptedBackup,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 /**
  * End-to-end integration test exercising the full keyring lifecycle:

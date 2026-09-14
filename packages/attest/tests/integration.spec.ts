@@ -48,7 +48,7 @@ import {
   type Challenge,
   type AttestationQuote,
   type Session,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 /**
  * End-to-end integration test exercising the full attestation lifecycle:

@@ -7,7 +7,7 @@ import {
   matchResource,
   AccessPolicy,
   AccessDeniedError,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('AccessPolicySet', () => {
   it('adds and retrieves a policy', () => {

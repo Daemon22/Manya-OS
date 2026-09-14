@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG, mergeConfig } from '@manya/memory';
+import { DEFAULT_CONFIG, mergeConfig } from '@manya-os/memory';
 
 describe('DEFAULT_CONFIG', () => {
   test('has expected aging defaults', () => {

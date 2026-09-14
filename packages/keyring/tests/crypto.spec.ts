@@ -25,7 +25,7 @@ import {
   KeyGenerationError,
   SignatureError,
   VerificationError,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('crypto/hashing', () => {
   it('sha256 produces a 32-byte digest', () => {

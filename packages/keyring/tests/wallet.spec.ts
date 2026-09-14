@@ -19,7 +19,7 @@ import {
   type EncryptedWalletBlob,
   type VerifiableCredential,
   type EncryptedStorage,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 let tmpDir: string;
 

@@ -8,7 +8,7 @@ import {
   generateKeyPair,
   exportKeyPem,
   KeyringError,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('Identity', () => {
   it('derives a did:key from an ECDSA P-256 public key', () => {

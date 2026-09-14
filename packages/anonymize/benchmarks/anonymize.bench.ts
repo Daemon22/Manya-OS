@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — benchmark.
+ * @manya-os/anonymize — benchmark.
  *
  * Measures throughput of the anonymization pipeline on synthetic inputs
  * of varying sizes and PII densities.

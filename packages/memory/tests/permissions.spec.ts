@@ -1,4 +1,4 @@
-import { PermissionModel, PermissionError } from '@manya/memory';
+import { PermissionModel, PermissionError } from '@manya-os/memory';
 
 describe('PermissionModel', () => {
   describe('default access', () => {

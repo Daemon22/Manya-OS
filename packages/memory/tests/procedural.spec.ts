@@ -1,4 +1,4 @@
-import { ProceduralMemory } from '@manya/memory';
+import { ProceduralMemory } from '@manya-os/memory';
 
 describe('ProceduralMemory', () => {
   describe('learn and execute', () => {

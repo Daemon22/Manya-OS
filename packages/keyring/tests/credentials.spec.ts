@@ -9,7 +9,7 @@ import {
   exportKeyPem,
   sign,
   type VerifiableCredential,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('issueCredential', () => {
   it('issues a credential with a valid proof', () => {

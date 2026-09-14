@@ -24,7 +24,7 @@ import {
   importJsonl,
   GENESIS_PREV_HASH,
   sha256,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 const LEAF_PREFIX = Buffer.from([0x00]);
 

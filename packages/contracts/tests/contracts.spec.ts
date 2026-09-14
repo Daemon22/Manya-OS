@@ -1,5 +1,5 @@
 /**
- * @manya/contracts — comprehensive unit tests.
+ * @manya-os/contracts — comprehensive unit tests.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
@@ -234,10 +234,10 @@ describe('schema: validateValue', () => {
 describe('manifest: validateManifest', () => {
   test('accepts a valid manifest', () => {
     const m: Manifest = {
-      name: '@manya/contracts', version: '1.0.0',
-      dependencies: { '@manya/keyring': '^1.0.0' },
+      name: '@manya-os/contracts', version: '1.0.0',
+      dependencies: { '@manya-os/keyring': '^1.0.0' },
       exports: ['./src/index.js'],
-      imports: ['@manya/keyring'],
+      imports: ['@manya-os/keyring'],
       capabilities: ['crypto'],
     };
     const r = validateManifest(m);

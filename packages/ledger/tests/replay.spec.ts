@@ -4,7 +4,7 @@ import {
   GENESIS_PREV_HASH,
   ReplayError,
   LedgerEvent,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 function makeEvents(): LedgerEvent[] {
   const events: LedgerEvent[] = [];

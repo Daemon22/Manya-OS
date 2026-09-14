@@ -12,7 +12,7 @@ import {
   exportKeyPem,
   AttestationError,
   type AttestationQuote,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('remote/quote', () => {
   const validQuote = (over: Partial<AttestationQuote> = {}): AttestationQuote => ({

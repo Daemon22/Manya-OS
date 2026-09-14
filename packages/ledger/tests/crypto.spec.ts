@@ -17,7 +17,7 @@ import {
   sign,
   verify,
   LedgerError,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 describe('crypto/hashing', () => {
   it('sha256 produces a 32-byte digest', () => {

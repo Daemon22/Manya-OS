@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — goal management tests.
+ * @manya-os/cortex — goal management tests.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

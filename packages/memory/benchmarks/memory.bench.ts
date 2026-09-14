@@ -1,5 +1,5 @@
 /**
- * @manya/memory — benchmark.
+ * @manya-os/memory — benchmark.
  *
  * Measures store/search/recall throughput at varying scales.
  *

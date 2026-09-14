@@ -7,7 +7,7 @@ import {
   HardwareKeyError,
   sign as signWithKey,
   verify as verifyWithKey,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('SoftwareKeyProvider', () => {
   it('isAvailable returns true', () => {

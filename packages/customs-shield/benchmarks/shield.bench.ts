@@ -1,5 +1,5 @@
 /**
- * @manya/customs-shield — benchmark.
+ * @manya-os/customs-shield — benchmark.
  *
  * Measures screening throughput on synthetic shipments of varying complexity.
  *

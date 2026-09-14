@@ -1,6 +1,6 @@
 {
   "name": "@manya-os/cortex",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Reasoning orchestration engine — task decomposition, planning, tool selection, routing, scheduling, confidence estimation, goal management, resource optimization, workflow orchestration, retries, and multi-component coordination for the MANYA Intelligence OS.",
   "main": "dist/cjs/index.js",
   "types": "dist/types/index.d.ts",

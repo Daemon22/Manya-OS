@@ -8,7 +8,7 @@ import {
   REDACTED,
   FingerprintError,
   sha256,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('fingerprint/collector', () => {
   it('collectDeviceSignals returns the required fields', () => {

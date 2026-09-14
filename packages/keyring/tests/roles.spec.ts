@@ -6,7 +6,7 @@ import {
   newRoleAssignmentId,
   InMemoryStorage,
   KeyringError,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('Role', () => {
   it('exposes all 5 roles', () => {

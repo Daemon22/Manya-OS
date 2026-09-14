@@ -21,7 +21,7 @@ import {
   DEFAULT_RSA_MODULUS,
   DEFAULT_EC_CURVE,
   AttestError,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('crypto/hashing', () => {
   it('sha256 produces 32 bytes', () => {

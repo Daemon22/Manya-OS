@@ -1,4 +1,4 @@
-import { SemanticMemory } from '@manya/memory';
+import { SemanticMemory } from '@manya-os/memory';
 
 describe('SemanticMemory', () => {
   describe('learn and recall', () => {

@@ -13,7 +13,7 @@ import {
   sha256,
   type HardwareProbe,
   type AttestationQuote,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('hardware/validator', () => {
   it('probe returns a HardwareProbe with required fields', () => {

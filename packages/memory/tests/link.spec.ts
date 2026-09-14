@@ -1,4 +1,4 @@
-import { LinkGraph } from '@manya/memory';
+import { LinkGraph } from '@manya-os/memory';
 
 describe('LinkGraph', () => {
   describe('add and traverse', () => {

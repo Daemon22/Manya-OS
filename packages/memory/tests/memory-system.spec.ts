@@ -1,4 +1,4 @@
-import { MemorySystem } from '@manya/memory';
+import { MemorySystem } from '@manya-os/memory';
 
 describe('MemorySystem end-to-end', () => {
   test('remember, recall, search', () => {

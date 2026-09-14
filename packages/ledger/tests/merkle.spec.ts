@@ -3,7 +3,7 @@ import {
   verifyProof,
   sha256,
   MerkleError,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 const LEAF_PREFIX = Buffer.from([0x00]);
 

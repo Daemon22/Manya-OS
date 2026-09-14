@@ -1,5 +1,5 @@
 /**
- * @manya/anonymize — example: anonymize a clinical note.
+ * @manya-os/anonymize — example: anonymize a clinical note.
  *
  * Run with: npx ts-node examples/clinical-note.ts
  *

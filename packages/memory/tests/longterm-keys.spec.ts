@@ -1,4 +1,4 @@
-import { randomId } from '@manya/memory';
+import { randomId } from '@manya-os/memory';
 
 describe('randomId', () => {
   test('generates unique ids with prefix', () => {

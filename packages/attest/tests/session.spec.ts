@@ -6,7 +6,7 @@ import {
   SessionError,
   type SessionStore,
   type SessionRecord,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('session/store', () => {
   it('InMemorySessionStore get/put/delete/list round-trip', async () => {

@@ -7,7 +7,7 @@ import {
   LedgerError,
   ChainError,
   GENESIS_PREV_HASH,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 describe('LedgerChain', () => {
   describe('genesis behavior', () => {

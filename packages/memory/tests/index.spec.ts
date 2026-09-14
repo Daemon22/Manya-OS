@@ -1,4 +1,4 @@
-import { InvertedIndex } from '@manya/memory';
+import { InvertedIndex } from '@manya-os/memory';
 
 describe('InvertedIndex', () => {
   describe('tokenize', () => {

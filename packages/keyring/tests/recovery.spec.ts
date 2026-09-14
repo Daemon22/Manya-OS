@@ -7,7 +7,7 @@ import {
   gfEval,
   verifySharesConsistent,
   RecoveryError,
-} from '@manya/keyring';
+} from '@manya-os/keyring';
 
 describe('Shamir Secret Sharing over GF(256)', () => {
   it('gfMul: 0 * x = 0', () => {

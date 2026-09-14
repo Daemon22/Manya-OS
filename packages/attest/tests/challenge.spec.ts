@@ -12,7 +12,7 @@ import {
   DEFAULT_NONCE_TTL_MS,
   DEFAULT_CHALLENGE_TTL_MS,
   type Challenge,
-} from '@manya/attest';
+} from '@manya-os/attest';
 
 describe('challenge/nonce', () => {
   it('issue returns a unique nonce', () => {

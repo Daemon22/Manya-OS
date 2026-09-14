@@ -8,7 +8,7 @@ import {
   GENESIS_PREV_HASH,
   StoreError,
   LedgerEvent,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 function makeEvent(seq: number, prevHash: string, id?: string): LedgerEvent {
   return createEvent({

@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — tool registry and selection tests.
+ * @manya-os/cortex — tool registry and selection tests.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.

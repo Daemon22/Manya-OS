@@ -1,5 +1,5 @@
-import { LongTermMemory } from '@manya/memory';
-import type { LongTermRecord } from '@manya/memory';
+import { LongTermMemory } from '@manya-os/memory';
+import type { LongTermRecord } from '@manya-os/memory';
 
 describe('LongTermMemory', () => {
   describe('store and retrieve', () => {

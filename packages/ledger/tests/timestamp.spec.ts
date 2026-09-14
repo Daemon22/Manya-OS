@@ -10,7 +10,7 @@ import {
   canonicalTimestampBytes,
   TimestampError,
   sha256,
-} from '@manya/ledger';
+} from '@manya-os/ledger';
 
 describe('commit/reveal', () => {
   it('produces a commitment and nonce', () => {

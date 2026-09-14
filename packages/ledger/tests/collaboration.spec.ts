@@ -1,8 +1,8 @@
 import {
   CollaborationLedger,
   LedgerError,
-} from '@manya/ledger';
-import type { LedgerEvent, CollaborationAttributionPayload } from '@manya/ledger';
+} from '@manya-os/ledger';
+import type { LedgerEvent, CollaborationAttributionPayload } from '@manya-os/ledger';
 
 function makePayload(overrides?: Partial<CollaborationAttributionPayload>): CollaborationAttributionPayload {
   return {

@@ -1,5 +1,5 @@
-import { EpisodicMemory } from '@manya/memory';
-import type { EpisodicEvent } from '@manya/memory';
+import { EpisodicMemory } from '@manya-os/memory';
+import type { EpisodicEvent } from '@manya-os/memory';
 
 describe('EpisodicMemory', () => {
   describe('record and recall', () => {

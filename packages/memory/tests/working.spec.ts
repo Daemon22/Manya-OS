@@ -1,4 +1,4 @@
-import { WorkingMemory, WorkingMemoryError } from '@manya/memory';
+import { WorkingMemory, WorkingMemoryError } from '@manya-os/memory';
 
 describe('WorkingMemory', () => {
   describe('basic operations', () => {

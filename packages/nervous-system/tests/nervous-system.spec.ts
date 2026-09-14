@@ -1,5 +1,5 @@
 /**
- * @manya/nervous-system — comprehensive unit tests.
+ * @manya-os/nervous-system — comprehensive unit tests.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Conceived, directed, and owned by Uviwe Menyiwe (Azura Daemon),

@@ -4,7 +4,7 @@ import {
   shouldScrubField,
   scrubMetadata,
   SCRUBBED_FIELD_NAMES,
-} from '@manya/memory';
+} from '@manya-os/memory';
 
 describe('shouldScrubField', () => {
   test('matches exact field names case-insensitively', () => {

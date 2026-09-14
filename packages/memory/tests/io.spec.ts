@@ -1,7 +1,7 @@
 import {
   exportSnapshot, importSnapshot, exportEpisodic, exportSemantic, mergeImport,
-} from '@manya/memory';
-import type { MemorySnapshot } from '@manya/memory';
+} from '@manya-os/memory';
+import type { MemorySnapshot } from '@manya-os/memory';
 
 function makeSnap(overrides?: Partial<MemorySnapshot>): MemorySnapshot {
   return {

@@ -1,5 +1,5 @@
-import { compress, decompress, ratio } from '@manya/memory';
-import type { CompressedPayload } from '@manya/memory';
+import { compress, decompress, ratio } from '@manya-os/memory';
+import type { CompressedPayload } from '@manya-os/memory';
 
 describe('compress', () => {
   test('compress and decompress round-trip', () => {

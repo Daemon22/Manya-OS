@@ -1,5 +1,5 @@
 /**
- * @manya/cortex — the reasoning orchestration engine facade tests.
+ * @manya-os/cortex — the reasoning orchestration engine facade tests.
  *
  * Copyright 2024 Manya Hael Foundation. All rights reserved.
  * Licensed under the Apache License, Version 2.0.
