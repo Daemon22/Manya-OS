@@ -1,10 +1,24 @@
-import type { MemoryStore } from '@manya-os/memory';
+import type { MemorySystem } from '@manya-os/memory';
 
-export interface Perception {
-  memoryStore: MemoryStore;
+export interface RedactorAdapter {
+  redact(text: string, options: { rules: string[] }): { redacted: string; count: number; found: object[] };
+  classify(text: string): object;
 }
 
-export function createPerception(memoryStore: MemoryStore): Perception;
+export interface EnvironmentProvider {
+  snapshot(env?: object): { device: object; capabilities: object; fingerprint: object; timestamp: number };
+}
+
+export interface Perception {
+  memorySystem: MemorySystem;
+  redactor?: RedactorAdapter;
+  environmentProvider?: EnvironmentProvider;
+}
+
+export function createPerception(
+  memorySystem: MemorySystem,
+  adapters?: { redactor?: RedactorAdapter; environmentProvider?: EnvironmentProvider }
+): Perception;
 
 export function ingestText(
   perception: Perception,

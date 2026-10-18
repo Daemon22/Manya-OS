@@ -1,7 +1,7 @@
 {
   "name": "@manya-os/economy",
-  "version": "1.1.0",
-  "description": "Tracks and enforces a shared resource budget with a tamper-evident usage ledger — composed from vault, ledger, and memory.",
+  "version": "2.0.0",
+  "description": "Tracks and enforces a shared resource budget with a tamper-evident usage ledger and caller-provided balance storage.",
   "author": "Uviwe Menyiwe (Azura Daemon)",
   "license": "MIT",
   "type": "module",
@@ -23,7 +23,6 @@
     "usage-tracking"
   ],
   "dependencies": {
-    "@manya-os/vault": "^1.0.0",
     "@manya-os/ledger": "^1.0.0",
     "@manya-os/memory": "^1.0.0"
   },

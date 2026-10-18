@@ -1,7 +1,7 @@
 {
   "name": "@manya-os/telepathy",
-  "version": "1.1.0",
-  "description": "Signed, verifiable inter-agent messaging over a shared bus — composed from keyring, memory, and unify.",
+  "version": "2.0.0",
+  "description": "Signed, verifiable inter-agent messaging over a caller-provided shared event bus.",
   "author": "Uviwe Menyiwe (Azura Daemon)",
   "license": "MIT",
   "type": "module",
@@ -24,8 +24,7 @@
   ],
   "dependencies": {
     "@manya-os/keyring": "^1.0.0",
-    "@manya-os/memory": "^1.0.0",
-    "@manya-os/unify": "^1.0.0"
+    "@manya-os/memory": "^1.0.0"
   },
   "publishConfig": {
     "access": "restricted"

@@ -3,18 +3,20 @@
 Ingests signals from the outside world into working memory — without
 leaking sensitive content into that memory unfiltered.
 
-Composed from `@manya-os/lens` (redaction + sensitivity classification),
-`@manya-os/hawk` (device/environment detection), and `@manya-os/memory` (where
-everything lands).
+Uses `@manya-os/memory` plus caller-provided privacy and environment adapters.
+The redactor is required before text can be written to memory; environment
+snapshots require a provider with a `snapshot(env)` method.
 
 ## Usage
 
 ```js
-import { memory } from '@manya-os/memory';
+import { MemorySystem } from '@manya-os/memory';
 import { perception } from '@manya-os/perception';
 
-const store = memory.createMemoryStore('ara');
-const eyes = perception.createPerception(store);
+const store = new MemorySystem({ logLevel: 'silent' });
+const eyes = perception.createPerception(store, { redactor, environmentProvider });
+// `redactor` must implement redact(text, { rules }) and classify(text).
+// `environmentProvider` must implement snapshot(env).
 
 const { stored, sensitivity } = perception.ingestText(eyes, 'sms', 'call me at 555-123-4567');
 // stored: "call me at [REDACTED]"

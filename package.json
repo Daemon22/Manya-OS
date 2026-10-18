@@ -24,7 +24,10 @@
     "typecheck:parallel": "node scripts/typecheck-all.js",
     "bench": "node scripts/run-benchmarks.js",
     "runtime": "node runtime/index.mjs",
-    "runtime:dev": "node runtime/index.mjs"
+    "runtime:dev": "node runtime/index.mjs",
+    "test:economy": "node --test packages/economy/test/index.test.js",
+    "test:perception": "node --test packages/perception/test/index.test.js",
+    "test:telepathy": "node --test packages/telepathy/test/index.test.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

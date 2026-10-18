@@ -1,104 +1,110 @@
 /**
- * Manya Telepathy — Signed, verifiable inter-agent messaging.
+ * Manya Telepathy — signed, verifiable inter-agent messaging.
  *
- * Composes three existing Manya tools:
- *   - @manya-os/keyring already signs and verifies messages on an identity's
- *     behalf. Telepathy doesn't reimplement signing — it just calls it.
- *   - @manya-os/unify's event bus carries the signed envelopes between agents,
- *     the same way it carries every other cross-tool event.
- *   - @manya-os/memory records every send/receive/block as an episodic event,
- *     so "did I already tell Atlas this?" is answerable later.
- *
- * A message is only ever accepted if the sender is a known contact (their
- * public key was registered ahead of time) and the signature verifies.
- * Unknown senders are blocked and logged, never silently dropped.
+ * Uses KeyringWallet for signatures, MemorySystem for audit notes, and a
+ * caller-provided shared event bus for delivery.
  */
 
-import { keyring as keyringApi } from '@manya-os/keyring';
-import { memory } from '@manya-os/memory';
-import { unify } from '@manya-os/unify';
+import { KeyringWallet } from '@manya-os/keyring';
+import { MemorySystem } from '@manya-os/memory';
 
 /**
  * Creates a telepathy instance for one identity.
- * @param {object} ownerKeyring - A keyring created with @manya-os/keyring's createKeyring.
- * @param {object} memoryStore - A store created with @manya-os/memory's createMemoryStore.
- * @returns {object} A telepathy instance.
+ * @param {KeyringWallet} wallet - Wallet holding the sender's private key.
+ * @param {{id: string, publicKey: string, algorithm: string}} identity - The wallet identity used to sign messages.
+ * @param {MemorySystem} memorySystem - The Manya-OS memory system.
+ * @param {{publish(channel: string, event: object): void|Promise<void>, subscribe(channel: string, handler: function, options?: object): function}} bus - Shared caller-provided event bus.
  */
-export function createTelepathy(ownerKeyring, memoryStore) {
-  if (!ownerKeyring || !ownerKeyring.ownerId) throw new Error('createTelepathy requires a keyring');
-  if (!memoryStore || !memoryStore.ownerId) throw new Error('createTelepathy requires a memory store');
-  return {
-    keyring: ownerKeyring,
-    memoryStore,
-    bus: unify.createBus({ replay: true }),
-    contacts: new Map(),
-  };
+export function createTelepathy(wallet, identity, memorySystem, bus) {
+  if (!wallet || typeof wallet.sign !== 'function' || typeof wallet.verify !== 'function') {
+    throw new Error('createTelepathy requires a KeyringWallet');
+  }
+  if (!identity || !identity.id || !identity.publicKey || !identity.algorithm) {
+    throw new Error('createTelepathy requires a wallet identity');
+  }
+  if (!memorySystem || typeof memorySystem.remember !== 'function') {
+    throw new Error('createTelepathy requires a MemorySystem');
+  }
+  if (!bus || typeof bus.publish !== 'function' || typeof bus.subscribe !== 'function') {
+    throw new Error('createTelepathy requires a shared bus with publish and subscribe methods');
+  }
+  return { wallet, identity, memorySystem, bus, contacts: new Map() };
+}
+
+/** Registers a known contact's public identity for signature verification. */
+export function registerContact(telepathy, identity) {
+  if (!identity || !identity.id || !identity.publicKey || !identity.algorithm) {
+    throw new Error('registerContact requires an identity with id, publicKey, and algorithm');
+  }
+  telepathy.contacts.set(identity.id, { publicKey: identity.publicKey, algorithm: identity.algorithm });
 }
 
 /**
- * Registers a known contact's public key so their messages can be verified.
- * @param {object} telepathy - The telepathy instance.
- * @param {string} agentId - The contact's identity id.
- * @param {string} publicKey - The contact's PEM-encoded public key.
+ * Signs and sends a payload to a target identity.
+ * @returns {Promise<object>} The signed envelope that was published.
  */
-export function registerContact(telepathy, agentId, publicKey) {
-  if (!agentId || typeof agentId !== 'string') throw new Error('agentId is required');
-  if (!publicKey || typeof publicKey !== 'string') throw new Error('publicKey is required');
-  telepathy.contacts.set(agentId, publicKey);
-}
-
-/**
- * Signs and sends a payload to a target agent over the shared bus.
- * @param {object} telepathy - The telepathy instance.
- * @param {string} targetAgentId - The recipient's identity id.
- * @param {object} payload - The payload to send (will be JSON-stringified).
- * @returns {object} The signed envelope that was published.
- */
-export function send(telepathy, targetAgentId, payload) {
+export async function send(telepathy, targetAgentId, payload) {
   if (!targetAgentId || typeof targetAgentId !== 'string') throw new Error('targetAgentId is required');
-  const envelope = keyringApi.signMessage(telepathy.keyring, JSON.stringify(payload), {
-    recipients: [targetAgentId],
+  const serializedPayload = JSON.stringify(payload);
+  if (serializedPayload === undefined) throw new Error('payload must be JSON-serializable');
+  const message = JSON.stringify({
+    sender: telepathy.identity.id,
+    recipient: targetAgentId,
+    payload: serializedPayload,
   });
-  unify.publish(telepathy.bus, `telepathy:${targetAgentId}`, {
+  const signed = await telepathy.wallet.sign(Buffer.from(message), telepathy.identity.id);
+  const envelope = {
+    sender: telepathy.identity.id,
+    recipient: targetAgentId,
+    payload: serializedPayload,
+    algorithm: signed.algorithm,
+    signature: signed.signature,
+  };
+  await telepathy.bus.publish(`telepathy:${targetAgentId}`, {
     type: 'telepathy',
-    sourceToolId: telepathy.keyring.ownerId,
+    sourceToolId: telepathy.identity.id,
     payload: envelope,
   });
-  memory.remember(telepathy.memoryStore, telepathy.keyring.ownerId, `Telepathic message sent to ${targetAgentId}`);
+  telepathy.memorySystem.remember(telepathy.identity.id, `Telepathic message sent to ${targetAgentId}`);
   return envelope;
 }
 
 /**
- * Subscribes to this identity's inbound channel. Verified messages are
- * passed to the handler as { from, payload }; unverified or unknown-sender
- * messages are blocked and only recorded, never handed to the caller.
- * @param {object} telepathy - The telepathy instance.
- * @param {function} handler - Invoked with { from, payload } for verified messages.
- * @returns {function} Unsubscribe function.
+ * Subscribes to this identity's inbound channel. Unknown senders and invalid
+ * signatures are logged but never handed to the handler.
  */
 export function listen(telepathy, handler) {
-  return unify.subscribe(telepathy.bus, `telepathy:${telepathy.keyring.ownerId}`, (evt) => {
-    const envelope = evt.payload;
-    const senderPublicKey = telepathy.contacts.get(envelope.sender);
-    if (!senderPublicKey) {
-      memory.remember(telepathy.memoryStore, 'Telepathy', `Blocked message from unknown sender ${envelope.sender}`);
+  return telepathy.bus.subscribe(`telepathy:${telepathy.identity.id}`, async (evt) => {
+    const envelope = evt?.payload;
+    const contact = envelope && telepathy.contacts.get(envelope.sender);
+    if (!contact || envelope.recipient !== telepathy.identity.id) {
+      telepathy.memorySystem.remember('Telepathy', `Blocked message from unknown sender ${envelope?.sender ?? 'unknown'}`);
       return;
     }
-    const result = keyringApi.verifyMessage({ signingKeys: { publicKey: senderPublicKey } }, envelope);
-    if (!result.valid) {
-      memory.remember(telepathy.memoryStore, 'Telepathy', `Blocked unverified message from ${envelope.sender}`);
+    let payload;
+    let valid = false;
+    try {
+      payload = JSON.parse(envelope.payload);
+      const message = JSON.stringify({
+        sender: envelope.sender,
+        recipient: envelope.recipient,
+        payload: envelope.payload,
+      });
+      valid = await telepathy.wallet.verify(Buffer.from(message), envelope.signature, {
+        publicKey: contact.publicKey,
+        algorithm: contact.algorithm,
+      });
+    } catch {
+      valid = false;
+    }
+    if (!valid) {
+      telepathy.memorySystem.remember('Telepathy', `Blocked unverified message from ${envelope.sender}`);
       return;
     }
-    memory.remember(telepathy.memoryStore, envelope.sender, 'Telepathic message received and verified');
-    handler({ from: envelope.sender, payload: JSON.parse(envelope.payload) });
-  }, { subscriberId: telepathy.keyring.ownerId });
+    telepathy.memorySystem.remember(envelope.sender, 'Telepathic message received and verified');
+    handler({ from: envelope.sender, payload });
+  }, { subscriberId: telepathy.identity.id });
 }
 
-export const telepathy = {
-  createTelepathy,
-  registerContact,
-  send,
-  listen,
-};
-
+export const telepathy = { createTelepathy, registerContact, send, listen };
 export default telepathy;

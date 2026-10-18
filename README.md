@@ -55,6 +55,9 @@ Agents         →  individual intelligences that run within those applications
 | [`@manya-os/cortex`](packages/cortex) | Reasoning orchestration engine — task decomposition, planning, tool selection, confidence estimation, workflow orchestration. |
 | [`@manya-os/memory`](packages/memory) | Unified memory system — working, episodic, semantic, procedural memory; indexing, aging, retrieval ranking, sync, import/export. |
 | [`@manya-os/constitution`](packages/constitution) | Governance — ethical rules, operational policies, permission models, decision hierarchies, emergency procedures, runtime enforcement. |
+| [`@manya-os/economy`](packages/economy) | Shared budget tracking and enforcement with tamper-evident usage auditing and caller-provided balance storage. |
+| [`@manya-os/perception`](packages/perception) | Memory ingestion with required privacy redaction and optional environment adapters. |
+| [`@manya-os/telepathy`](packages/telepathy) | Signed inter-agent messaging over a caller-provided shared event bus. |
 | [`@manya-os/council`](packages/council) | Multi-agent consensus — specialist routing, independent analyses, weighted confidence, structured debate, minority opinions, synthesis. |
 | [`@manya-os/nervous-system`](packages/nervous-system) | Universal event infrastructure — pub/sub, filtering, routing, recording; filesystem, OS, USB, Bluetooth, network, sensor, app producers. |
 | [`@manya-os/supabase`](packages/supabase) | Optional durable Supabase/Postgres persistence adapters for ledger, memory, keyring, and attestation. |
@@ -112,6 +115,7 @@ manya-os/
 │   ├── cortex/          # reasoning
 │   ├── memory/          # storage & recall
 │   ├── constitution/    # governance
+│   ├── economy/         # budget & usage tracking
 │   ├── council/         # consensus
 │   ├── nervous-system/  # event fabric
 │   └── supabase/        # persistence adapters
