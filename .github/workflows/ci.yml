@@ -20,7 +20,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Lint
         run: npm run lint
@@ -33,3 +33,6 @@ jobs:
 
       - name: Build (esbuild dual CJS/ESM + types + super-bundle)
         run: npm run build:prod
+
+      - name: Run package Node.js tests
+        run: npm run test:economy && npm run test:perception && npm run test:telepathy

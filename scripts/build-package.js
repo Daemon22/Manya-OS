@@ -22,12 +22,15 @@ const PACKAGES = fs.readdirSync(PACKAGES_DIR).filter(d =>
   fs.existsSync(path.join(PACKAGES_DIR, d, 'package.json'))
 );
 
-/** Discover all entry points for a package (every src/index.ts). */
+/** Discover the package entry point, preferring TypeScript when both exist. */
 function findEntries(pkgDir) {
   const entries = {};
-  const indexPath = path.join(pkgDir, 'src', 'index.ts');
-  if (fs.existsSync(indexPath)) {
-    entries.index = indexPath;
+  const tsIndexPath = path.join(pkgDir, 'src', 'index.ts');
+  const jsIndexPath = path.join(pkgDir, 'src', 'index.js');
+  if (fs.existsSync(tsIndexPath)) {
+    entries.index = tsIndexPath;
+  } else if (fs.existsSync(jsIndexPath)) {
+    entries.index = jsIndexPath;
   }
   return entries;
 }
@@ -38,7 +41,7 @@ async function buildPackage(pkgName) {
   const pkgJson = JSON.parse(fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf8'));
   const entries = findEntries(pkgDir);
   if (Object.keys(entries).length === 0) {
-    console.warn(`[${pkgName}] no src/index.ts found, skipping`);
+    console.warn(`[${pkgName}] no src/index.ts or src/index.js found, skipping`);
     return { name: pkgName, ok: false, reason: 'no entry' };
   }
 

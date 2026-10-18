@@ -1,78 +1,97 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { keyring } from '@manya-os/keyring';
-import { memory } from '@manya-os/memory';
-import { unify } from '@manya-os/unify';
+import { KeyringWallet } from '@manya-os/keyring';
+import { MemorySystem } from '@manya-os/memory';
 import { telepathy } from '../src/index.js';
 
-function setup(ownerId) {
-  const kr = keyring.create(ownerId, 'a-strong-passphrase');
-  const store = memory.createMemoryStore(ownerId);
-  return { kr, store, tp: telepathy.createTelepathy(kr, store) };
+function createBus() {
+  const subscribers = new Map();
+  return {
+    async publish(channel, event) {
+      await Promise.all([...(subscribers.get(channel) ?? [])].map((handler) => handler(event)));
+    },
+    subscribe(channel, handler) {
+      const handlers = subscribers.get(channel) ?? new Set();
+      handlers.add(handler);
+      subscribers.set(channel, handlers);
+      return () => handlers.delete(handler);
+    },
+  };
 }
 
-test('delivers a verified message to a known contact', () => {
-  const ara = setup('ara');
-  const atlas = setup('atlas');
+async function setup(bus) {
+  const wallet = new KeyringWallet();
+  const identity = await wallet.createIdentity();
+  const memorySystem = new MemorySystem({ logLevel: 'silent' });
+  return { wallet, identity, memorySystem, tp: telepathy.createTelepathy(wallet, identity, memorySystem, bus) };
+}
 
-  telepathy.registerContact(ara.tp, 'atlas', atlas.kr.signingKeys.publicKey);
-  telepathy.registerContact(atlas.tp, 'ara', ara.kr.signingKeys.publicKey);
-
-  atlas.tp.bus = ara.tp.bus;
+test('delivers a verified message to a known contact over the shared bus', async () => {
+  const bus = createBus();
+  const ara = await setup(bus);
+  const atlas = await setup(bus);
+  telepathy.registerContact(ara.tp, atlas.identity);
+  telepathy.registerContact(atlas.tp, ara.identity);
 
   const received = [];
   telepathy.listen(atlas.tp, (msg) => received.push(msg));
-  telepathy.send(ara.tp, 'atlas', { note: 'device provisioned' });
+  await telepathy.send(ara.tp, atlas.identity.id, { note: 'device provisioned' });
 
-  assert.equal(received.length, 1);
-  assert.equal(received[0].from, 'ara');
-  assert.deepEqual(received[0].payload, { note: 'device provisioned' });
+  assert.deepEqual(received, [{ from: ara.identity.id, payload: { note: 'device provisioned' } }]);
 });
 
-test('blocks a message from an unregistered sender', () => {
-  const ara = setup('ara');
-  const stranger = setup('stranger');
-  stranger.tp.bus = ara.tp.bus;
-
+test('blocks a message from an unregistered sender', async () => {
+  const bus = createBus();
+  const ara = await setup(bus);
+  const stranger = await setup(bus);
   const received = [];
   telepathy.listen(ara.tp, (msg) => received.push(msg));
-  telepathy.send(stranger.tp, 'ara', { note: 'should be blocked' });
+  await telepathy.send(stranger.tp, ara.identity.id, { note: 'should be blocked' });
 
   assert.equal(received.length, 0);
-  const blocked = memory.recallEpisodes(ara.store, { agent: 'Telepathy' });
-  assert.equal(blocked.length, 1);
-  assert.match(blocked[0].event, /unknown sender/);
+  assert.ok(ara.memorySystem.episodic.all().some((e) => /unknown sender/.test(e.event)));
 });
 
-test('blocks a message with a forged sender field', () => {
-  const ara = setup('ara');
-  const atlas = setup('atlas');
-  const impostor = setup('impostor');
-  atlas.tp.bus = ara.tp.bus;
+test('blocks a message with a forged sender field', async () => {
+  const bus = createBus();
+  const ara = await setup(bus);
+  const atlas = await setup(bus);
+  const impostor = await setup(bus);
+  telepathy.registerContact(atlas.tp, ara.identity);
 
-  telepathy.registerContact(atlas.tp, 'ara', ara.kr.signingKeys.publicKey);
-
-  const genuineEnvelope = keyring.signMessage(impostor.kr, JSON.stringify({ note: 'forged' }), {
-    recipients: ['atlas'],
-  });
-  const forgedEnvelope = { ...genuineEnvelope, sender: 'ara' };
+  const serializedPayload = JSON.stringify({ note: 'forged' });
+  const signed = await impostor.wallet.sign(Buffer.from(JSON.stringify({
+    sender: ara.identity.id,
+    recipient: atlas.identity.id,
+    payload: serializedPayload,
+  })), impostor.identity.id);
+  const forgedEnvelope = {
+    sender: ara.identity.id,
+    recipient: atlas.identity.id,
+    payload: serializedPayload,
+    algorithm: signed.algorithm,
+    signature: signed.signature,
+  };
 
   const received = [];
   telepathy.listen(atlas.tp, (msg) => received.push(msg));
-  unify.publish(atlas.tp.bus, 'telepathy:atlas', { type: 'telepathy', payload: forgedEnvelope });
+  await bus.publish(`telepathy:${atlas.identity.id}`, { type: 'telepathy', payload: forgedEnvelope });
 
   assert.equal(received.length, 0);
-  const blocked = memory.recallEpisodes(atlas.store, { agent: 'Telepathy' });
-  assert.ok(blocked.some((e) => /unverified message from ara/.test(e.event)));
+  assert.ok(atlas.memorySystem.episodic.all().some((e) => /unverified message/.test(e.event)));
 });
 
-test("sends are remembered in the sender's episodic memory", () => {
-  const ara = setup('ara');
-  const atlas = setup('atlas');
-  telepathy.registerContact(ara.tp, 'atlas', atlas.kr.signingKeys.publicKey);
-  telepathy.send(ara.tp, 'atlas', { note: 'hello' });
+test('sends are remembered in the sender episodic memory', async () => {
+  const bus = createBus();
+  const ara = await setup(bus);
+  await telepathy.send(ara.tp, 'atlas', { note: 'hello' });
 
-  const sent = memory.recallEpisodes(ara.store, { agent: 'ara' });
-  assert.equal(sent.length, 1);
-  assert.match(sent[0].event, /sent to atlas/);
+  assert.ok(ara.memorySystem.episodic.all().some((e) => /sent to atlas/.test(e.event)));
+});
+
+test('requires a shared event bus', async () => {
+  const wallet = new KeyringWallet();
+  const identity = await wallet.createIdentity();
+  const memorySystem = new MemorySystem({ logLevel: 'silent' });
+  assert.throws(() => telepathy.createTelepathy(wallet, identity, memorySystem), /shared bus/);
 });

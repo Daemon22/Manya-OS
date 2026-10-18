@@ -1,7 +1,7 @@
 {
   "name": "@manya-os/perception",
-  "version": "1.1.0",
-  "description": "Ingests text, structured data, and environment signals into working memory — redacting sensitive content before it lands — composed from memory, lens, and hawk.",
+  "version": "2.0.0",
+  "description": "Ingests text, structured data, and environment signals into working memory using caller-provided privacy and environment adapters.",
   "author": "Uviwe Menyiwe (Azura Daemon)",
   "license": "MIT",
   "type": "module",
@@ -23,9 +23,7 @@
     "working-memory"
   ],
   "dependencies": {
-    "@manya-os/memory": "^1.0.0",
-    "@manya-os/lens": "^1.0.0",
-    "@manya-os/hawk": "^1.0.0"
+    "@manya-os/memory": "^1.0.0"
   },
   "publishConfig": {
     "access": "restricted"

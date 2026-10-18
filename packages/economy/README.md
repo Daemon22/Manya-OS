@@ -1,24 +1,26 @@
 # @manya-os/economy
 
-Tracks and enforces a shared resource budget — tokens, credits, API calls,
-whatever unit you give it — with a tamper-evident usage ledger.
+Tracks and enforces a shared resource budget—tokens, credits, API calls, or
+another unit—with a tamper-evident usage ledger.
 
-Composed from `@manya-os/vault` (holds the balance), `@manya-os/ledger` (records
-every usage/refusal as a tamper-evident event), and `@manya-os/memory` (records
-the same events episodically for the spending agent).
-
-Economy does **not** hardcode model or provider tier names — you supply
-your own tier map. Those details change too often, and per-vendor, for this
-package to guess at.
+Economy uses `@manya-os/ledger` for audit events and `@manya-os/memory` for
+episodic notes. The caller provides a balance store scoped to the economy with
+synchronous `get(key)` and `set(key, value)` methods. Choose storage with the
+durability and security required by your deployment.
 
 ## Usage
 
 ```js
-import { memory } from '@manya-os/memory';
+import { MemorySystem } from '@manya-os/memory';
 import { economy } from '@manya-os/economy';
 
-const store = memory.createMemoryStore('household');
-const budget = economy.createEconomy('household', store, 1_000_000);
+const memorySystem = new MemorySystem({ logLevel: 'silent' });
+const balances = new Map();
+const balanceStore = {
+  get: (key) => balances.get(key),
+  set: (key, value) => balances.set(key, value),
+};
+const budget = economy.createEconomy('household', memorySystem, balanceStore, 1_000_000);
 
 if (economy.enforceBudget(budget, 5000)) {
   economy.trackUsage(budget, 'ara', 5000);
@@ -33,9 +35,15 @@ const tier = economy.routeTier(budget, 'high', {
 economy.verifyLedger(budget); // { valid: true, ... }
 ```
 
+## Compatibility
+
+Version 2 requires a balance store as the third `createEconomy` argument and a
+`MemorySystem` instance as the second. This removes the unavailable Vault
+dependency and makes storage durability and security an explicit deployment
+choice.
+
 ## Why this composition
 
-`@manya-os/ledger` already pairs `stamp`'s hash chaining with `unify`'s event
-bus to produce a tamper-evident, subscribable audit trail — that's exactly
-what a spend ledger needs, so Economy reuses it rather than re-deriving the
-same pattern with its own chain logic.
+`@manya-os/ledger` provides the append-only cryptographic chain used for
+auditing. Economy records each usage and each budget refusal there, while the
+memory system keeps episodic notes for later recall.
